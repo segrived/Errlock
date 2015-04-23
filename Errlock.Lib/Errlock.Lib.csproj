@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{18592F34-BE07-4BAF-A643-EF45F0433313}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Errlock.Lib</RootNamespace>
+    <AssemblyName>Errlock.Lib</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>e866dc1d</NuGetPackageImportStamp>
+    <UpdateAssemblyVersion>True</UpdateAssemblyVersion>
+    <UpdateAssemblyFileVersion>True</UpdateAssemblyFileVersion>
+    <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
+    <AssemblyVersionSettings>None.None.Increment.DateStamp</AssemblyVersionSettings>
+    <AssemblyFileVersionSettings>None.None.Increment.DateStamp</AssemblyFileVersionSettings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CsQuery">
+      <HintPath>..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="YamlDotNet">
+      <HintPath>..\packages\YamlDotNet.3.5.1\lib\net35\YamlDotNet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppConfig\AppConfig.cs" />
+    <Compile Include="AppConfig\ErrlockConfigModel.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Helpers\AppHelpers.cs" />
+    <Compile Include="Helpers\GuidHelpers.cs" />
+    <Compile Include="Helpers\SerializationHelpers.cs" />
+    <Compile Include="Helpers\WebHelpers.cs" />
+    <Compile Include="Modules\IModule.cs" />
+    <Compile Include="LogFile\LogFile.cs" />
+    <Compile Include="Logger\ILogger.cs" />
+    <Compile Include="Logger\ILogMessageFormatter.cs" />
+    <Compile Include="Logger\Logger.cs" />
+    <Compile Include="Logger\LoggerEventArgs.cs" />
+    <Compile Include="Modules\ModuleDatabaseFileException.cs" />
+    <Compile Include="Modules\ModuleConfig.cs" />
+    <Compile Include="Modules\Module.cs" />
+    <Compile Include="Modules\ModuleNotice.cs" />
+    <Compile Include="Modules\ModuleNoticeEventArgs.cs" />
+    <Compile Include="Modules\ModuleScanResult.cs" />
+    <Compile Include="Modules\ModuleScanResultEventArgs.cs" />
+    <Compile Include="Modules\PublicFinder\Notices\OpenResourceNotice.cs" />
+    <Compile Include="Modules\PublicFinder\Notices\SuspiciousUrl403Notice.cs" />
+    <Compile Include="Modules\PublicFinder\Notices\SuspiciousUrl401Notice.cs" />
+    <Compile Include="Modules\PublicFinder\PublicFinder.cs" />
+    <Compile Include="Modules\PublicFinder\PublicFinderConfig.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sessions\SessionScanLog.cs" />
+    <Compile Include="Sessions\Session.cs" />
+    <Compile Include="Sessions\SessionEventArgs.cs" />
+    <Compile Include="Sessions\SessionScanOptions.cs" />
+    <Compile Include="WebCrawler\WebCrawler.cs" />
+    <Compile Include="WebParser\Parser.cs" />
+    <Compile Include="WebParser\WebParserOptions.cs" />
+    <Compile Include="WebParser\WebParserResult.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Errlock.Resources\Errlock.Resources.csproj">
+      <Project>{9d294b8d-48b6-488b-9434-f55399da4c44}</Project>
+      <Name>Errlock.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

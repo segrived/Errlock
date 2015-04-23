@@ -1,0 +1,38 @@
+﻿<Page x:Class="Errlock.Views.PublicFinderView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Title="SecretFinderView"
+      Loaded="Page_Loaded"
+      d:DesignHeight="300"
+      d:DesignWidth="500"
+      mc:Ignorable="d">
+    <Grid>
+        <CheckBox Margin="20,10,0,0"
+                  VerticalAlignment="Top"
+                  Content="пытаться использовать различные вариации"
+                  IsChecked="{Binding Config.UsePermutations}" />
+        <CheckBox Margin="20,30,0,0"
+                  VerticalAlignment="Top"
+                  Content="считать ответы с кодом 401 и 403 подозрительными"
+                  IsChecked="{Binding Config.DetectSuspicious}" />
+        <CheckBox Margin="20,50,0,0"
+                  VerticalAlignment="Top"
+                  Content="отправлять GET запросы вместо HEAD"
+                  IsChecked="{Binding Config.UseGetRequests}" />
+        <Button x:Name="StartBtn"
+                Width="181"
+                Margin="10,256,0,10"
+                HorizontalAlignment="Left"
+                Click="StartBtn_Click"
+                Content="Запустить тест"
+                IsEnabled="{Binding IsModuleSelected}" />
+        <Button x:Name="StopBtn"
+                Width="181"
+                Margin="196,256,0,10"
+                HorizontalAlignment="Left"
+                Content="Остановить тест" Click="StopBtn_Click" />
+    </Grid>
+</Page>

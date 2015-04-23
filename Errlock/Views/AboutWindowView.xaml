@@ -1,0 +1,39 @@
+﻿<Window x:Class="Errlock.Views.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="О программе Errlock"
+        Width="368"
+        Height="222"
+        Loaded="Window_Loaded"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <StackPanel Margin="15,15,15,62" Orientation="Vertical">
+            <TextBlock Name="ErrlockVersion"
+                       FontSize="26"
+                       FontWeight="Bold"
+                       Text="%Version%"
+                       TextAlignment="Center" />
+            <TextBlock Name="ErrlockLibVersion"
+                       FontWeight="Bold"
+                       Foreground="#FF535353"
+                       Padding="0,0,0,15"
+                       Text="%Errlock.Lib Version%"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap" />
+            <TextBlock FontSize="13"
+                       Padding="0,0,0,10"
+                       Text="Программное обеспечение для поиска уязвимостей в веб-приложениях, написанное на C#"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap" />
+        </StackPanel>
+        <Button Width="128"
+                Height="30"
+                Margin="0,0,117,10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Click="OkBtn_Click"
+                Content="Ok" />
+    </Grid>
+</Window>

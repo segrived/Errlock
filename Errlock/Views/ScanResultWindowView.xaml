@@ -1,0 +1,56 @@
+﻿<Window x:Class="Errlock.Views.ScanResultWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Errlock - результаты сканирования"
+        Width="720"
+        Height="325"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Сообщения">
+                <Grid Background="#FFFFFF">
+                    <ListBox ItemsSource="{Binding Notices}"
+                             ScrollViewer.CanContentScroll="False"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Background" Value="{Binding Priority, Converter={StaticResource PriorityToColor}}" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="4">
+                                    <TextBlock FontSize="14"
+                                               FontWeight="Bold"
+                                               Text="{Binding Text}" />
+                                    <Line Stretch="Fill"
+                                          Stroke="Black"
+                                          StrokeThickness="1"
+                                          X1="0"
+                                          X2="1"
+                                          Y1="0"
+                                          Y2="0" />
+                                    <TextBlock Text="{Binding Information}" TextWrapping="WrapWithOverflow" />
+                                    <TextBlock FontStyle="Italic">
+                                        Важность:<Run Text="{Binding Priority, Mode=OneWay}" />
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Hyperlink NavigateUri="{Binding LinkedUrl}" RequestNavigate="Hyperlink_RequestNavigate">
+                                            <Run Text="{Binding LinkedUrl, Mode=OneWay}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Информационный лог">
+                <Grid Background="#FFFFFF">
+                    <ListBox ItemsSource="{Binding Messages}" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>

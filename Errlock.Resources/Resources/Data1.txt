@@ -1,0 +1,13 @@
+bibl
+secret
+photos
+photo
+images
+ref
+pic
+pics
+pictures
+picture
+log
+logs
+img

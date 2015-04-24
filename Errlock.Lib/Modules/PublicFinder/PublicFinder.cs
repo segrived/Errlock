@@ -6,11 +6,14 @@ using Errlock.Lib.Modules.PublicFinder.Notices;
 using Errlock.Lib.Sessions;
 using Errlock.Lib.WebParser;
 using Errlock.Resources.ModulesData;
+using YamlDotNet.Serialization.Utilities;
 
 namespace Errlock.Lib.Modules.PublicFinder
 {
     public class PublicFinder : Module<PublicFinderConfig>
     {
+        public override bool IsSupportProgressReporting { get { return true; } }
+
         private List<string> Urls { get; set; }
 
         public PublicFinder(PublicFinderConfig config)
@@ -36,7 +39,7 @@ namespace Errlock.Lib.Modules.PublicFinder
             }
         }
 
-        protected override ModuleScanStatus Process(Session session)
+        protected override ModuleScanStatus Process(Session session, IProgress<int> progress)
         {
             const string format = "Сканирование начато, будет просканировано {0} вариантов";
             this.Logger.Log(string.Format(format, this.Urls.Count), LoggerMessageType.Info);
@@ -72,10 +75,10 @@ namespace Errlock.Lib.Modules.PublicFinder
                         }
                     }
                 } catch (Exception ex) {
-                    string message = string.Format("Исключительная ситуация.\nURL: {0}",
-                        this.Urls[i]);
+                    string message = string.Format("Ошибка - URL: {0}", this.Urls[i]);
                     AddMessage(message, LoggerMessageType.Error);
                 }
+                progress.Report((int)((double)i / this.Urls.Count * 100.0));
             }
             return ModuleScanStatus.Completed;
         }

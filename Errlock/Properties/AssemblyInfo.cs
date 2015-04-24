@@ -8,8 +8,8 @@ using System.Windows;
 [assembly: AssemblyCompany("Quart")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 
-[assembly: AssemblyVersion("1.0.160.15114")]
-[assembly: AssemblyFileVersion("1.0.160.15114")]
+[assembly: AssemblyVersion("1.0.193.15114")]
+[assembly: AssemblyFileVersion("1.0.193.15114")]
 
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyTrademark("")]

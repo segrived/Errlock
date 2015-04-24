@@ -24,6 +24,9 @@ namespace Errlock.Lib.Modules
         /// </summary>
         void Stop();
 
+        bool IsSupportProgressReporting { get; }
+        Progress<int> Progress { get; }
+
         event EventHandler<ModuleNoticeEventArgs> NewNotice;
         event EventHandler Started;
         event EventHandler<ModuleScanResultEventArgs> Completed;

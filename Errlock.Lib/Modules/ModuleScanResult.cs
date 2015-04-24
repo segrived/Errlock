@@ -5,12 +5,9 @@ namespace Errlock.Lib.Modules
 {
     public enum ModuleScanStatus
     {
-        [Description("Завершен успешно")]
-        Completed,
-        [Description("Отменен")]
-        Canceled,
-        [Description("Завершен с ошибкой")]
-        Error
+        [Description("Завершен успешно")] Completed,
+        [Description("Отменен")] Canceled,
+        [Description("Завершен с ошибкой")] Error
     };
 
     public class ModuleScanResult

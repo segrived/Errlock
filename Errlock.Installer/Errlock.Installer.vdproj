@@ -1715,7 +1715,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Errlock.Lib, Version=1.0.104.15113, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Errlock.Lib, Version=1.0.112.15114, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_670A9E69055D883CB18318930AC3C118"
@@ -2977,7 +2977,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Errlock"
         "ProductCode" = "8:{2F71AEB9-9E3D-4833-B4AF-96184176155E}"
-        "PackageCode" = "8:{B69F72E6-438E-4803-A594-BC991DBD4143}"
+        "PackageCode" = "8:{4ACD7C11-CF1B-485B-9177-23F09A0CF8F8}"
         "UpgradeCode" = "8:{152DAB65-4346-4201-B283-562821D388A3}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -2993,8 +2993,8 @@
         "ARPCONTACT" = "8:segrived"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
-        "ARPURLINFOABOUT" = "8:"
-        "ARPPRODUCTICON" = "8:"
+        "ARPURLINFOABOUT" = "8:https://github.com/segrived/Errlock"
+        "ARPPRODUCTICON" = "8:_5340241E567644118B030C197DD053B9"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"

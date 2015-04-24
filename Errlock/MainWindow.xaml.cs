@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Shell;
 using Errlock.Lib.Logger;
 using Errlock.Lib.Modules;
 using Errlock.Lib.Sessions;
@@ -33,8 +34,17 @@ namespace Errlock
         {
             module.SetLogger(App.Logger);
             var session = this.locator.MainWindowViewModel.SelectedSession;
-            module.NewNotice +=
-                (_sender, _e) => { App.Logger.Log(_e.Notice.Text, LoggerMessageType.Warn); };
+
+            // При поступлении нового предупреждения от модуля
+            module.NewNotice += (sender, e) => {
+                App.Logger.Log(e.Notice.Text, LoggerMessageType.Warn);
+            };
+            
+            this.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
+            module.Progress.ProgressChanged += (sender, i) => {
+                this.ModuleProgress.Value = i;
+                this.TaskbarItemInfo.ProgressValue = (double)i / 100;
+            };
             var scanResult = await Task.Factory.StartNew(() => {
                 try {
                     return module.Start(session);
@@ -43,8 +53,14 @@ namespace Errlock
                     return null;
                 }
             });
-            if (scanResult == null || scanResult.Notices.Count == 0) {
+            if (scanResult == null) {
                 return;
+            }
+            if (scanResult.Status == ModuleScanStatus.Error) {
+                this.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Error;
+            } else {
+                this.TaskbarItemInfo.ProgressValue = 0;
+                this.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.None;
             }
             var win = new ScanResultWindowView {
                 viewModel = { Notices = scanResult.Notices, Messages = scanResult.LogMessages }

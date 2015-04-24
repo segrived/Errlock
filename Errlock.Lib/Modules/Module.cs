@@ -10,14 +10,10 @@ namespace Errlock.Lib.Modules
 {
     public enum NoticePriority
     {
-        [Description("Информационное сообщение")]
-        Info,
-        [Description("Низкая")]
-        Low,
-        [Description("Средняя")]
-        Medium,
-        [Description("Высокая")]
-        High
+        [Description("Информация")] Info,
+        [Description("Низкая")] Low,
+        [Description("Средняя")] Medium,
+        [Description("Высокая")] High
     }
 
     public abstract class Module<T> : IModule where T : ModuleConfig
@@ -27,6 +23,9 @@ namespace Errlock.Lib.Modules
         private List<ModuleNotice> Notices { get; set; }
         private List<string> Messages { get; set; }
         protected CancellationTokenSource Token { get; set; }
+        public Progress<int> Progress { get; set; }
+
+        public abstract bool IsSupportProgressReporting { get; }
 
         protected Module(T config)
         {
@@ -34,6 +33,7 @@ namespace Errlock.Lib.Modules
 
             this.Notices = new List<ModuleNotice>();
             this.Messages = new List<string>();
+            this.Progress = new Progress<int>();
         }
 
         public void SetLogger(ILogger logger)
@@ -57,7 +57,7 @@ namespace Errlock.Lib.Modules
                 this.OnCompleted(scanResult);
                 return scanResult;
             }
-            var status = Process(session);
+            var status = Process(session, this.Progress);
             scanResult = GetScanResult(status);
             this.Logger.Log("Создание лога тестирования...", LoggerMessageType.Info);
             session.SaveLog(new SessionScanLog {
@@ -76,7 +76,7 @@ namespace Errlock.Lib.Modules
             this.Token.Cancel();
         }
 
-        protected abstract ModuleScanStatus Process(Session session);
+        protected abstract ModuleScanStatus Process(Session session, IProgress<int> progress);
 
         private ModuleScanResult GetScanResult(ModuleScanStatus status)
         {
@@ -95,6 +95,12 @@ namespace Errlock.Lib.Modules
             handler.Raise(this, new ModuleScanResultEventArgs(scanResult));
         }
 
+        protected virtual void OnNewNotice(ModuleNotice notice)
+        {
+            var handler = this.NewNotice;
+            handler.Raise(this, new ModuleNoticeEventArgs(notice));
+        }
+
         protected void AddMessage(string message, LoggerMessageType type)
         {
             this.Messages.Add(message);
@@ -107,12 +113,6 @@ namespace Errlock.Lib.Modules
         {
             this.Notices.Add(notice);
             this.OnNewNotice(notice);
-        }
-
-        protected virtual void OnNewNotice(ModuleNotice notice)
-        {
-            var handler = this.NewNotice;
-            handler.Raise(this, new ModuleNoticeEventArgs(notice));
         }
     }
 }

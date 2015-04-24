@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Text;
 
 namespace Errlock.Lib
@@ -157,24 +156,22 @@ namespace Errlock.Lib
         }
 
         /// <summary>
-        ///  Возвращает время в формате Unixtimestamp
+        /// Возвращает время в формате Unixtimestamp
         /// </summary>
         /// <param name="dateTime"></param>
         public static double DateTimeToUnixTimestamp(this DateTime dateTime)
         {
-            DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            var unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             long unixTimeStampInTicks = (dateTime.ToUniversalTime() - unixStart).Ticks;
             return (double)unixTimeStampInTicks / TimeSpan.TicksPerSecond;
         }
 
         public static DateTime UnixTimestampToDateTime(this double unixTime)
         {
-            DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-            long unixTimeStampInTicks = (long) (unixTime * TimeSpan.TicksPerSecond);
+            var unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            long unixTimeStampInTicks = (long)(unixTime * TimeSpan.TicksPerSecond);
             return new DateTime(unixStart.Ticks + unixTimeStampInTicks);
         }
-
-
 
         /// <summary>
         /// Преобразовывает значение перечисления в строку, используя значение атрибута Description
@@ -183,10 +180,10 @@ namespace Errlock.Lib
         /// <returns>Значение в виде строки</returns>
         public static string GetDescription(this Enum value)
         {
-            Type type = value.GetType();
+            var type = value.GetType();
             string name = Enum.GetName(type, value);
             if (name != null) {
-                FieldInfo field = type.GetField(name);
+                var field = type.GetField(name);
                 if (field != null) {
                     var dType = typeof(DescriptionAttribute);
                     var attr = Attribute.GetCustomAttribute(field, dType) as DescriptionAttribute;

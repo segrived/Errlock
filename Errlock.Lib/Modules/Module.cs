@@ -10,10 +10,17 @@ namespace Errlock.Lib.Modules
 {
     public enum NoticePriority
     {
-        [Description("Информация")] Info,
-        [Description("Низкая")] Low,
-        [Description("Средняя")] Medium,
-        [Description("Высокая")] High
+        [Description("Информация")]
+        Info,
+
+        [Description("Низкая")]
+        Low,
+
+        [Description("Средняя")]
+        Medium,
+
+        [Description("Высокая")]
+        High
     }
 
     public abstract class Module<T> : IModule where T : ModuleConfig
@@ -23,9 +30,6 @@ namespace Errlock.Lib.Modules
         private List<ModuleNotice> Notices { get; set; }
         private List<string> Messages { get; set; }
         protected CancellationTokenSource Token { get; set; }
-        public Progress<int> Progress { get; set; }
-
-        public abstract bool IsSupportProgressReporting { get; }
 
         protected Module(T config)
         {
@@ -35,6 +39,9 @@ namespace Errlock.Lib.Modules
             this.Messages = new List<string>();
             this.Progress = new Progress<int>();
         }
+
+        public Progress<int> Progress { get; set; }
+        public abstract bool IsSupportProgressReporting { get; }
 
         public void SetLogger(ILogger logger)
         {

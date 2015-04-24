@@ -14,7 +14,7 @@ namespace Errlock.Lib.WebParser
         /// <summary>
         /// Содержимое страницы
         /// </summary>
-        private string RawContent { get; set; } 
+        private string RawContent { get; set; }
 
         /// <summary>
         /// Коллекция заголовков, пришедших с сервера
@@ -37,6 +37,14 @@ namespace Errlock.Lib.WebParser
             this.Headers = response.Headers;
             this.Server = response.Server;
             this.Status = (int)response.StatusCode;
+        }
+
+        /// <summary>
+        /// Освобождает ресурсы
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
         }
 
         /// <summary>
@@ -71,14 +79,6 @@ namespace Errlock.Lib.WebParser
                 this.RawContent = content;
                 return content;
             }
-        }
-
-        /// <summary>
-        /// Освобождает ресурсы
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
         }
 
         private void Dispose(bool disposing)

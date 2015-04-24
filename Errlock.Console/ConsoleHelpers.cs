@@ -13,7 +13,8 @@ namespace ErrlockConsole
             }
         }
 
-        public static void ShowWithColor(string message, ConsoleColor color, bool withNewLine = true)
+        public static void ShowWithColor(
+            string message, ConsoleColor color, bool withNewLine = true)
         {
             Console.ForegroundColor = color;
             if (withNewLine) {

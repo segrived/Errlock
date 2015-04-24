@@ -14,7 +14,6 @@ namespace Errlock.Lib.WebCrawler
         private HashSet<string> AnalysedUrls { get; set; }
         private HashSet<string> FoundedUrls { get; set; }
 
-
         public WebCrawler(Session session, WebParserOptions options)
         {
             this.Session = session;
@@ -32,14 +31,14 @@ namespace Errlock.Lib.WebCrawler
 
         private HashSet<string> FetchLinks(string url)
         {
-            var parser = new WebParser.Parser(Options);
+            var parser = new Parser(Options);
             try {
                 var webParserResult = parser.Process(url);
                 if (! webParserResult.IsHtmlPage()) {
                     webParserResult.Dispose();
                     return new HashSet<string>();
                 }
-                var rawContent = webParserResult.Download();
+                string rawContent = webParserResult.Download();
                 var dom = new CQ(rawContent);
                 webParserResult.Dispose();
                 var links = dom["a"]

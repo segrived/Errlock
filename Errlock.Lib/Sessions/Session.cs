@@ -43,6 +43,11 @@ namespace Errlock.Lib.Sessions
         [YamlMember]
         public SessionScanOptions Options { get; set; }
 
+        public IEnumerable<SessionLogFile> Logs
+        {
+            get { return this.EnumerateLogs(); }
+        }
+
         /// <summary>
         /// Пустой конструктор
         /// </summary>
@@ -80,10 +85,6 @@ namespace Errlock.Lib.Sessions
             return Path.Combine(SessionsDirectory, this.Id.ToString());
         }
 
-        public IEnumerable<SessionLogFile> Logs {
-            get { return this.EnumerateLogs(); }
-        } 
-
         /// <summary>
         /// Перечисляет все существующие логи
         /// </summary>
@@ -107,7 +108,7 @@ namespace Errlock.Lib.Sessions
                 Directory.CreateDirectory(directory);
             }
             string timestamp = DateTime.Now.DateTimeToUnixTimestamp()
-                .ToString(CultureInfo.InvariantCulture);
+                                       .ToString(CultureInfo.InvariantCulture);
             string fileName = Path.Combine(directory, timestamp + ".log");
 
             File.WriteAllText(fileName, log.ToString());

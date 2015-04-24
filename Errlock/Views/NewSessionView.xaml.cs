@@ -5,7 +5,6 @@ namespace Errlock.Views
 {
     public partial class NewSession
     {
-
         public NewSession()
         {
             InitializeComponent();

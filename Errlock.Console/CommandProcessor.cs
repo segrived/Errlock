@@ -1,6 +1,4 @@
 ﻿namespace ErrlockConsole
 {
-    public class CommandProcessor
-    {
-    }
+    public class CommandProcessor { }
 }

@@ -7,10 +7,8 @@ using System.Windows;
 [assembly: AssemblyDescription("Errlock - Web Penetration Tool")]
 [assembly: AssemblyCompany("Quart")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
-
 [assembly: AssemblyVersion("1.0.193.15114")]
 [assembly: AssemblyFileVersion("1.0.193.15114")]
-
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -18,4 +16,4 @@ using System.Windows;
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None,
     ResourceDictionaryLocation.SourceAssembly
-)]
+    )]

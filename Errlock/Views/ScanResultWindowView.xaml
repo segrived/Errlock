@@ -14,7 +14,8 @@
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
-                                <Setter Property="Background" Value="{Binding Priority, Converter={StaticResource PriorityToColor}}" />
+                                <Setter Property="Background"
+                                        Value="{Binding Priority, Converter={StaticResource PriorityToColor}}" />
                             </Style>
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
@@ -33,10 +34,12 @@
                                     <TextBlock Text="{Binding Information}" TextWrapping="WrapWithOverflow" />
                                     <TextBlock FontStyle="Italic">
                                         <Run Text="Важность: " />
-                                        <Run Text="{Binding Priority, Mode=OneWay, Converter={StaticResource EnumToString}}" />
+                                        <Run
+                                            Text="{Binding Priority, Mode=OneWay, Converter={StaticResource EnumToString}}" />
                                     </TextBlock>
                                     <TextBlock>
-                                        <Hyperlink NavigateUri="{Binding LinkedUrl}" RequestNavigate="Hyperlink_RequestNavigate">
+                                        <Hyperlink NavigateUri="{Binding LinkedUrl}"
+                                                   RequestNavigate="Hyperlink_RequestNavigate">
                                             <Run Text="{Binding LinkedUrl, Mode=OneWay}" />
                                         </Hyperlink>
                                     </TextBlock>

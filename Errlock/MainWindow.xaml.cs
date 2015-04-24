@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,12 +21,15 @@ namespace Errlock
 
             locator.MainWindowViewModel.Sessions = Session.EnumerateSessions();
 
-            Session.SessionChanged += (sender, e) => {
-                locator.MainWindowViewModel.Sessions = Session.EnumerateSessions();
-            };
+            Session.SessionChanged +=
+                (sender, e) => {
+                    locator.MainWindowViewModel.Sessions = Session.EnumerateSessions();
+                };
 
             App.Logger.NewMessage += (sender, e)
-                => Dispatcher.Invoke(() => LogData.AppendText(e.FormattedMessage + "\n"));
+                                     =>
+                                     Dispatcher.Invoke(
+                                         () => LogData.AppendText(e.FormattedMessage + "\n"));
         }
 
         public async void StartModule(IModule module)
@@ -36,10 +38,9 @@ namespace Errlock
             var session = this.locator.MainWindowViewModel.SelectedSession;
 
             // При поступлении нового предупреждения от модуля
-            module.NewNotice += (sender, e) => {
-                App.Logger.Log(e.Notice.Text, LoggerMessageType.Warn);
-            };
-            
+            module.NewNotice +=
+                (sender, e) => { App.Logger.Log(e.Notice.Text, LoggerMessageType.Warn); };
+
             this.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
             module.Progress.ProgressChanged += (sender, i) => {
                 this.ModuleProgress.Value = i;

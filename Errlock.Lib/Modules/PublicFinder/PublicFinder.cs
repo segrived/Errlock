@@ -6,13 +6,15 @@ using Errlock.Lib.Modules.PublicFinder.Notices;
 using Errlock.Lib.Sessions;
 using Errlock.Lib.WebParser;
 using Errlock.Resources.ModulesData;
-using YamlDotNet.Serialization.Utilities;
 
 namespace Errlock.Lib.Modules.PublicFinder
 {
     public class PublicFinder : Module<PublicFinderConfig>
     {
-        public override bool IsSupportProgressReporting { get { return true; } }
+        public override bool IsSupportProgressReporting
+        {
+            get { return true; }
+        }
 
         private List<string> Urls { get; set; }
 
@@ -48,7 +50,7 @@ namespace Errlock.Lib.Modules.PublicFinder
             if (this.Config.UseGetRequests) {
                 options.Method = "GET";
             }
-            var parser = new WebParser.Parser(options);
+            var parser = new Parser(options);
             for (int i = 0; i < this.Urls.Count; i++) {
                 if (this.Token.IsCancellationRequested) {
                     return ModuleScanStatus.Canceled;

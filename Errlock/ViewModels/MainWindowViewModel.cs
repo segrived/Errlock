@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Windows;
-using Errlock.Converters;
 using Errlock.Lib;
 using Errlock.Lib.Modules;
 using Errlock.Lib.Sessions;
@@ -9,8 +7,8 @@ namespace Errlock.ViewModels
 {
     public class MainWindowViewModel : Bindable
     {
-        private Session _selectedSession;
         private IModule _selectedModule;
+        private Session _selectedSession;
 
         public IEnumerable<Session> Sessions
         {

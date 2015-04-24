@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading;
 using System.Windows;
-using Errlock.Lib.Logger;
 using Errlock.Lib.Modules;
 using Errlock.Lib.Modules.PublicFinder;
 using Errlock.Locators;
@@ -16,8 +11,8 @@ namespace Errlock.Views
     {
         private readonly ViewModelLocator _locator = new ViewModelLocator();
         private readonly PublicFinderViewModel _viewModel;
-        private CancellationTokenSource _token;
         private IModule _module;
+        private CancellationTokenSource _token;
 
         public PublicFinderView()
         {
@@ -44,9 +39,7 @@ namespace Errlock.Views
             this._token = null;
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
+        private void Page_Loaded(object sender, RoutedEventArgs e) { }
 
         private void StopBtn_Click(object sender, RoutedEventArgs e)
         {

@@ -6,6 +6,9 @@ namespace Errlock.Lib.Modules
 {
     public interface IModule
     {
+        bool IsSupportProgressReporting { get; }
+        Progress<int> Progress { get; }
+
         /// <summary>
         /// Указывает логгер, куда будут логгироваться сообщения модуля
         /// </summary>
@@ -23,9 +26,6 @@ namespace Errlock.Lib.Modules
         /// Останавилвает сканирования, если оно уже было начало
         /// </summary>
         void Stop();
-
-        bool IsSupportProgressReporting { get; }
-        Progress<int> Progress { get; }
 
         event EventHandler<ModuleNoticeEventArgs> NewNotice;
         event EventHandler Started;

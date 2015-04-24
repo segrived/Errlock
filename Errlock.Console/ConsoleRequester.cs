@@ -4,8 +4,8 @@ namespace ErrlockConsole
 {
     public class ConsoleRequester<T>
     {
-        readonly Func<string, T> _stringConverter;
-        readonly Predicate<T> _isValidRequest;
+        private readonly Predicate<T> _isValidRequest;
+        private readonly Func<string, T> _stringConverter;
 
         public ConsoleRequester(Func<string, T> converter, Predicate<T> predicate)
         {
@@ -30,7 +30,7 @@ namespace ErrlockConsole
                 try {
                     ShowPrompt();
                     var value = _stringConverter(Console.ReadLine());
-                    if (!_isValidRequest.Invoke(value)) {
+                    if (! _isValidRequest.Invoke(value)) {
                         ShowError("¬вод не удовлетвор€ет предикату");
                     } else {
                         return value;

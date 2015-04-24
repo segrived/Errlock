@@ -8,6 +8,7 @@ namespace Errlock.Lib.Sessions
         public string Module { get; set; }
         public string LogFilePath { get; set; }
         public DateTime CreatingDate { get; set; }
+
         public Lazy<string> Content
         {
             get { return new Lazy<String>(() => File.ReadAllText(this.LogFilePath)); }

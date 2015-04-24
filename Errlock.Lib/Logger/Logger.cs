@@ -13,7 +13,6 @@ namespace Errlock.Lib.Logger
 
     public class Logger : ILogger
     {
-
         private readonly MessageFormatter _formatter;
 
         public Logger(MessageFormatter formatter)

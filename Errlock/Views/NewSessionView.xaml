@@ -13,7 +13,7 @@
         <TextBox Height="23"
                  Margin="10,36,10,0"
                  VerticalAlignment="Top"
-                 Text="{Binding Url}"
+                 Text="{Binding Session.Url}"
                  TextWrapping="Wrap" />
 
         <Button x:Name="AddBtn"
@@ -51,7 +51,7 @@
                 <TextBox Height="26"
                          Margin="10,31,10,0"
                          VerticalAlignment="Top"
-                         Text="{Binding Options.RecursionDepth}"
+                         Text="{Binding Session.Options.RecursionDepth}"
                          TextWrapping="Wrap" />
                 <Label Margin="10,5,10,0"
                        VerticalAlignment="Top"
@@ -59,7 +59,7 @@
                 <TextBox Height="26"
                          Margin="10,88,10,0"
                          VerticalAlignment="Top"
-                         Text="{Binding Options.FetchPerPage}"
+                         Text="{Binding Session.Options.FetchPerPage}"
                          TextWrapping="Wrap" />
                 <Label Margin="10,62,10,0"
                        VerticalAlignment="Top"
@@ -67,18 +67,18 @@
                 <CheckBox Margin="10,181,10,0"
                           VerticalAlignment="Top"
                           Content="Собирать случайный набор ссылок"
-                          IsChecked="{Binding Options.UseRandomLinks}" />
+                          IsChecked="{Binding Session.Options.UseRandomLinks}" />
                 <CheckBox Margin="10,201,10,0"
                           VerticalAlignment="Top"
                           Content="Игнорировать якори в адресах страниц (рекомендуется)"
-                          IsChecked="{Binding Options.IngoreAnchors}" />
+                          IsChecked="{Binding Session.Options.IngoreAnchors}" />
                 <Label Margin="10,119,10,0"
                        VerticalAlignment="Top"
                        Content="Глобальное ограничение на количество ссылок" />
                 <TextBox Height="26"
                          Margin="10,145,10,0"
                          VerticalAlignment="Top"
-                         Text="{Binding Options.MaxLinks}"
+                         Text="{Binding Session.Options.MaxLinks}"
                          TextWrapping="Wrap" />
             </Grid>
         </GroupBox>

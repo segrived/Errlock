@@ -46,6 +46,7 @@ namespace Errlock
                 this.ModuleProgress.Value = i;
                 this.TaskbarItemInfo.ProgressValue = (double)i / 100;
             };
+            ModuleProgress.Visibility = Visibility.Visible;
             var scanResult = await Task.Factory.StartNew(() => {
                 try {
                     return module.Start(session);
@@ -54,6 +55,7 @@ namespace Errlock
                     return null;
                 }
             });
+            ModuleProgress.Visibility = Visibility.Hidden;
             if (scanResult == null) {
                 return;
             }
@@ -80,10 +82,8 @@ namespace Errlock
             if (SessionList.SelectedIndex == -1) {
                 return;
             }
-            var session = SessionList.SelectedItem;
-            var win = new NewSession {
-                DataContext = session
-            };
+            var session = SessionList.SelectedItem as Session;
+            var win = new NewSession(session);
             win.Show();
         }
 
@@ -105,9 +105,7 @@ namespace Errlock
 
         private void NewSessionBtn_Click(object sender, RoutedEventArgs e)
         {
-            var win = new NewSession {
-                DataContext = new Session()
-            };
+            var win = new NewSession();
             win.Show();
         }
 
@@ -121,6 +119,12 @@ namespace Errlock
         {
             var window = new SettingsWindow();
             window.ShowDialog();
+        }
+
+        private void LogFilesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            locator.MainWindowViewModel.SelectedLogFile = 
+                LogFilesList.SelectedItem as SessionLogFile;
         }
     }
 }

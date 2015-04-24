@@ -32,6 +32,12 @@ namespace Errlock.ViewModels
             get { return _selectedSession != null; }
         }
 
+        public SessionLogFile SelectedLogFile
+        {
+            get { return Get<SessionLogFile>(); }
+            set { Set(value); }
+        }
+
         public IModule SelectedModule
         {
             get { return _selectedModule; }

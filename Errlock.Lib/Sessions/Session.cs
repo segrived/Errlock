@@ -43,6 +43,7 @@ namespace Errlock.Lib.Sessions
         [YamlMember]
         public SessionScanOptions Options { get; set; }
 
+        [YamlIgnore]
         public IEnumerable<SessionLogFile> Logs
         {
             get { return this.EnumerateLogs(); }

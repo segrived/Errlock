@@ -7,5 +7,9 @@
         public int MaxLinks { get; set; }
         public bool UseRandomLinks { get; set; }
         public bool IngoreAnchors { get; set; }
+
+        public SessionScanOptions()
+        {
+        }
     }
 }

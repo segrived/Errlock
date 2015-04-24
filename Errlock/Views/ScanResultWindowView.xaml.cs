@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Navigation;
+using Errlock.Lib.Modules;
 using Errlock.ViewModels;
 
 namespace Errlock.Views
@@ -10,13 +11,18 @@ namespace Errlock.Views
     /// </summary>
     public partial class ScanResultWindowView : Window
     {
-        public readonly ScanResultWindowViewModel viewModel;
+        private readonly ScanResultWindowViewModel _viewModel;
 
         public ScanResultWindowView()
         {
             InitializeComponent();
-            this.viewModel = new ScanResultWindowViewModel();
-            this.DataContext = this.viewModel;
+            this._viewModel = new ScanResultWindowViewModel();
+            this.DataContext = this._viewModel;
+        }
+
+        public ScanResultWindowView(ModuleScanResult scanResult) : this()
+        {
+            this._viewModel.ScanResult = scanResult;
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)

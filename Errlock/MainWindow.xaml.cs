@@ -65,10 +65,8 @@ namespace Errlock
                 this.TaskbarItemInfo.ProgressValue = 0;
                 this.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.None;
             }
-            var win = new ScanResultWindowView {
-                viewModel = { Notices = scanResult.Notices, Messages = scanResult.LogMessages }
-            };
-            win.ShowDialog();
+
+            new ScanResultWindowView(scanResult).ShowDialog();
         }
 
         private void SessionList_SelectionChanged(object sender, SelectionChangedEventArgs e)

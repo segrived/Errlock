@@ -6,7 +6,10 @@ namespace Errlock.ViewModels
 {
     public class ScanResultWindowViewModel : Bindable
     {
-        public List<ModuleNotice> Notices { get; set; }
-        public List<string> Messages { get; set; }
+        public ModuleScanResult ScanResult { get; set; }
+
+        public ScanResultWindowViewModel()
+        {
+        }
     }
 }

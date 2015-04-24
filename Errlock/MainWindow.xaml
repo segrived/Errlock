@@ -62,7 +62,8 @@
         </ListBox>
         <TabControl Height="330"
                     Margin="234,34,10,0"
-                    VerticalAlignment="Top">
+                    VerticalAlignment="Top"
+                    IsEnabled="{Binding IsSelectedSession}">
             <TabItem x:Name="HomeTab">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -89,7 +90,6 @@
                 <Grid>
                     <TabControl x:Name="MainTabControl"
                                 HorizontalContentAlignment="Stretch"
-                                IsEnabled="{Binding IsSelectedSession}"
                                 Padding="0"
                                 TabStripPlacement="Right">
                         <TabControl.Resources>
@@ -160,7 +160,16 @@
                     </StackPanel>
                 </TabItem.Header>
                 <Grid Background="#FFFFFF">
-                    <Frame Source="Views/HomeTabView.xaml" />
+                    <ListBox ItemsSource="{Binding SelectedSession.Logs}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <TextBlock FontWeight="Bold" Text="{Binding Module}" />
+                                    <TextBlock Text="{Binding CreatingDate}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </Grid>
             </TabItem>
         </TabControl>

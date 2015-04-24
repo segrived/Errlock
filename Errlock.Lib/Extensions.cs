@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
+using System.Text;
 
 namespace Errlock.Lib
 {
@@ -143,17 +146,67 @@ namespace Errlock.Lib
             }
         }
 
+        /// <summary>
+        /// Разделяет указанный текст по строкам
+        /// </summary>
+        /// <param name="source">Исходный текст</param>
+        /// <returns>Массив строк исходного текста</returns>
         public static string[] Lines(this string source)
         {
             return source.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
         }
 
-        public static int ToUnixTimestamp(this DateTime value)
+        /// <summary>
+        ///  Возвращает время в формате Unixtimestamp
+        /// </summary>
+        /// <param name="dateTime"></param>
+        public static double DateTimeToUnixTimestamp(this DateTime dateTime)
         {
-            return
-                (int)
-                Math.Truncate(
-                    (value.ToUniversalTime().Subtract(new DateTime(1970, 1, 1))).TotalSeconds);
+            DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            long unixTimeStampInTicks = (dateTime.ToUniversalTime() - unixStart).Ticks;
+            return (double)unixTimeStampInTicks / TimeSpan.TicksPerSecond;
+        }
+
+        public static DateTime UnixTimestampToDateTime(this double unixTime)
+        {
+            DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            long unixTimeStampInTicks = (long) (unixTime * TimeSpan.TicksPerSecond);
+            return new DateTime(unixStart.Ticks + unixTimeStampInTicks);
+        }
+
+
+
+        /// <summary>
+        /// Преобразовывает значение перечисления в строку, используя значение атрибута Description
+        /// </summary>
+        /// <param name="value">Элемент перечисления</param>
+        /// <returns>Значение в виде строки</returns>
+        public static string GetDescription(this Enum value)
+        {
+            Type type = value.GetType();
+            string name = Enum.GetName(type, value);
+            if (name != null) {
+                FieldInfo field = type.GetField(name);
+                if (field != null) {
+                    var dType = typeof(DescriptionAttribute);
+                    var attr = Attribute.GetCustomAttribute(field, dType) as DescriptionAttribute;
+                    if (attr != null) {
+                        return attr.Description;
+                    }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Повторяет указанную строку указанное число раз
+        /// </summary>
+        /// <param name="value">Исходная строка</param>
+        /// <param name="count">Количество повторений</param>
+        /// <returns>Результат</returns>
+        public static string Repeat(this string value, int count)
+        {
+            return new StringBuilder().Insert(0, value, count).ToString();
         }
 
         public static void Raise<TEventArgs>(

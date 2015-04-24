@@ -10,13 +10,13 @@ namespace Errlock.Views
     /// </summary>
     public partial class ScanResultWindowView : Window
     {
-        public ScanResultWindowViewModel viewModel;
+        public readonly ScanResultWindowViewModel viewModel;
 
         public ScanResultWindowView()
         {
             InitializeComponent();
             this.viewModel = new ScanResultWindowViewModel();
-            this.DataContext = viewModel;
+            this.DataContext = this.viewModel;
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)

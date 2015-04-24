@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading;
 using Errlock.Lib.Helpers;
 using Errlock.Lib.Logger;
@@ -9,10 +10,14 @@ namespace Errlock.Lib.Modules
 {
     public enum NoticePriority
     {
-        Info, // Информационное сообщение
-        Low, // Низкая важность
-        Medium, // Средняя важность
-        High // Высокая важность
+        [Description("Информационное сообщение")]
+        Info,
+        [Description("Низкая")]
+        Low,
+        [Description("Средняя")]
+        Medium,
+        [Description("Высокая")]
+        High
     }
 
     public abstract class Module<T> : IModule where T : ModuleConfig
@@ -46,14 +51,15 @@ namespace Errlock.Lib.Modules
             ModuleScanResult scanResult;
             this.OnStarted();
             if (! WebHelpers.IsOnline(session.Url)) {
-                Logger.Log("В данный момент тестируемый сайт недоступен, повторите попытку позже",
-                    LoggerMessageType.Error);
+                string msg = "В данный момент тестируемый сайт недоступен, повторите попытку позже";
+                AddMessage(msg, LoggerMessageType.Error);
                 scanResult = GetScanResult(ModuleScanStatus.Error);
                 this.OnCompleted(scanResult);
                 return scanResult;
             }
             var status = Process(session);
             scanResult = GetScanResult(status);
+            this.Logger.Log("Создание лога тестирования...", LoggerMessageType.Info);
             session.SaveLog(new SessionScanLog {
                 Module = this.GetType().Name,
                 ScanResult = scanResult

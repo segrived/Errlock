@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Errlock.Lib.Helpers;
@@ -79,12 +80,24 @@ namespace Errlock.Lib.Sessions
             return Path.Combine(SessionsDirectory, this.Id.ToString());
         }
 
-        public IEnumerable<SessionScanLog> EnumerateLogs()
+        public IEnumerable<SessionLogFile> Logs {
+            get { return this.EnumerateLogs(); }
+        } 
+
+        /// <summary>
+        /// Перечисляет все существующие логи
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<SessionLogFile> EnumerateLogs(string module = null)
         {
             string directory = Path.Combine(this.GetSessionDirectory(), "logs");
-            return Extensions.SkipExceptions<SessionScanLog>(Directory
-                .EnumerateFiles(directory)
-                .Select(SerializationHelpers.Deserialize<SessionScanLog>));
+            if (module != null) {
+                directory = Path.Combine(directory, module);
+            }
+            return Directory
+                .EnumerateFiles(directory, "*.*", SearchOption.AllDirectories)
+                .Select(file => new SessionLogFile(file))
+                .SkipExceptions();
         }
 
         public void SaveLog(SessionScanLog log)
@@ -93,9 +106,11 @@ namespace Errlock.Lib.Sessions
             if (! Directory.Exists(directory)) {
                 Directory.CreateDirectory(directory);
             }
-            string timestamp = DateTime.Now.ToUnixTimestamp().ToString();
+            string timestamp = DateTime.Now.DateTimeToUnixTimestamp()
+                .ToString(CultureInfo.InvariantCulture);
             string fileName = Path.Combine(directory, timestamp + ".log");
-            SerializationHelpers.Serialize(fileName, log);
+
+            File.WriteAllText(fileName, log.ToString());
         }
 
         /// <summary>

@@ -8,9 +8,10 @@
     <Grid>
         <Label Margin="10,10,10,0"
                VerticalAlignment="Top"
-               Content="Адрес сайта:" />
+               Content="Адрес сайта:"
+               FontWeight="Bold" />
         <TextBox Height="23"
-                 Margin="10,41,10,0"
+                 Margin="10,36,10,0"
                  VerticalAlignment="Top"
                  Text="{Binding Url}"
                  TextWrapping="Wrap" />
@@ -48,19 +49,19 @@
         <GroupBox Margin="10,69,10,51" Header="Настройки анализа">
             <Grid>
                 <TextBox Height="26"
-                         Margin="10,36,10,0"
+                         Margin="10,31,10,0"
                          VerticalAlignment="Top"
                          Text="{Binding Options.RecursionDepth}"
                          TextWrapping="Wrap" />
-                <Label Margin="10,10,10,0"
+                <Label Margin="10,5,10,0"
                        VerticalAlignment="Top"
                        Content="Максимальная глубина рекурсии:" />
                 <TextBox Height="26"
-                         Margin="10,93,10,0"
+                         Margin="10,88,10,0"
                          VerticalAlignment="Top"
                          Text="{Binding Options.FetchPerPage}"
                          TextWrapping="Wrap" />
-                <Label Margin="10,67,10,0"
+                <Label Margin="10,62,10,0"
                        VerticalAlignment="Top"
                        Content="Максимальное количество ссылок со страницы:" />
                 <CheckBox Margin="10,181,10,0"
@@ -71,11 +72,11 @@
                           VerticalAlignment="Top"
                           Content="Игнорировать якори в адресах страниц (рекомендуется)"
                           IsChecked="{Binding Options.IngoreAnchors}" />
-                <Label Margin="10,124,10,0"
+                <Label Margin="10,119,10,0"
                        VerticalAlignment="Top"
                        Content="Глобальное ограничение на количество ссылок" />
                 <TextBox Height="26"
-                         Margin="10,150,10,0"
+                         Margin="10,145,10,0"
                          VerticalAlignment="Top"
                          Text="{Binding Options.MaxLinks}"
                          TextWrapping="Wrap" />

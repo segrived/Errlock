@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,25 +18,23 @@ namespace Errlock
         public MainWindow()
         {
             InitializeComponent();
+
             locator.MainWindowViewModel.Sessions = Session.EnumerateSessions();
+
             Session.SessionChanged += (sender, e) => {
                 locator.MainWindowViewModel.Sessions = Session.EnumerateSessions();
             };
-            App.Logger.NewMessage += (sender, e) => {
-                Dispatcher.Invoke(() => {
-                    LogData.AppendText(e.FormattedMessage + "\n");
-                });
-            };
-           
+
+            App.Logger.NewMessage += (sender, e)
+                => Dispatcher.Invoke(() => LogData.AppendText(e.FormattedMessage + "\n"));
         }
 
         public async void StartModule(IModule module)
         {
             module.SetLogger(App.Logger);
             var session = this.locator.MainWindowViewModel.SelectedSession;
-            module.NewNotice += (_sender, _e) => {
-                App.Logger.Log(_e.Notice.Text, LoggerMessageType.Warn);
-            };
+            module.NewNotice +=
+                (_sender, _e) => { App.Logger.Log(_e.Notice.Text, LoggerMessageType.Warn); };
             var scanResult = await Task.Factory.StartNew(() => {
                 try {
                     return module.Start(session);
@@ -55,16 +52,17 @@ namespace Errlock
             win.ShowDialog();
         }
 
-
         private void SessionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var session = SessionList.SelectedItem as Session;
             locator.MainWindowViewModel.SelectedSession = session;
         }
+
         private void SessionEditMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (SessionList.SelectedIndex == -1)
+            if (SessionList.SelectedIndex == -1) {
                 return;
+            }
             var session = SessionList.SelectedItem;
             var win = new NewSession {
                 DataContext = session
@@ -74,8 +72,9 @@ namespace Errlock
 
         private void SessionRemoveMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (SessionList.SelectedIndex == -1)
+            if (SessionList.SelectedIndex == -1) {
                 return;
+            }
             var session = SessionList.SelectedItem as Session;
             if (session != null) {
                 session.Delete();

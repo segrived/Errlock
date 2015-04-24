@@ -32,7 +32,8 @@
                                           Y2="0" />
                                     <TextBlock Text="{Binding Information}" TextWrapping="WrapWithOverflow" />
                                     <TextBlock FontStyle="Italic">
-                                        Важность:<Run Text="{Binding Priority, Mode=OneWay}" />
+                                        <Run Text="Важность: " />
+                                        <Run Text="{Binding Priority, Mode=OneWay, Converter={StaticResource EnumToString}}" />
                                     </TextBlock>
                                     <TextBlock>
                                         <Hyperlink NavigateUri="{Binding LinkedUrl}" RequestNavigate="Hyperlink_RequestNavigate">

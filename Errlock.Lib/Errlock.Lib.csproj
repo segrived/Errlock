@@ -54,7 +54,6 @@
     <Compile Include="Helpers\SerializationHelpers.cs" />
     <Compile Include="Helpers\WebHelpers.cs" />
     <Compile Include="Modules\IModule.cs" />
-    <Compile Include="LogFile\LogFile.cs" />
     <Compile Include="Logger\ILogger.cs" />
     <Compile Include="Logger\ILogMessageFormatter.cs" />
     <Compile Include="Logger\Logger.cs" />
@@ -72,6 +71,7 @@
     <Compile Include="Modules\PublicFinder\PublicFinder.cs" />
     <Compile Include="Modules\PublicFinder\PublicFinderConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sessions\SessionLogFile.cs" />
     <Compile Include="Sessions\SessionScanLog.cs" />
     <Compile Include="Sessions\Session.cs" />
     <Compile Include="Sessions\SessionEventArgs.cs" />

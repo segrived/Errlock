@@ -1,7 +1,7 @@
-﻿using Errlock.Lib;
+﻿using System.Collections.Generic;
+using Errlock.Lib.Helpers;
 using Errlock.Lib.Sessions;
 using GalaSoft.MvvmLight.Command;
-using Errlock.Lib.Helpers;
 
 namespace Errlock.ViewModels
 {
@@ -13,6 +13,11 @@ namespace Errlock.ViewModels
         {
             get { return Get<Session>(); }
             set { Set(value); }
+        }
+
+        public List<string> ProtocolList
+        {
+            get { return new List<string> { "http://", "https://" }; }
         }
 
         private string _protocolPart;

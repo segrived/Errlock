@@ -17,13 +17,12 @@
                           Margin="10,10,0,0"
                           HorizontalAlignment="Left"
                           VerticalAlignment="Top"
+                          IsEditable="False"
+                          IsSynchronizedWithCurrentItem="true"
+                          ItemsSource="{Binding ProtocolList}"
                           SelectedIndex="0"
                           SelectedValue="{Binding Path=ProtocolPart,
-                                                  Mode=TwoWay}"
-                          SelectedValuePath="Content">
-                    <ComboBoxItem Content="http://" />
-                    <ComboBoxItem Content="https://" />
-                </ComboBox>
+                                                  Mode=OneWayToSource}" />
                 <TextBox Height="23"
                          Margin="87,10,10,0"
                          VerticalAlignment="Top"

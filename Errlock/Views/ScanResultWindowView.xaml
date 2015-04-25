@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Errlock - результаты сканирования"
         Width="720"
-        Height="325"
+        Height="476"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <TabControl>
@@ -26,17 +26,32 @@
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
-                                <Setter Property="Background" Value="{Binding Priority, Converter={StaticResource PriorityToColor}}" />
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{Binding Path=Priority, Converter={StaticResource PriorityToColor}}" />
+                                    </Setter.Value>
+                                </Setter>
                             </Style>
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="4">
-                                    <TextBlock FontSize="14"
-                                               FontWeight="Bold"
-                                               Text="{Binding Text}" />
+                                    <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                        <Ellipse Canvas.Left="0"
+                                                 Canvas.Top="0"
+                                                 Width="16"
+                                                 Height="16"
+                                                 Margin="0,0,7,0"
+                                                 Fill="{Binding Path=Priority,
+                                                                Converter={StaticResource PriorityToColor}}"
+                                                 Stroke="DimGray"
+                                                 StrokeThickness="1" />
+                                        <TextBlock FontSize="13"
+                                                   FontWeight="Bold"
+                                                   Text="{Binding Text}" />
+                                    </StackPanel>
                                     <Line Stretch="Fill"
-                                          Stroke="Black"
+                                          Stroke="#888888"
                                           StrokeThickness="1"
                                           X1="0"
                                           X2="1"

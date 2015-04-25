@@ -60,7 +60,7 @@ namespace Errlock.Lib.Modules
             if (! WebHelpers.IsOnline(session.Url)) {
                 string msg = "В данный момент тестируемый сайт недоступен, повторите попытку позже";
                 AddMessage(msg, LoggerMessageType.Error);
-                scanResult = GetScanResult(ModuleScanStatus.Error);
+                scanResult = GetScanResult(ModuleScanStatus.SiteUnavailable);
                 this.OnCompleted(scanResult);
                 return scanResult;
             }

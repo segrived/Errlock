@@ -12,7 +12,10 @@ namespace Errlock.Lib.Modules
         Canceled,
 
         [Description("Завершен с ошибкой")]
-        Error
+        Error,
+
+        [Description("Сайт недоступен")]
+        SiteUnavailable
     };
 
     public class ModuleScanResult

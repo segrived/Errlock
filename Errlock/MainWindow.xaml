@@ -30,7 +30,9 @@
                 </MenuItem>
             </Menu>
         </DockPanel>
-        <Grid Margin="10,34,0,180" HorizontalAlignment="Left" Width="219">
+        <Grid Width="219"
+              Margin="10,34,0,180"
+              HorizontalAlignment="Left">
             <ListBox x:Name="SessionList"
                      Margin="0,0,0,37"
                      BorderThickness="1,1,1,0"

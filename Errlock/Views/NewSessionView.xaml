@@ -3,26 +3,42 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Errlock - Новая сессия"
         Width="461.84"
-        Height="401.661"
+        Height="412.661"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <Label Margin="10,10,10,0"
-               VerticalAlignment="Top"
-               Content="Адрес сайта:"
-               FontWeight="Bold" />
-        <TextBox Height="23"
-                 Margin="10,36,10,0"
-                 VerticalAlignment="Top"
-                 Text="{Binding Session.Url}"
-                 TextWrapping="Wrap" />
-
+        <GroupBox Height="64"
+                  Margin="10,10,10,0"
+                  VerticalAlignment="Top"
+                  FontWeight="Bold"
+                  Header="Адрес сайта">
+            <Grid>
+                <ComboBox Width="72"
+                          Height="23"
+                          Margin="10,10,0,0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top"
+                          SelectedIndex="0"
+                          SelectedValue="{Binding Path=ProtocolPart,
+                                                  Mode=TwoWay}"
+                          SelectedValuePath="Content">
+                    <ComboBoxItem Content="http://" />
+                    <ComboBoxItem Content="https://" />
+                </ComboBox>
+                <TextBox Height="23"
+                         Margin="87,10,10,0"
+                         VerticalAlignment="Top"
+                         Text="{Binding UrlPart,
+                                        UpdateSourceTrigger=PropertyChanged}"
+                         TextWrapping="Wrap" />
+            </Grid>
+        </GroupBox>
         <Button x:Name="AddBtn"
                 Width="110"
                 Height="30"
                 Margin="10,0,0,10"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
-                Click="AddBtn_Click">
+                Command="{Binding SaveSessionCommand}">
             <StackPanel Orientation="Horizontal">
                 <Image Width="16"
                        Height="16"
@@ -37,7 +53,7 @@
                 Margin="0,0,10,10"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
-                Click="CancelBtn_Click">
+                IsCancel="True">
             <StackPanel Orientation="Horizontal">
                 <Image Width="16"
                        Height="16"
@@ -46,7 +62,7 @@
                 <TextBlock Text="Отменить" />
             </StackPanel>
         </Button>
-        <GroupBox Margin="10,69,10,51" Header="Настройки анализа">
+        <GroupBox Margin="10,79,10,51" Header="Настройки анализа">
             <Grid>
                 <TextBox Height="26"
                          Margin="10,31,10,0"

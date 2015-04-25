@@ -18,6 +18,7 @@
     <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
     <AssemblyVersionSettings>None.None.Increment.DateStamp</AssemblyVersionSettings>
     <AssemblyFileVersionSettings>None.None.Increment.DateStamp</AssemblyFileVersionSettings>
+    <NuGetPackageImportStamp>fa4c0e2e</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -76,6 +77,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\EnumToStringConverter.cs" />
+    <Compile Include="ViewModels\CloseableViewModel.cs" />
     <Compile Include="ViewModels\LogViewerViewModel.cs" />
     <Compile Include="Views\AboutWindowView.xaml.cs">
       <DependentUpon>AboutWindowView.xaml</DependentUpon>
@@ -221,6 +223,9 @@
   <ItemGroup>
     <Resource Include="Media\Images\alert_16.png" />
     <Resource Include="Media\Images\log_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -11,17 +11,42 @@
       mc:Ignorable="d">
     <Grid>
         <StackPanel>
-            <TextBlock Height="35"
-                       Margin="10,10,10,10"
-                       VerticalAlignment="Top"
-                       FontSize="28"
-                       FontWeight="Bold"
-                       TextAlignment="Center">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Margin" Value="0,0,0,5" />
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock VerticalAlignment="Top" FontWeight="Bold">
+                <Run Text="Адрес сайта: " />
                 <Hyperlink NavigateUri="{Binding SelectedSession.Url}"
                            RequestNavigate="Hyperlink_RequestNavigate"
                            TextDecorations="{x:Null}">
                     <TextBlock Text="{Binding SelectedSession.Url}" />
                 </Hyperlink>
+            </TextBlock>
+            <TextBlock>
+                <Run Text="ID: " />
+                <Run Text="{Binding SelectedSession.Id}" />
+            </TextBlock>
+            <TextBlock>
+                <Run Text="Глобальное ограничение на количество страниц: " />
+                <Run Text="{Binding SelectedSession.Options.MaxLinks}" />
+            </TextBlock>
+            <TextBlock>
+                <Run Text="Количество ссылок со странцы: " />
+                <Run Text="{Binding SelectedSession.Options.FetchPerPage}" />
+            </TextBlock>
+            <TextBlock>
+                <Run Text="Глубина анализа: " />
+                <Run Text="{Binding SelectedSession.Options.RecursionDepth}" />
+            </TextBlock>
+            <TextBlock>
+                <Run Text="Игнорировать якоря: " />
+                <Run Text="{Binding SelectedSession.Options.IngoreAnchors, Converter={StaticResource BoolToYesNo}}" />
+            </TextBlock>
+            <TextBlock>
+                <Run Text="Использовать случайные ссылки: " />
+                <Run Text="{Binding SelectedSession.Options.UseRandomLinks, Converter={StaticResource BoolToYesNo}}" />
             </TextBlock>
         </StackPanel>
     </Grid>

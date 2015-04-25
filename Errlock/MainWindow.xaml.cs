@@ -76,16 +76,6 @@ namespace Errlock
             locator.MainWindowViewModel.SelectedSession = session;
         }
 
-        private void SessionEditMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (SessionList.SelectedIndex == -1) {
-                return;
-            }
-            var session = SessionList.SelectedItem as Session;
-            var win = new NewSession(session);
-            win.Show();
-        }
-
         private void SessionRemoveMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (SessionList.SelectedIndex == -1) {
@@ -105,7 +95,7 @@ namespace Errlock
         private void NewSessionBtn_Click(object sender, RoutedEventArgs e)
         {
             var win = new NewSession();
-            win.Show();
+            win.ShowDialog();
         }
 
         private void AboutMenuItem_Click(object sender, RoutedEventArgs e)

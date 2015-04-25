@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Errlock.Lib.Sessions;
 using Errlock.ViewModels;
 
@@ -20,25 +21,11 @@ namespace Errlock.Views
         public NewSession()
         {
             InitializeComponent();
+            this._viewModel.Session = new Session {
+                Options = _defaultOptions
+            };
+            this._viewModel.ClosingRequest += (sender, e) => this.Close();
             this.DataContext = this._viewModel;
-            this._viewModel.Session = new Session();
-            this._viewModel.Session.Options = _defaultOptions;
-        }
-
-        public NewSession(Session session) : this()
-        {
-            this._viewModel.Session = session;
-        }
-
-        private void AddBtn_Click(object sender, RoutedEventArgs e)
-        {
-            this._viewModel.Session.Save();
-            this.Close();
-        }
-
-        private void CancelBtn_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
     }
 }

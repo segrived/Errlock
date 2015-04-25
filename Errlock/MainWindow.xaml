@@ -41,7 +41,6 @@
                      SelectionChanged="SessionList_SelectionChanged">
                 <ListBox.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Click="SessionEditMenuItem_Click" Header="Редактировать" />
                         <MenuItem Click="SessionRemoveMenuItem_Click" Header="Удалить" />
                     </ContextMenu>
                 </ListBox.ContextMenu>
@@ -92,12 +91,7 @@
                         </StackPanel>
                     </TabItem.Header>
                     <Grid Background="#FFFFFF">
-                        <Frame Source="Views/HomeTabView.xaml" />
-                        <Grid Width="100"
-                              Height="100"
-                              Margin="81,224,0,-20"
-                              HorizontalAlignment="Left"
-                              VerticalAlignment="Top" />
+                        <Frame Padding="10" Source="Views/HomeTabView.xaml" />
                     </Grid>
                 </TabItem>
                 <TabItem x:Name="ModulesTabControl">

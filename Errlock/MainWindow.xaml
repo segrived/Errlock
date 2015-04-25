@@ -186,24 +186,23 @@
                         </StackPanel>
                     </TabItem.Header>
                     <Grid Background="#FFFFFF">
-                        <ListBox x:Name="LogFilesList"
-                                 Height="123"
-                                 VerticalAlignment="Top"
-                                 ItemsSource="{Binding SelectedSession.Logs}"
-                                 SelectionChanged="LogFilesList_SelectionChanged">
+                        <ListBox x:Name="LogFilesList" ItemsSource="{Binding SelectedSession.Logs}">
+                            <ListBox.ItemContainerStyle>
+                                <Style BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="{x:Type ListBoxItem}">
+                                    <EventSetter Event="MouseDoubleClick" Handler="LogListBoxItem_MouseDoubleClick" />
+                                </Style>
+                            </ListBox.ItemContainerStyle>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <StackPanel x:Name="LogItem"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center">
                                         <TextBlock FontWeight="Bold" Text="{Binding Module}" />
                                         <TextBlock Text="{Binding CreatingDate}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <TextBox Margin="0,128,0,0"
-                                 Text="{Binding SelectedLogFile.Content.Value,
-                                                Mode=OneWay}"
-                                 TextWrapping="Wrap" />
                     </Grid>
                 </TabItem>
             </TabControl>

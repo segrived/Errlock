@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Shell;
 using Errlock.Lib.Logger;
 using Errlock.Lib.Modules;
@@ -123,6 +124,15 @@ namespace Errlock
         {
             locator.MainWindowViewModel.SelectedLogFile = 
                 LogFilesList.SelectedItem as SessionLogFile;
+        }
+
+        private void LogListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (SessionList.SelectedIndex == -1) {
+                return;
+            }
+            var logFile = LogFilesList.SelectedItem as SessionLogFile;
+            new LogViewerView(logFile).ShowDialog();
         }
     }
 }

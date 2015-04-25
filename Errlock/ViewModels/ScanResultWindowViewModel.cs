@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Errlock.Lib;
+﻿using Errlock.Lib;
 using Errlock.Lib.Modules;
 
 namespace Errlock.ViewModels

@@ -76,6 +76,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\EnumToStringConverter.cs" />
+    <Compile Include="ViewModels\LogViewerViewModel.cs" />
     <Compile Include="Views\AboutWindowView.xaml.cs">
       <DependentUpon>AboutWindowView.xaml</DependentUpon>
     </Compile>
@@ -83,6 +84,9 @@
     <Compile Include="Converters\BoolToValueConverter.cs" />
     <Compile Include="Lib\Bindable.cs" />
     <Compile Include="Locators\ViewModelLocator.cs" />
+    <Compile Include="Views\LogViewerView.xaml.cs">
+      <DependentUpon>LogViewerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingsWindowView.xaml.cs">
       <DependentUpon>SettingsWindowView.xaml</DependentUpon>
     </Compile>
@@ -125,6 +129,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\LogViewerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\NewSessionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

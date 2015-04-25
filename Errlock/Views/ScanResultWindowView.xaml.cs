@@ -6,10 +6,7 @@ using Errlock.ViewModels;
 
 namespace Errlock.Views
 {
-    /// <summary>
-    /// Interaction logic for ScanResultWindowView.xaml
-    /// </summary>
-    public partial class ScanResultWindowView : Window
+    public partial class ScanResultWindowView
     {
         private readonly ScanResultWindowViewModel _viewModel;
 

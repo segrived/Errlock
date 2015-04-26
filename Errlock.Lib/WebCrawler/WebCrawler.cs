@@ -31,9 +31,9 @@ namespace Errlock.Lib.WebCrawler
 
         private HashSet<string> FetchLinks(string url)
         {
-            var parser = new Parser(Options);
+            var parser = new Parser(this.Options, url);
             try {
-                var webParserResult = parser.Process(url);
+                var webParserResult = parser.GetRequest();
                 if (! webParserResult.IsHtmlPage()) {
                     webParserResult.Dispose();
                     return new HashSet<string>();

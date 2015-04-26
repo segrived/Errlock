@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using Errlock.Lib.Helpers;
 using Errlock.Lib.Logger;
 using Errlock.Lib.Modules.PublicFinder.Notices;
@@ -45,12 +46,11 @@ namespace Errlock.Lib.Modules.PublicFinder
         {
             const string format = "Сканирование начато, будет просканировано {0} вариантов";
             this.Logger.Log(string.Format(format, this.Urls.Count), LoggerMessageType.Info);
-            var options = new WebParserOptions { Method = "HEAD" };
+            var options = new WebParserOptions {
+                MaxRedirections = 10,
+                Timeout = 3000
+            };
             // Если пользоваль выбора отправу GET запросов вместо HEAD
-            if (this.Config.UseGetRequests) {
-                options.Method = "GET";
-            }
-            var parser = new Parser(options);
             for (int i = 0; i < this.Urls.Count; i++) {
                 if (this.Token.IsCancellationRequested) {
                     return ModuleScanStatus.Canceled;
@@ -58,20 +58,22 @@ namespace Errlock.Lib.Modules.PublicFinder
                 try {
                     string urlPart = this.Urls[i];
                     string url = new Uri(new Uri(session.Url), urlPart).AbsoluteUri;
-                    using (var result = parser.Process(url)) {
+                    string requestType = this.Config.UseGetRequests ? "GET" : "HEAD";
+                    using (var result = new Parser(options, url).Request(requestType)) {
                         AddMessage(
                             string.Format("Обработка [{2} из {3}] | [{0}] {1} ",
-                                result.Status, url, i + 1, this.Urls.Count), LoggerMessageType.Info);
-                        if (this.Config.DetectSuspicious && result.Status == 403) {
+                                (int)result.StatusCode, url, i + 1, this.Urls.Count), 
+                                LoggerMessageType.Info);
+                        if (this.Config.DetectSuspicious && result.StatusCode == HttpStatusCode.Forbidden) {
                             var notice = new SuspiciousUrl403Notice(session, url);
                             this.AddNotice(notice);
                         }
-                        if (this.Config.DetectSuspicious && result.Status == 401) {
+                        if (this.Config.DetectSuspicious && result.StatusCode == HttpStatusCode.Unauthorized) {
                             string header = result.Headers["WWW-Authenticate"];
                             var notice = new SuspiciousUrl401Notice(session, url, header);
                             this.AddNotice(notice);
                         }
-                        if (result.Status == 200) {
+                        if (result.StatusCode == HttpStatusCode.OK) {
                             var notice = new OpenResourceNotice(session, url);
                             this.AddNotice(notice);
                         }

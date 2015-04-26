@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Errlock"
         Width="920"
-        Height="575"
+        Height="625"
         DataContext="{Binding Source={StaticResource Locator},
                               Path=MainWindowViewModel}"
         WindowStartupLocation="CenterScreen">
@@ -31,7 +31,7 @@
             </Menu>
         </DockPanel>
         <Grid Width="219"
-              Margin="10,34,0,180"
+              Margin="10,34,0,143"
               HorizontalAlignment="Left">
             <ListBox x:Name="SessionList"
                      Margin="0,0,0,37"
@@ -73,7 +73,7 @@
                 </StackPanel>
             </Button>
         </Grid>
-        <Grid Margin="234,34,0,180">
+        <Grid Margin="234,34,0,143">
             <TabControl Height="Auto"
                         Margin="0,0,10,0"
                         VerticalAlignment="Stretch"
@@ -220,7 +220,7 @@
             </TabControl>
         </Grid>
         <RichTextBox x:Name="LogData"
-                     Height="165"
+                     Height="128"
                      Margin="10,0,10,10"
                      VerticalAlignment="Bottom"
                      TextChanged="LogData_TextChanged">

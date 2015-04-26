@@ -12,9 +12,12 @@ namespace Errlock.ViewModels
         {
             this.Config = new PasswordCrackerConfig {
                 Login = "admin",
-                RequestString = @"login.php?login={{login}}&password={{password}}",
+                RequestUrl = "login",
+                RequestParameters = @"login={{login}}&password={{password}}",
                 RequestType = RequestType.Post,
-                InvalidPasswordAction = InvalidPasswordAction.Render403
+                InvalidPasswordAction = InvalidPasswordAction.Render403,
+                PasswordsCount = 100,
+                StopAfterFirstMatch = true
             };
         }
     }

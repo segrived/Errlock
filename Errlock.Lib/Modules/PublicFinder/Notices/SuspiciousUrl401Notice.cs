@@ -19,7 +19,7 @@ namespace Errlock.Lib.Modules.PublicFinder.Notices
             }
         }
 
-        public string HeaderString { get; set; }
+        private string HeaderString { get; set; }
 
         public SuspiciousUrl401Notice(Session session, string linkedUrl, string headerString)
             : base(session, linkedUrl)

@@ -16,8 +16,7 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
                 Click="StartBtn_Click"
-                Content="Запустить тест"
-                IsEnabled="{Binding IsModuleSelected}" />
+                Content="Запустить тест" />
         <Button x:Name="StopBtn"
                 Width="181"
                 Height="33"
@@ -26,23 +25,31 @@
                 VerticalAlignment="Bottom"
                 Click="StopBtn_Click"
                 Content="Остановить тест" />
-        <GroupBox Header="Настройки запроса" Margin="10,10,10,0" VerticalAlignment="Top" Height="58">
+        <GroupBox Height="58"
+                  Margin="10,10,10,0"
+                  VerticalAlignment="Top"
+                  Header="Настройки запроса">
             <Grid>
-                <CheckBox Margin="10,10,10,0"
-        		Content="отправлять GET запросы вместо HEAD"
-        		IsChecked="{Binding Config.UseGetRequests}" Height="15" VerticalAlignment="Top" />
+                <CheckBox Height="15"
+                          Margin="10,10,10,0"
+                          VerticalAlignment="Top"
+                          Content="отправлять GET запросы вместо HEAD"
+                          IsChecked="{Binding Config.UseGetRequests}" />
             </Grid>
         </GroupBox>
-        <GroupBox Header="Настройки анализа ответа сервера" Margin="10,73,10,0" VerticalAlignment="Top" Height="76">
+        <GroupBox Height="76"
+                  Margin="10,73,10,0"
+                  VerticalAlignment="Top"
+                  Header="Настройки анализа ответа сервера">
             <Grid>
                 <CheckBox Margin="10,10,10,0"
-            		VerticalAlignment="Top"
-            		Content="пытаться использовать различные вариации"
-            		IsChecked="{Binding Config.UsePermutations}" />
+                          VerticalAlignment="Top"
+                          Content="пытаться использовать различные вариации"
+                          IsChecked="{Binding Config.UsePermutations}" />
                 <CheckBox Margin="10,30,10,0"
-            		VerticalAlignment="Top"
-            		Content="считать ответы с кодом 401 и 403 подозрительными"
-            		IsChecked="{Binding Config.DetectSuspicious}" />
+                          VerticalAlignment="Top"
+                          Content="считать ответы с кодом 401 и 403 подозрительными"
+                          IsChecked="{Binding Config.DetectSuspicious}" />
             </Grid>
         </GroupBox>
     </Grid>

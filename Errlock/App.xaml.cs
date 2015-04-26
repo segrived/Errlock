@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Errlock.Lib;
 using Errlock.Lib.AppConfig;
 using Errlock.Lib.Logger;
 
@@ -11,7 +12,7 @@ namespace Errlock
 
         public static readonly Logger Logger = new Logger((input, type) => {
             string time = DateTime.Now.ToString("HH:mm:ss");
-            return String.Format("{0} | [{1}] {2}", time, type, input);
+            return String.Format("{0} | [{1}] {2}", time, type.GetDescription(), input);
         });
 
         protected override void OnStartup(StartupEventArgs e)

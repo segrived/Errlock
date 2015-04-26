@@ -1,17 +1,21 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace Errlock.Lib.Logger
 {
     public enum LoggerMessageType
     {
+        [Description("Информация")]
         Info,
+        [Description("Предупреждение")]
         Warn,
+        [Description("Ошибка")]
         Error
     }
 
     public delegate string MessageFormatter(string input, LoggerMessageType type);
 
-    public class Logger : ILogger
+    public sealed class Logger : ILogger
     {
         private readonly MessageFormatter _formatter;
 
@@ -27,7 +31,7 @@ namespace Errlock.Lib.Logger
 
         public event EventHandler<LoggerEventArgs> NewMessage;
 
-        protected virtual void OnNewMessage(string message, LoggerMessageType messageType)
+        private void OnNewMessage(string message, LoggerMessageType messageType)
         {
             var handle = this.NewMessage;
             string formattedMessage = this._formatter.Invoke(message, messageType);

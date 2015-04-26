@@ -66,6 +66,7 @@
     <Compile Include="Modules\ModuleNoticeEventArgs.cs" />
     <Compile Include="Modules\ModuleScanResult.cs" />
     <Compile Include="Modules\ModuleScanResultEventArgs.cs" />
+    <Compile Include="Modules\PasswordCracker\Notices\PasswordMatchNotice.cs" />
     <Compile Include="Modules\PasswordCracker\PasswordCracker.cs" />
     <Compile Include="Modules\PasswordCracker\PasswordCrackerConfig.cs" />
     <Compile Include="Modules\PublicFinder\Notices\OpenResourceNotice.cs" />
@@ -82,7 +83,6 @@
     <Compile Include="WebCrawler\WebCrawler.cs" />
     <Compile Include="WebParser\Parser.cs" />
     <Compile Include="WebParser\WebParserOptions.cs" />
-    <Compile Include="WebParser\WebParserResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

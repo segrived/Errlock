@@ -50,6 +50,7 @@
     <Compile Include="AppConfig\ErrlockConfigModel.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Helpers\AppHelpers.cs" />
+    <Compile Include="Helpers\EnumHelpers.cs" />
     <Compile Include="Helpers\GuidHelpers.cs" />
     <Compile Include="Helpers\SerializationHelpers.cs" />
     <Compile Include="Helpers\WebHelpers.cs" />
@@ -65,6 +66,8 @@
     <Compile Include="Modules\ModuleNoticeEventArgs.cs" />
     <Compile Include="Modules\ModuleScanResult.cs" />
     <Compile Include="Modules\ModuleScanResultEventArgs.cs" />
+    <Compile Include="Modules\PasswordCracker\PasswordCracker.cs" />
+    <Compile Include="Modules\PasswordCracker\PasswordCrackerConfig.cs" />
     <Compile Include="Modules\PublicFinder\Notices\OpenResourceNotice.cs" />
     <Compile Include="Modules\PublicFinder\Notices\SuspiciousUrl403Notice.cs" />
     <Compile Include="Modules\PublicFinder\Notices\SuspiciousUrl401Notice.cs" />

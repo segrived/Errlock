@@ -79,6 +79,7 @@
     <Compile Include="Converters\EnumToStringConverter.cs" />
     <Compile Include="ViewModels\CloseableViewModel.cs" />
     <Compile Include="ViewModels\LogViewerViewModel.cs" />
+    <Compile Include="ViewModels\PasswordCrackerPageViewModel.cs" />
     <Compile Include="Views\AboutWindowView.xaml.cs">
       <DependentUpon>AboutWindowView.xaml</DependentUpon>
     </Compile>
@@ -88,6 +89,9 @@
     <Compile Include="Locators\ViewModelLocator.cs" />
     <Compile Include="Views\LogViewerView.xaml.cs">
       <DependentUpon>LogViewerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PasswordCrackerPageView.xaml.cs">
+      <DependentUpon>PasswordCrackerPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsWindowView.xaml.cs">
       <DependentUpon>SettingsWindowView.xaml</DependentUpon>
@@ -136,6 +140,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NewSessionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PasswordCrackerPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

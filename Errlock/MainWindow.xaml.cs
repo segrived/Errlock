@@ -19,14 +19,7 @@ namespace Errlock
         public MainWindow()
         {
             InitializeComponent();
-            JumpList list = new JumpList();
-            JumpTask task = new JumpTask {
-                Title = "Errlock Console",
-                Description = " Start console version",
-                ApplicationPath = "ErrlockConsole.exr"
-            };
-            list.JumpItems.Add(task);
-            list.Apply();
+
             locator.MainWindowViewModel.Sessions = Session.EnumerateSessions();
 
             Session.SessionChanged +=

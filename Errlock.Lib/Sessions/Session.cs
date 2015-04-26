@@ -24,27 +24,33 @@ namespace Errlock.Lib.Sessions
         private const string InfoFileName = "info.yml";
 
         /// <summary>
-        /// Файл с данными анализа
-        /// </summary>
-        private const string AnalyseFileName = "analyse.yml";
-
-        /// <summary>
         /// Директория, в которой хранятся данные сессий
         /// </summary>
         private static readonly string SessionsDirectory =
             Path.Combine(AppHelpers.DefaultConfigPath, "sessions");
 
+        private const string LogsDirectory = "logs";
+
+        /// <summary>
+        /// Идентификатор сессии
+        /// </summary>
         [YamlMember]
         public Guid Id { get; set; }
 
+        /// <summary>
+        /// Адрес сайта
+        /// </summary>
         [YamlMember]
         public string Url { get; set; }
 
+        /// <summary>
+        /// Настройки анализа
+        /// </summary>
         [YamlMember]
         public SessionScanOptions Options { get; set; }
 
         [YamlIgnore]
-        public IEnumerable<SessionLogFile> Logs
+        public IEnumerable<SessionLogFile> AllLogs
         {
             get { return this.EnumerateLogs().OrderByDescending(x => x.CreatingDate); }
         }
@@ -55,8 +61,6 @@ namespace Errlock.Lib.Sessions
         public Session()
         {
             this.Id = Guid.NewGuid();
-            this.Url = string.Empty;
-            this.Options = new SessionScanOptions();
         }
 
         /// <summary>
@@ -65,9 +69,8 @@ namespace Errlock.Lib.Sessions
         /// </summary>
         /// <param name="url">URL</param>
         /// <param name="options">Настройки сканирования сессии</param>
-        public Session(string url, SessionScanOptions options)
+        public Session(string url, SessionScanOptions options) : this()
         {
-            this.Id = Guid.NewGuid();
             this.Url = url;
             this.Options = options;
         }
@@ -92,7 +95,7 @@ namespace Errlock.Lib.Sessions
         /// <returns></returns>
         public IEnumerable<SessionLogFile> EnumerateLogs(string module = null)
         {
-            string directory = Path.Combine(this.GetSessionDirectory(), "logs");
+            string directory = Path.Combine(this.GetSessionDirectory(), LogsDirectory);
             if (module != null) {
                 directory = Path.Combine(directory, module);
             }
@@ -102,9 +105,13 @@ namespace Errlock.Lib.Sessions
                 .SkipExceptions();
         }
 
+        /// <summary>
+        /// Сохраняет лог работы модуля в файл
+        /// </summary>
+        /// <param name="log">Лог работы, который необходимо сохранить</param>
         public void SaveLog(SessionScanLog log)
         {
-            string directory = Path.Combine(this.GetSessionDirectory(), "logs", log.Module);
+            string directory = Path.Combine(this.GetSessionDirectory(), LogsDirectory, log.Module);
             if (! Directory.Exists(directory)) {
                 Directory.CreateDirectory(directory);
             }
@@ -123,8 +130,8 @@ namespace Errlock.Lib.Sessions
             string sessionDir = this.GetSessionDirectory();
             // Создание необходимых директорий
             Directory.CreateDirectory(sessionDir);
-            Directory.CreateDirectory(Path.Combine(sessionDir, "logs"));
-            string sessionInfoFile = Path.Combine(sessionDir, "info.yml");
+            Directory.CreateDirectory(Path.Combine(sessionDir, LogsDirectory));
+            string sessionInfoFile = Path.Combine(sessionDir, InfoFileName);
             // Выбор типа действия для события (создан или изменен)
             var eventType = File.Exists(sessionInfoFile)
                                 ? SessionEventType.Modified

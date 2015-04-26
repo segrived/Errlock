@@ -188,13 +188,29 @@
                                     <EventSetter Event="MouseDoubleClick" Handler="LogListBoxItem_MouseDoubleClick" />
                                 </Style>
                             </ListBox.ItemContainerStyle>
+                            <ListBox.Resources>
+                                <BitmapImage x:Key="LogIcon" UriSource="Media/Images/log_32.png" />
+                            </ListBox.Resources>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel x:Name="LogItem"
-                                                HorizontalAlignment="Left"
-                                                VerticalAlignment="Center">
-                                        <TextBlock FontWeight="Bold" Text="{Binding Module}" />
-                                        <TextBlock Text="{Binding CreatingDate}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="32"
+                                               Height="32"
+                                               Margin="0,0,10,0"
+                                               HorizontalAlignment="Center"
+                                               Source="{StaticResource LogIcon}" />
+                                        <StackPanel x:Name="LogItem"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center">
+                                            <TextBlock>
+                                                <Run Text="Модуль: " />
+                                                <Run FontWeight="Bold" Text="{Binding Module}" />
+                                            </TextBlock>
+                                            <TextBlock>
+                                                <Run Text="Дата создания: " />
+                                                <Run FontStyle="Italic" Text="{Binding CreatingDate, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}}" />
+                                            </TextBlock>
+                                        </StackPanel>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>

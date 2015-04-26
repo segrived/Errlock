@@ -46,7 +46,7 @@ namespace Errlock.Lib.Sessions
         [YamlIgnore]
         public IEnumerable<SessionLogFile> Logs
         {
-            get { return this.EnumerateLogs(); }
+            get { return this.EnumerateLogs().OrderByDescending(x => x.CreatingDate); }
         }
 
         /// <summary>

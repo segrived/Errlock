@@ -39,6 +39,7 @@ namespace Errlock.Lib.Modules.PasswordCracker
 
         protected override ModuleScanStatus Process(Session session, IProgress<int> progress)
         {
+            return ModuleScanStatus.Completed;
         }
     }
 }

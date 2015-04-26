@@ -14,7 +14,7 @@ namespace Errlock.Lib.Sessions
             get { return new Lazy<String>(() => File.ReadAllText(this.LogFilePath)); }
         }
 
-        public SessionLogFile(string logFile)
+        internal SessionLogFile(string logFile)
         {
             this.LogFilePath = logFile;
             this.Module = Directory.GetParent(logFile).Name;

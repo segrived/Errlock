@@ -123,6 +123,18 @@ namespace Errlock.Lib.Sessions
         }
 
         /// <summary>
+        /// Удаляет все созданные логи текущей сессии
+        /// </summary>
+        public void DeleteLogs()
+        {
+            string directory = Path.Combine(this.GetSessionDirectory(), LogsDirectory);
+            if (Directory.Exists(directory)) {
+                Directory.Delete(directory);
+                Directory.CreateDirectory(directory);
+            }
+        }
+
+        /// <summary>
         /// Сохраняет или обновляет существующую сессию
         /// </summary>
         public void Save()

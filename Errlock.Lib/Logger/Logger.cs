@@ -7,8 +7,10 @@ namespace Errlock.Lib.Logger
     {
         [Description("Информация")]
         Info,
+
         [Description("Предупреждение")]
         Warn,
+
         [Description("Ошибка")]
         Error
     }

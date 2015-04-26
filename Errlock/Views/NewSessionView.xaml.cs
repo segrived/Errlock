@@ -1,15 +1,10 @@
-﻿using System;
-using System.Windows;
-using Errlock.Lib.Sessions;
+﻿using Errlock.Lib.Sessions;
 using Errlock.ViewModels;
 
 namespace Errlock.Views
 {
     public partial class NewSession
     {
-        private readonly NewSessionViewModel _viewModel = 
-            new NewSessionViewModel();
-
         private readonly SessionScanOptions _defaultOptions = new SessionScanOptions {
             FetchPerPage = 20,
             MaxLinks = 100,
@@ -17,6 +12,9 @@ namespace Errlock.Views
             UseRandomLinks = true,
             IngoreAnchors = true
         };
+
+        private readonly NewSessionViewModel _viewModel =
+            new NewSessionViewModel();
 
         public NewSession()
         {

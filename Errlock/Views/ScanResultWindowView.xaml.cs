@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Windows;
 using System.Windows.Navigation;
 using Errlock.Lib.Modules;
 using Errlock.ViewModels;

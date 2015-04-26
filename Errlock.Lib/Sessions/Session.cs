@@ -23,13 +23,13 @@ namespace Errlock.Lib.Sessions
         /// </summary>
         private const string InfoFileName = "info.yml";
 
+        private const string LogsDirectory = "logs";
+
         /// <summary>
         /// Директория, в которой хранятся данные сессий
         /// </summary>
         private static readonly string SessionsDirectory =
             Path.Combine(AppHelpers.DefaultConfigPath, "sessions");
-
-        private const string LogsDirectory = "logs";
 
         /// <summary>
         /// Идентификатор сессии

@@ -16,42 +16,32 @@ namespace Errlock.Lib.Modules.PasswordCracker
     {
         [Description("Перенаправление обратно на страницу входа")]
         RedirectBack,
+
         [Description("Возврат 403 кода ошибки")]
         Render403
     }
 
-    public enum RequestType
-    {
-        [Description("GET")]
-        Get,
-        [Description("POST")]
-        Post
-    }
-
     public class PasswordCracker : Module<PasswordCrackerConfig>
     {
-        private List<string> PasswordList { get; set; }
-
         // Кэшируем для более высокой производительности
         private static readonly Lazy<List<string>> PasswordListCache = new Lazy<List<string>>(
             () => PasswordCrackerData.Passwords.Lines().ToList());
 
-        public PasswordCracker(PasswordCrackerConfig config) : base(config)
-        {
-
-        }
+        private List<string> PasswordList { get; set; }
 
         public override bool IsSupportProgressReporting
         {
             get { return true; }
         }
 
+        public PasswordCracker(PasswordCrackerConfig config) : base(config) { }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private string ProcessParameters(string password)
         {
             return this.Config.RequestParameters
-                .Replace("{{login}}", this.Config.Login)
-                .Replace("{{password}}", password);
+                       .Replace("{{login}}", this.Config.Login)
+                       .Replace("{{password}}", password);
         }
 
         protected override ModuleScanStatus Process(Session session, IProgress<int> progress)
@@ -67,9 +57,20 @@ namespace Errlock.Lib.Modules.PasswordCracker
                 }
                 string password = PasswordListCache.Value[i];
                 string parameters = ProcessParameters(password);
+
                 var uri = new Uri(sessionUri, this.Config.RequestUrl);
-                using (var response = new Parser(options, uri.AbsoluteUri).PostRequest(parameters)) {
-                    var message = String.Format("Тест пароля `{0}`", password);
+                var parser = new Parser(options, uri.AbsoluteUri);
+
+                Func<HttpWebResponse> requestAction;
+                if (Config.RequestType == RequestType.Get) {
+                    uri = new UriBuilder(uri) { Query = parameters }.Uri;
+                    requestAction = () => parser.GetRequest();
+                } else {
+                    requestAction = () => parser.PostRequest(parameters);
+                }
+
+                using (var response = requestAction.Invoke()) {
+                    string message = String.Format("Тест пароля `{0}`", password);
                     AddMessage(message, LoggerMessageType.Info);
                     if (this.Config.InvalidPasswordAction == InvalidPasswordAction.Render403 &&
                         response.StatusCode == HttpStatusCode.Forbidden) {
@@ -82,14 +83,16 @@ namespace Errlock.Lib.Modules.PasswordCracker
                     var notice = new PasswordMatchNotice(session, uri.AbsoluteUri, this.Config.Login,
                         password);
                     AddNotice(notice);
-                    var successMessage = String.Format("Ни один из триггеров не сработал, возможно найден пароль. Пароль: `{0}` подошел", password);
+                    string successMessage =
+                        String.Format(
+                            "Ни один из триггеров не сработал, возможно найден пароль. Пароль: `{0}` подошел",
+                            password);
                     AddMessage(successMessage, LoggerMessageType.Info);
                     if (this.Config.StopAfterFirstMatch) {
                         return ModuleScanStatus.Completed;
                     }
                 }
                 progress.Report((int)((double)i / this.Config.PasswordsCount * 100));
-                
             }
             return ModuleScanStatus.Completed;
         }

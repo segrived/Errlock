@@ -7,13 +7,6 @@ namespace Errlock.Lib.Modules.PasswordCracker.Notices
         private string Login { get; set; }
         private string Password { get; set; }
 
-        public PasswordMatchNotice(Session session, string linkedUrl, string login, string password)
-            : base(session, linkedUrl)
-        {
-            this.Login = login;
-            this.Password = password;
-        }
-
         public override string Text
         {
             get
@@ -27,6 +20,13 @@ namespace Errlock.Lib.Modules.PasswordCracker.Notices
         public override NoticePriority Priority
         {
             get { return NoticePriority.Info; }
+        }
+
+        public PasswordMatchNotice(Session session, string linkedUrl, string login, string password)
+            : base(session, linkedUrl)
+        {
+            this.Login = login;
+            this.Password = password;
         }
     }
 }

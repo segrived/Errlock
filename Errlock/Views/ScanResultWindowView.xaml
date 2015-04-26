@@ -28,7 +28,8 @@
                             <Style TargetType="ListBoxItem">
                                 <Setter Property="Background">
                                     <Setter.Value>
-                                        <SolidColorBrush Color="{Binding Path=Priority, Converter={StaticResource PriorityToColor}}" />
+                                        <SolidColorBrush
+                                            Color="{Binding Path=Priority, Converter={StaticResource PriorityToColor}}" />
                                     </Setter.Value>
                                 </Setter>
                             </Style>
@@ -60,10 +61,12 @@
                                     <TextBlock Text="{Binding Information}" TextWrapping="WrapWithOverflow" />
                                     <TextBlock FontStyle="Italic">
                                         <Run Text="Важность: " />
-                                        <Run Text="{Binding Priority, Mode=OneWay, Converter={StaticResource EnumToString}}" />
+                                        <Run
+                                            Text="{Binding Priority, Mode=OneWay, Converter={StaticResource EnumToString}}" />
                                     </TextBlock>
                                     <TextBlock>
-                                        <Hyperlink NavigateUri="{Binding LinkedUrl}" RequestNavigate="Hyperlink_RequestNavigate">
+                                        <Hyperlink NavigateUri="{Binding LinkedUrl}"
+                                                   RequestNavigate="Hyperlink_RequestNavigate">
                                             <Run Text="{Binding LinkedUrl, Mode=OneWay}" />
                                         </Hyperlink>
                                     </TextBlock>
@@ -81,7 +84,8 @@
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="Visibility" Value="Collapsed" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=NoticesList, Path=Items.Count}" Value="0">
+                                    <DataTrigger Binding="{Binding ElementName=NoticesList, Path=Items.Count}"
+                                                 Value="0">
                                         <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
                                 </Style.Triggers>

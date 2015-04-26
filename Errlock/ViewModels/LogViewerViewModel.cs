@@ -7,7 +7,7 @@ namespace Errlock.ViewModels
     {
         public SessionLogFile LogData
         {
-            get { return Get<SessionLogFile>(); } 
+            get { return Get<SessionLogFile>(); }
             set { Set(value); }
         }
     }

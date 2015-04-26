@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
 
 namespace Errlock.Lib.Helpers
 {
@@ -12,11 +11,10 @@ namespace Errlock.Lib.Helpers
         {
             Uri uriResult;
             bool result = Uri.TryCreate(url, UriKind.Absolute, out uriResult)
-                && (uriResult.Scheme == Uri.UriSchemeHttp 
-                || uriResult.Scheme == Uri.UriSchemeHttps);
+                          && (uriResult.Scheme == Uri.UriSchemeHttp
+                              || uriResult.Scheme == Uri.UriSchemeHttps);
             return result;
         }
-
 
         public static IEnumerable<string> Permutations(
             IEnumerable<string> input1, IEnumerable<string> input2, string sep)

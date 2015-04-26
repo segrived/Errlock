@@ -7,6 +7,8 @@ namespace Errlock.ViewModels
 {
     public class NewSessionViewModel : CloseableViewModel
     {
+        private string _protocolPart;
+        private string _urlPart;
         public RelayCommand SaveSessionCommand { get; private set; }
 
         public Session Session
@@ -20,7 +22,6 @@ namespace Errlock.ViewModels
             get { return new List<string> { "http://", "https://" }; }
         }
 
-        private string _protocolPart;
         public string ProtocolPart
         {
             get { return this._protocolPart; }
@@ -32,7 +33,6 @@ namespace Errlock.ViewModels
             }
         }
 
-        private string _urlPart;
         public string UrlPart
         {
             get { return this._urlPart; }
@@ -48,7 +48,6 @@ namespace Errlock.ViewModels
         {
             get { return this.ProtocolPart + this.UrlPart; }
         }
-
 
         public NewSessionViewModel()
         {
@@ -66,9 +65,8 @@ namespace Errlock.ViewModels
         {
             if (this.ProtocolPart == null || this.UrlPart == null) {
                 return false;
-            } else {
-                return WebHelpers.IsValidUrl(this.FullUrl);
             }
+            return WebHelpers.IsValidUrl(this.FullUrl);
         }
     }
 }

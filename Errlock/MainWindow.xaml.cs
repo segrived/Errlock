@@ -113,7 +113,7 @@ namespace Errlock
 
         private void LogFilesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            locator.MainWindowViewModel.SelectedLogFile = 
+            locator.MainWindowViewModel.SelectedLogFile =
                 LogFilesList.SelectedItem as SessionLogFile;
         }
 

@@ -1,6 +1,6 @@
 ﻿using Errlock.Lib;
 using Errlock.Lib.Modules.PasswordCracker;
-using Errlock.Lib.Modules.PublicFinder;
+using Errlock.Lib.WebParser;
 
 namespace Errlock.ViewModels
 {

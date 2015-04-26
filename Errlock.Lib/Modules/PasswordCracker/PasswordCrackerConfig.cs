@@ -1,4 +1,6 @@
-﻿namespace Errlock.Lib.Modules.PasswordCracker
+﻿using Errlock.Lib.WebParser;
+
+namespace Errlock.Lib.Modules.PasswordCracker
 {
     public class PasswordCrackerConfig : ModuleConfig
     {

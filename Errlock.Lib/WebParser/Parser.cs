@@ -1,12 +1,22 @@
-﻿using System.Net;
+﻿using System.ComponentModel;
+using System.Net;
 using System.Text;
 
 namespace Errlock.Lib.WebParser
 {
+    public enum RequestType
+    {
+        [Description("GET")]
+        Get,
+
+        [Description("POST")]
+        Post
+    }
+
     public class Parser
     {
-        private WebParserOptions Options { get; set; }
         private readonly HttpWebRequest _request;
+        private WebParserOptions Options { get; set; }
 
         public Parser(WebParserOptions options, string url)
         {
@@ -31,6 +41,12 @@ namespace Errlock.Lib.WebParser
                 }
             }
             return response;
+        }
+
+        public HttpWebResponse Request(RequestType type = RequestType.Get)
+        {
+            string method = type.ToString().ToUpper();
+            return this.Request(method);
         }
 
         public HttpWebResponse Request(string requestType = "GET")
@@ -61,6 +77,5 @@ namespace Errlock.Lib.WebParser
             }
             return GetResponse();
         }
-
     }
 }

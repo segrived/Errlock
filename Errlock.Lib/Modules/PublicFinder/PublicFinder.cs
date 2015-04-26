@@ -62,13 +62,15 @@ namespace Errlock.Lib.Modules.PublicFinder
                     using (var result = new Parser(options, url).Request(requestType)) {
                         AddMessage(
                             string.Format("Обработка [{2} из {3}] | [{0}] {1} ",
-                                (int)result.StatusCode, url, i + 1, this.Urls.Count), 
-                                LoggerMessageType.Info);
-                        if (this.Config.DetectSuspicious && result.StatusCode == HttpStatusCode.Forbidden) {
+                                (int)result.StatusCode, url, i + 1, this.Urls.Count),
+                            LoggerMessageType.Info);
+                        if (this.Config.DetectSuspicious &&
+                            result.StatusCode == HttpStatusCode.Forbidden) {
                             var notice = new SuspiciousUrl403Notice(session, url);
                             this.AddNotice(notice);
                         }
-                        if (this.Config.DetectSuspicious && result.StatusCode == HttpStatusCode.Unauthorized) {
+                        if (this.Config.DetectSuspicious &&
+                            result.StatusCode == HttpStatusCode.Unauthorized) {
                             string header = result.Headers["WWW-Authenticate"];
                             var notice = new SuspiciousUrl401Notice(session, url, header);
                             this.AddNotice(notice);

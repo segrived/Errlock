@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Errlock.Lib.Helpers
 {
-    public class EnumHelpers
+    public static class EnumHelpers
     {
         public static Dictionary<T, string> EnumToDictionary<T>()
         {

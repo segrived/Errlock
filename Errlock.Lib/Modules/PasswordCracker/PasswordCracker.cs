@@ -27,8 +27,6 @@ namespace Errlock.Lib.Modules.PasswordCracker
         private static readonly Lazy<List<string>> PasswordListCache = new Lazy<List<string>>(
             () => PasswordCrackerData.Passwords.Lines().ToList());
 
-        private List<string> PasswordList { get; set; }
-
         public override bool IsSupportProgressReporting
         {
             get { return true; }
@@ -46,7 +44,7 @@ namespace Errlock.Lib.Modules.PasswordCracker
 
         protected override ModuleScanStatus Process(Session session, IProgress<int> progress)
         {
-            var options = new WebParserOptions {
+            var options = new ParserOptions {
                 MaxRedirections = 10,
                 Timeout = 3000
             };
@@ -59,19 +57,19 @@ namespace Errlock.Lib.Modules.PasswordCracker
                 string parameters = ProcessParameters(password);
 
                 var uri = new Uri(sessionUri, this.Config.RequestUrl);
-                var parser = new Parser(options, uri.AbsoluteUri);
-
-                Func<HttpWebResponse> requestAction;
+                
+                Func<Parser, HttpWebResponse> requestAction;
                 if (Config.RequestType == RequestType.Get) {
                     uri = new UriBuilder(uri) { Query = parameters }.Uri;
-                    requestAction = () => parser.GetRequest();
+                    requestAction = p => p.GetRequest();
                 } else {
-                    requestAction = () => parser.PostRequest(parameters);
+                    requestAction = p => p.PostRequest(parameters);
                 }
-
-                using (var response = requestAction.Invoke()) {
+                var parser = new Parser(options, uri.AbsoluteUri);
+                using (var response = requestAction.Invoke(parser)) {
                     string message = String.Format("Тест пароля `{0}`", password);
                     AddMessage(message, LoggerMessageType.Info);
+                    progress.Report((int)((double)i / this.Config.PasswordsCount * 100));
                     if (this.Config.InvalidPasswordAction == InvalidPasswordAction.Render403 &&
                         response.StatusCode == HttpStatusCode.Forbidden) {
                         continue;
@@ -92,7 +90,6 @@ namespace Errlock.Lib.Modules.PasswordCracker
                         return ModuleScanStatus.Completed;
                     }
                 }
-                progress.Report((int)((double)i / this.Config.PasswordsCount * 100));
             }
             return ModuleScanStatus.Completed;
         }

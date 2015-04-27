@@ -52,5 +52,18 @@
                           IsChecked="{Binding Config.DetectSuspicious}" />
             </Grid>
         </GroupBox>
+        <GroupBox Height="150"
+                  Margin="10,154,10,0"
+                  VerticalAlignment="Top"
+                  Header="Пользовательские данные">
+            <Grid>
+                <TextBox Margin="10"
+                         VerticalContentAlignment="Top"
+                         AcceptsReturn="True"
+                         AcceptsTab="True"
+                         Text="{Binding Config.UserWordsList}"
+                         TextWrapping="Wrap" />
+            </Grid>
+        </GroupBox>
     </Grid>
 </Page>

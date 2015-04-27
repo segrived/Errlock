@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows;
 using Errlock.Lib;
 using Errlock.Lib.AppConfig;
@@ -8,6 +9,8 @@ namespace Errlock
 {
     public partial class App
     {
+        Mutex myMutex;
+
         public static readonly AppConfig Config = new AppConfig(ErrlockConfigModel.Defaults);
 
         public static readonly Logger Logger = new Logger((input, type) => {

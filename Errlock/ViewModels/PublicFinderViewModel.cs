@@ -12,7 +12,8 @@ namespace Errlock.ViewModels
             this.Config = new PublicFinderConfig {
                 UsePermutations = true,
                 DetectSuspicious = true,
-                UseGetRequests = false
+                UseGetRequests = false,
+                UserWordsList = ""
             };
         }
     }

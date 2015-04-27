@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using Errlock.Lib.Helpers;
 using Errlock.Lib.Logger;
@@ -40,6 +41,12 @@ namespace Errlock.Lib.Modules.PublicFinder
                     var permutations = WebHelpers.Permutations(data0, data1, separator);
                     this.Urls.AddRange(permutations);
                 }
+            }
+            if (! String.IsNullOrEmpty(this.ModuleConfig.UserWordsList)) {
+                var lines = this.ModuleConfig.UserWordsList
+                    .Lines()
+                    .Where(line => ! string.IsNullOrEmpty(line));
+                this.Urls.AddRange(lines);
             }
         }
 

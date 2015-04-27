@@ -80,9 +80,9 @@
     <Compile Include="ViewModels\CloseableViewModel.cs" />
     <Compile Include="ViewModels\LogViewerViewModel.cs" />
     <Compile Include="ViewModels\PasswordCrackerPageViewModel.cs" />
-    <Compile Include="ViewModels\SettingsWindowViewModel.cs" />
-    <Compile Include="Views\AboutWindowView.xaml.cs">
-      <DependentUpon>AboutWindowView.xaml</DependentUpon>
+    <Compile Include="ViewModels\SettingsPageViewModel.cs" />
+    <Compile Include="Views\AboutPageView.xaml.cs">
+      <DependentUpon>AboutPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\NoticePriorityToColorConverter.cs" />
     <Compile Include="Converters\BoolToValueConverter.cs" />
@@ -94,8 +94,8 @@
     <Compile Include="Views\PasswordCrackerPageView.xaml.cs">
       <DependentUpon>PasswordCrackerPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsWindowView.xaml.cs">
-      <DependentUpon>SettingsWindowView.xaml</DependentUpon>
+    <Compile Include="Views\SettingsPageView.xaml.cs">
+      <DependentUpon>SettingsPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\NewSessionView.xaml.cs">
@@ -116,7 +116,7 @@
     <Compile Include="Views\XSSInjectionView.xaml.cs">
       <DependentUpon>XSSInjectionView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\AboutWindowView.xaml">
+    <Page Include="Views\AboutPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,7 +148,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SettingsWindowView.xaml">
+    <Page Include="Views\SettingsPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -198,12 +198,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Media\Images\tab-quick_16.ico" />
     <Resource Include="Media\Images\tab-secret_16.ico" />
     <Resource Include="Media\Images\tab-xss_16.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Media\Images\tab-home_16.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Media\Images\tab-pass_16.ico" />
@@ -234,13 +230,22 @@
     <Resource Include="Media\Images\log_16.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="FodyWeavers.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Media\Images\sql_16.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Media\Images\log_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\Images\about_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\Images\home_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\Images\search_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\Images\settings_16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

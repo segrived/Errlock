@@ -11,29 +11,8 @@
         <TaskbarItemInfo />
     </Window.TaskbarItemInfo>
     <Grid HorizontalAlignment="Left">
-        <DockPanel Height="25" VerticalAlignment="Top">
-            <Menu BorderBrush="#AAAAAA"
-                  BorderThickness="0 0 0 1"
-                  DockPanel.Dock="Top"
-                  Padding="3">
-                <Menu.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <DockPanel HorizontalAlignment="Stretch" />
-                    </ItemsPanelTemplate>
-                </Menu.ItemsPanel>
-                <MenuItem x:Name="SettingsMenuItem"
-                          Click="SettingsMenuItem_Click_1"
-                          Header="Настройки" />
-                <MenuItem Header="Плагины" />
-                <MenuItem HorizontalAlignment="Right" Header="Справка">
-                    <MenuItem x:Name="AboutMenuItem"
-                              Click="AboutMenuItem_Click"
-                              Header="О программе" />
-                </MenuItem>
-            </Menu>
-        </DockPanel>
         <Grid Width="219"
-              Margin="10,34,0,143"
+              Margin="10,10,0,143"
               HorizontalAlignment="Left">
             <ListBox x:Name="SessionList"
                      Margin="0,0,0,37"
@@ -75,20 +54,24 @@
                 </StackPanel>
             </Button>
         </Grid>
-        <Grid Margin="234,34,0,143">
+        <Grid Margin="234,10,0,143">
             <TabControl Height="Auto"
                         Margin="0,0,10,0"
-                        VerticalAlignment="Stretch"
-                        IsEnabled="{Binding IsSelectedSession}">
+                        VerticalAlignment="Stretch">
                 <TabControl.Resources>
                     <Style TargetType="TabItem">
-                        <Setter Property="Padding" Value="10,6,10,6" />
+                        <Setter Property="Padding" Value="7,4,7,4" />
                     </Style>
                 </TabControl.Resources>
-                <TabItem x:Name="HomeTab">
+                <TabItem x:Name="HomeTab"
+                         IsEnabled="{Binding IsSelectedSession}"
+                         IsSelected="{Binding IsSelectedSession,
+                                              Mode=OneWay}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Margin="0, 0, 10, 0" Source="Media/Images/tab-home_16.ico" />
+                            <Image Width="16"
+                                   Margin="0, 0, 10, 0"
+                                   Source="Media/Images/home_16.png" />
                             <TextBlock Text="Главная" />
                         </StackPanel>
                     </TabItem.Header>
@@ -96,10 +79,12 @@
                         <Frame Padding="10" Source="Views/HomeTabView.xaml" />
                     </Grid>
                 </TabItem>
-                <TabItem x:Name="ModulesTabControl">
+                <TabItem x:Name="ModulesTabControl" IsEnabled="{Binding IsSelectedSession}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Margin="0, 0, 10, 0" Source="Media/Images/tab-home_16.ico" />
+                            <Image Width="16"
+                                   Margin="0, 0, 10, 0"
+                                   Source="Media/Images/search_16.png" />
                             <TextBlock Text="Поиск уязвимостей" />
                         </StackPanel>
                     </TabItem.Header>
@@ -176,10 +161,12 @@
                                      Visibility="Hidden" />
                     </Grid>
                 </TabItem>
-                <TabItem x:Name="LogsTab">
+                <TabItem x:Name="LogsTab" IsEnabled="{Binding IsSelectedSession}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Margin="0, 0, 10, 0" Source="Media/Images/tab-quick_16.ico" />
+                            <Image Width="16"
+                                   Margin="0, 0, 10, 0"
+                                   Source="Media/Images/log_16.png" />
                             <TextBlock Text="Сохраненные логи" />
                         </StackPanel>
                     </TabItem.Header>
@@ -217,6 +204,32 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
+                    </Grid>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="16"
+                                   Margin="0, 0, 10, 0"
+                                   Source="Media/Images/settings_16.png" />
+                            <TextBlock Text="Настройки" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid Background="#FFFFFF">
+                        <Frame Source="Views/SettingsPageView.xaml" />
+                    </Grid>
+                </TabItem>
+                <TabItem IsSelected="True">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="16"
+                                   Margin="0, 0, 10, 0"
+                                   Source="Media/Images/about_16.png" />
+                            <TextBlock Text="О программе" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid Background="#FFFFFF">
+                        <Frame Source="Views/AboutPageView.xaml" />
                     </Grid>
                 </TabItem>
             </TabControl>

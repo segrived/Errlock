@@ -1,0 +1,43 @@
+﻿<Page x:Class="Errlock.Views.AboutPageView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Title="AboutPageView"
+      Loaded="Page_Loaded"
+      d:DesignHeight="300"
+      d:DesignWidth="577.816"
+      mc:Ignorable="d">
+
+    <Grid>
+        <StackPanel Margin="10" Orientation="Vertical">
+            <TextBlock x:Name="ErrlockVersion"
+                       FontSize="26"
+                       FontWeight="Bold"
+                       Text="%Version%"
+                       TextAlignment="Center" />
+            <TextBlock x:Name="ErrlockLibVersion"
+                       FontWeight="Bold"
+                       Foreground="#FF535353"
+                       Padding="0,0,0,15"
+                       Text="%Errlock.Lib Version%"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap" />
+            <TextBlock FontSize="13"
+                       Padding="0,0,0,10"
+                       Text="Программное обеспечение для поиска уязвимостей в веб-приложениях"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap" />
+            <TextBlock FontSize="13"
+                       Padding="0,0,0,10"
+                       Text="Написано на C# с использованием WPF"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap" />
+            <TextBlock Padding="0,0,0,10" TextAlignment="Center">
+                <Hyperlink>https://github.com/segrived/Errlock</Hyperlink>
+            </TextBlock>
+            <TextBlock Text="segrived, 2015" TextAlignment="Center" />
+        </StackPanel>
+
+    </Grid>
+</Page>

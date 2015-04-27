@@ -6,7 +6,8 @@
         Height="400"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <TextBox FontSize="12"
+        <TextBox FontFamily="Courier New"
+                 FontSize="12"
                  IsReadOnly="True"
                  Padding="10"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"

@@ -99,18 +99,6 @@ namespace Errlock
             win.ShowDialog();
         }
 
-        private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            var window = new AboutWindow();
-            window.ShowDialog();
-        }
-
-        private void SettingsMenuitem_Click(object sender, RoutedEventArgs e)
-        {
-            var window = new SettingsWindow();
-            window.ShowDialog();
-        }
-
         private void LogFilesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             locator.MainWindowViewModel.SelectedLogFile =
@@ -124,11 +112,6 @@ namespace Errlock
             }
             var logFile = LogFilesList.SelectedItem as SessionLogFile;
             new LogViewerView(logFile).ShowDialog();
-        }
-
-        private void SettingsMenuItem_Click_1(object sender, RoutedEventArgs e)
-        {
-            new SettingsWindow().ShowDialog();
         }
     }
 }

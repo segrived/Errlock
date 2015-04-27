@@ -2,23 +2,19 @@
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 using Errlock.Lib.Helpers;
 
 namespace Errlock.Views
 {
-    public partial class AboutWindow
+    public partial class AboutPageView : Page
     {
-        public AboutWindow()
+        public AboutPageView()
         {
             InitializeComponent();
         }
 
-        private void OkBtn_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             var assemblyName = Assembly.GetExecutingAssembly().GetName();
             string name = AppHelpers.ProjectName;

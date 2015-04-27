@@ -2,12 +2,9 @@
 
 namespace Errlock.Views
 {
-    /// <summary>
-    /// Interaction logic for XSSInjectionView.xaml
-    /// </summary>
-    public partial class XSSInjectionView : Page
+    public partial class XssInjectionView
     {
-        public XSSInjectionView()
+        public XssInjectionView()
         {
             InitializeComponent();
         }

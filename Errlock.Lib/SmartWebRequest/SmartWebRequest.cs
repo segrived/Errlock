@@ -26,7 +26,7 @@ namespace Errlock.Lib.SmartWebRequest
         public SmartWebRequest(ConnectionConfiguration options, string url)
         {
             this.Options = options;
-            this._request = System.Net.WebRequest.CreateHttp(url);
+            this._request = WebRequest.CreateHttp(url);
             this._request.Timeout = Options.Timeout;
             //this._request.Headers = Options.Headers;
             this._request.UserAgent = Options.UserAgent;

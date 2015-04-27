@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,31 +13,31 @@ using Errlock.Views;
 
 namespace Errlock
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
-        private readonly ViewModelLocator locator = new ViewModelLocator();
+        private readonly ViewModelLocator _locator = new ViewModelLocator();
 
         public MainWindow()
         {
             InitializeComponent();
 
-            locator.MainWindowViewModel.Sessions = Session.EnumerateSessions();
+            _locator.MainWindowViewModel.Sessions = Session.EnumerateSessions();
 
             Session.SessionChanged +=
                 (sender, e) => {
-                    locator.MainWindowViewModel.Sessions = Session.EnumerateSessions();
+                    _locator.MainWindowViewModel.Sessions = Session.EnumerateSessions();
                 };
 
-            App.Logger.NewMessage += (sender, e)
-                                     =>
-                                     Dispatcher.Invoke(
-                                         () => LogData.AppendText(e.FormattedMessage + "\n"));
+            App.Logger.NewMessage += (sender, e) => {
+                Action callback = () => LogData.AppendText(e.FormattedMessage + "\n");
+                Dispatcher.Invoke(callback);
+            };
         }
 
         public async void StartModule(IModule module)
         {
             module.SetLogger(App.Logger);
-            var session = this.locator.MainWindowViewModel.SelectedSession;
+            var session = this._locator.MainWindowViewModel.SelectedSession;
 
             // При поступлении нового предупреждения от модуля
             module.NewNotice +=
@@ -56,6 +57,7 @@ namespace Errlock
                     return null;
                 }
             });
+            ModuleProgress.Value = 0;
             ModuleProgress.Visibility = Visibility.Hidden;
             if (scanResult == null) {
                 return;
@@ -74,7 +76,7 @@ namespace Errlock
         private void SessionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var session = SessionList.SelectedItem as Session;
-            locator.MainWindowViewModel.SelectedSession = session;
+            _locator.MainWindowViewModel.SelectedSession = session;
         }
 
         private void SessionRemoveMenuItem_Click(object sender, RoutedEventArgs e)
@@ -97,12 +99,6 @@ namespace Errlock
         {
             var win = new NewSession();
             win.ShowDialog();
-        }
-
-        private void LogFilesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            locator.MainWindowViewModel.SelectedLogFile =
-                LogFilesList.SelectedItem as SessionLogFile;
         }
 
         private void LogListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)

@@ -41,10 +41,12 @@
                  Text="{Binding ConfigModel.ConnectionConfiguration.MaxRedirections}"
                  TextWrapping="Wrap" />
         <Button x:Name="SaveBtn"
+                Width="200"
                 Height="31"
                 Margin="10,0,0,10"
+                HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
-                Click="SaveBtn_Click" HorizontalAlignment="Left" Width="200">
+                Click="SaveBtn_Click">
             <StackPanel Orientation="Horizontal">
                 <Image Width="16"
                        Height="16"

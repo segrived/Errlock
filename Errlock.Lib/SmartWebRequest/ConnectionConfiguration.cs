@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace Errlock.Lib.SmartWebRequest
+﻿namespace Errlock.Lib.SmartWebRequest
 {
     public class ConnectionConfiguration
     {

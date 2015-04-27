@@ -29,16 +29,6 @@ namespace Errlock.Views
             ((MainWindow)Application.Current.MainWindow).StartModule(this._module);
         }
 
-        private void CancelBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (this._token == null) {
-                return;
-            }
-            this._token.Cancel();
-            this._token.Dispose();
-            this._token = null;
-        }
-
         private void Page_Loaded(object sender, RoutedEventArgs e) { }
 
         private void StopBtn_Click(object sender, RoutedEventArgs e)

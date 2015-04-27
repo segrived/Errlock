@@ -1,8 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Net;
 using System.Text;
 
-namespace Errlock.Lib.WebParser
+namespace Errlock.Lib.SmartWebRequest
 {
     public enum RequestType
     {
@@ -13,17 +14,21 @@ namespace Errlock.Lib.WebParser
         Post
     }
 
-    public class Parser
+    public class SmartWebRequest
     {
-        private readonly HttpWebRequest _request;
-        private WebParserOptions Options { get; set; }
+        public static readonly List<string> UserAgentList =  new List<string> {
+            "Errlock/Bot", "Firefox", "Opera", "Chrome"
+        };
 
-        public Parser(WebParserOptions options, string url)
+        private readonly HttpWebRequest _request;
+        private ConnectionConfiguration Options { get; set; }
+
+        public SmartWebRequest(ConnectionConfiguration options, string url)
         {
             this.Options = options;
-            this._request = WebRequest.CreateHttp(url);
+            this._request = System.Net.WebRequest.CreateHttp(url);
             this._request.Timeout = Options.Timeout;
-            this._request.Headers = Options.Headers;
+            //this._request.Headers = Options.Headers;
             this._request.UserAgent = Options.UserAgent;
             this._request.MaximumAutomaticRedirections = Options.MaxRedirections;
         }

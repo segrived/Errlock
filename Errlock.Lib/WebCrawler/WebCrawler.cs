@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using CsQuery;
 using Errlock.Lib.Sessions;
-using Errlock.Lib.WebParser;
+using Errlock.Lib.SmartWebRequest;
 
 namespace Errlock.Lib.WebCrawler
 {
     internal class WebCrawler
     {
         private Session Session { get; set; }
-        private WebParserOptions Options { get; set; }
+        private ConnectionConfiguration Options { get; set; }
         private HashSet<string> AnalysedUrls { get; set; }
         private HashSet<string> FoundedUrls { get; set; }
 
-        public WebCrawler(Session session, WebParserOptions options)
+        public WebCrawler(Session session, ConnectionConfiguration options)
         {
             this.Session = session;
             this.Options = options;
@@ -31,7 +31,7 @@ namespace Errlock.Lib.WebCrawler
 
         private HashSet<string> FetchLinks(string url)
         {
-            var parser = new Parser(this.Options, url);
+            var parser = new SmartWebRequest.SmartWebRequest(this.Options, url);
             try {
                 var webParserResult = parser.GetRequest();
                 if (! webParserResult.IsHtmlPage()) {
@@ -71,11 +71,12 @@ namespace Errlock.Lib.WebCrawler
                 if (this.FoundedUrls.Count > this.Session.Options.MaxLinks) {
                     yield break;
                 }
-                if (! FoundedUrls.Contains(link)) {
-                    Console.WriteLine(@"{0} {1}", currentDepth, link);
-                    FoundedUrls.Add(link);
-                    yield return link;
+                if (FoundedUrls.Contains(link)) {
+                    continue;
                 }
+                Console.WriteLine(@"{0} {1}", currentDepth, link);
+                FoundedUrls.Add(link);
+                yield return link;
             }
             foreach (string link in links) {
                 var fetched = this.EnumerateLinks(link, currentDepth - 1);

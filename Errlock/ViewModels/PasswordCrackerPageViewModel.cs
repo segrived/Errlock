@@ -1,6 +1,6 @@
 ﻿using Errlock.Lib;
 using Errlock.Lib.Modules.PasswordCracker;
-using Errlock.Lib.WebParser;
+using Errlock.Lib.SmartWebRequest;
 
 namespace Errlock.ViewModels
 {

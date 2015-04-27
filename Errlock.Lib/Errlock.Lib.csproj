@@ -81,8 +81,8 @@
     <Compile Include="Sessions\SessionEventArgs.cs" />
     <Compile Include="Sessions\SessionScanOptions.cs" />
     <Compile Include="WebCrawler\WebCrawler.cs" />
-    <Compile Include="WebParser\Parser.cs" />
-    <Compile Include="WebParser\WebParserOptions.cs" />
+    <Compile Include="SmartWebRequest\SmartWebRequest.cs" />
+    <Compile Include="SmartWebRequest\ConnectionConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

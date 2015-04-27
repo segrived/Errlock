@@ -8,7 +8,7 @@ namespace Errlock
 {
     public partial class App
     {
-        private static readonly AppConfig Config = new AppConfig(ErrlockConfigModel.Defaults);
+        public static readonly AppConfig Config = new AppConfig(ErrlockConfigModel.Defaults);
 
         public static readonly Logger Logger = new Logger((input, type) => {
             string time = DateTime.Now.ToString("HH:mm:ss");

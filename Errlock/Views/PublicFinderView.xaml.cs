@@ -21,11 +21,11 @@ namespace Errlock.Views
             this.DataContext = _viewModel;
         }
 
-        private async void StartBtn_Click(object sender, RoutedEventArgs e)
+        private void StartBtn_Click(object sender, RoutedEventArgs e)
         {
             this._token = new CancellationTokenSource();
             var config = _viewModel.Config;
-            this._module = new PublicFinder(config);
+            this._module = new PublicFinder(config, App.Config.Model.ConnectionConfiguration);
             ((MainWindow)Application.Current.MainWindow).StartModule(this._module);
         }
 

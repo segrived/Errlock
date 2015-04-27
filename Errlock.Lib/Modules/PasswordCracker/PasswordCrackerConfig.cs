@@ -1,4 +1,4 @@
-﻿using Errlock.Lib.WebParser;
+﻿using Errlock.Lib.SmartWebRequest;
 
 namespace Errlock.Lib.Modules.PasswordCracker
 {

@@ -5,6 +5,7 @@ using System.Threading;
 using Errlock.Lib.Helpers;
 using Errlock.Lib.Logger;
 using Errlock.Lib.Sessions;
+using Errlock.Lib.SmartWebRequest;
 
 namespace Errlock.Lib.Modules
 {
@@ -25,19 +26,21 @@ namespace Errlock.Lib.Modules
 
     public abstract class Module<T> : IModule where T : ModuleConfig
     {
-        protected T Config { get; private set; }
+        protected T ModuleConfig { get; private set; }
         protected ILogger Logger { get; private set; }
         private List<ModuleNotice> Notices { get; set; }
         private List<string> Messages { get; set; }
         protected CancellationTokenSource Token { get; set; }
+        public ConnectionConfiguration ConnectionConfiguration { get; set; }
 
-        protected Module(T config)
+        protected Module(T moduleConfig, ConnectionConfiguration connectionConfig)
         {
-            this.Config = config;
+            this.ModuleConfig = moduleConfig;
 
             this.Notices = new List<ModuleNotice>();
             this.Messages = new List<string>();
             this.Progress = new Progress<int>();
+            this.ConnectionConfiguration = connectionConfig;
         }
 
         public Progress<int> Progress { get; set; }

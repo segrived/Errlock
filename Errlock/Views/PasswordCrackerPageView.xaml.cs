@@ -2,7 +2,7 @@
 using System.Windows;
 using Errlock.Lib.Helpers;
 using Errlock.Lib.Modules.PasswordCracker;
-using Errlock.Lib.WebParser;
+using Errlock.Lib.SmartWebRequest;
 using Errlock.ViewModels;
 
 namespace Errlock.Views
@@ -32,7 +32,7 @@ namespace Errlock.Views
         {
             this._token = new CancellationTokenSource();
             var config = _viewModel.Config;
-            this._module = new PasswordCracker(config);
+            this._module = new PasswordCracker(config, App.Config.Model.ConnectionConfiguration);
             ((MainWindow)Application.Current.MainWindow).StartModule(this._module);
         }
 

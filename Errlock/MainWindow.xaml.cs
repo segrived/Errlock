@@ -125,5 +125,10 @@ namespace Errlock
             var logFile = LogFilesList.SelectedItem as SessionLogFile;
             new LogViewerView(logFile).ShowDialog();
         }
+
+        private void SettingsMenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            new SettingsWindow().ShowDialog();
+        }
     }
 }

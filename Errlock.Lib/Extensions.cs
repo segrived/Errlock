@@ -156,9 +156,9 @@ namespace Errlock.Lib
         }
 
         /// <summary>
-        /// Возвращает время в формате Unixtimestamp
+        /// Возвращает время в формате Unixtime
         /// </summary>
-        /// <param name="dateTime"></param>
+        /// <param name="dateTime">Структура DateTime, из которой необохдимо создать Unixtime</param>
         public static double DateTimeToUnixTimestamp(this DateTime dateTime)
         {
             var unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
@@ -166,6 +166,12 @@ namespace Errlock.Lib
             return (double)unixTimeStampInTicks / TimeSpan.TicksPerSecond;
         }
 
+
+        /// <summary>
+        /// Преобразовывает время в формате Unixtime в структуру DateTime
+        /// </summary>
+        /// <param name="unixTime">Unixtime метка</param>
+        /// <returns></returns>
         public static DateTime UnixTimestampToDateTime(this double unixTime)
         {
             var unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);

@@ -21,7 +21,9 @@
                         <DockPanel HorizontalAlignment="Stretch" />
                     </ItemsPanelTemplate>
                 </Menu.ItemsPanel>
-                <MenuItem x:Name="SettingsMenuItem" Header="Настройки" />
+                <MenuItem x:Name="SettingsMenuItem"
+                          Click="SettingsMenuItem_Click_1"
+                          Header="Настройки" />
                 <MenuItem Header="Плагины" />
                 <MenuItem HorizontalAlignment="Right" Header="Справка">
                     <MenuItem x:Name="AboutMenuItem"
@@ -160,10 +162,8 @@
                                     </StackPanel>
                                 </TabItem.Header>
                                 <Grid Background="#FFFFFF">
-                                    <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                                  VerticalScrollBarVisibility="Auto">
-                                        <Frame ScrollViewer.CanContentScroll="True"
-                                               Source="Views/PasswordCrackerPageView.xaml" />
+                                    <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                        <Frame ScrollViewer.CanContentScroll="True" Source="Views/PasswordCrackerPageView.xaml" />
                                     </ScrollViewer>
                                 </Grid>
                             </TabItem>
@@ -186,8 +186,7 @@
                     <Grid Background="#FFFFFF">
                         <ListBox x:Name="LogFilesList" ItemsSource="{Binding SelectedSession.AllLogs}">
                             <ListBox.ItemContainerStyle>
-                                <Style BasedOn="{StaticResource {x:Type ListBoxItem}}"
-                                       TargetType="{x:Type ListBoxItem}">
+                                <Style BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="{x:Type ListBoxItem}">
                                     <EventSetter Event="MouseDoubleClick" Handler="LogListBoxItem_MouseDoubleClick" />
                                 </Style>
                             </ListBox.ItemContainerStyle>
@@ -211,8 +210,7 @@
                                             </TextBlock>
                                             <TextBlock>
                                                 <Run Text="Дата создания: " />
-                                                <Run FontStyle="Italic"
-                                                     Text="{Binding CreatingDate, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}}" />
+                                                <Run FontStyle="Italic" Text="{Binding CreatingDate, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}}" />
                                             </TextBlock>
                                         </StackPanel>
                                     </StackPanel>
@@ -227,6 +225,7 @@
                      Height="128"
                      Margin="10,0,10,10"
                      VerticalAlignment="Bottom"
+                     IsReadOnly="True"
                      TextChanged="LogData_TextChanged">
             <RichTextBox.Resources>
                 <Style TargetType="{x:Type Paragraph}">

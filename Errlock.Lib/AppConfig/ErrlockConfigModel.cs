@@ -10,7 +10,10 @@ namespace Errlock.Lib.AppConfig
             ConnectionConfiguration = new ConnectionConfiguration {
                 MaxRedirections = 12,
                 Timeout = 3500,
-                UserAgent = "SuperBot"
+                UserAgent = "SuperBot",
+                UseProxy = false,
+                ProxyAddress = "",
+                ProxyPort = 0
             }
         };
 

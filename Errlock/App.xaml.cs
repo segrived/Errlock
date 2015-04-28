@@ -9,7 +9,7 @@ namespace Errlock
 {
     public partial class App
     {
-        Mutex myMutex;
+        Mutex _myMutex;
 
         public static readonly AppConfig Config = new AppConfig(ErrlockConfigModel.Defaults);
 
@@ -20,6 +20,13 @@ namespace Errlock
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            bool aIsNewInstance = false;
+            _myMutex = new Mutex(true, "ErrlockApp", out aIsNewInstance);
+            if (! aIsNewInstance) {
+                MessageBox.Show("Приложение уже запущено", "Ошибка", MessageBoxButton.OK, 
+                    MessageBoxImage.Error);
+                App.Current.Shutdown();
+            }
             Config.Model.LastStartTime = DateTime.Now;
         }
 

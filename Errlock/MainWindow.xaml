@@ -111,6 +111,21 @@
                                     <Frame Source="Views/PublicFinderView.xaml" />
                                 </Grid>
                             </TabItem>
+                            <TabItem x:Name="PasswordCrackerTab">
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="16"
+                                               Margin="0, 5, 10, 5"
+                                               Source="Media/Images/tab-pass_16.ico" />
+                                        <TextBlock VerticalAlignment="Center" Text="Подбор пароля" />
+                                    </StackPanel>
+                                </TabItem.Header>
+                                <Grid Background="#FFFFFF">
+                                    <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                        <Frame ScrollViewer.CanContentScroll="True" Source="Views/PasswordCrackerPageView.xaml" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </TabItem>
                             <TabItem x:Name="XSSInjectionTab">
                                 <TabItem.Header>
                                     <StackPanel Orientation="Horizontal">
@@ -135,21 +150,6 @@
                                 </TabItem.Header>
                                 <Grid Background="#FFFFFF">
                                     <Frame Source="Views/XSSInjectionView.xaml" />
-                                </Grid>
-                            </TabItem>
-                            <TabItem x:Name="PasswordCrackerTab">
-                                <TabItem.Header>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Width="16"
-                                               Margin="0, 5, 10, 5"
-                                               Source="Media/Images/tab-pass_16.ico" />
-                                        <TextBlock VerticalAlignment="Center" Text="Подбор пароля" />
-                                    </StackPanel>
-                                </TabItem.Header>
-                                <Grid Background="#FFFFFF">
-                                    <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                        <Frame ScrollViewer.CanContentScroll="True" Source="Views/PasswordCrackerPageView.xaml" />
-                                    </ScrollViewer>
                                 </Grid>
                             </TabItem>
                         </TabControl>

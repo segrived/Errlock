@@ -16,7 +16,8 @@ namespace Errlock.Views
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            App.Config.Model = this._viewModel.ConfigModel;
+            App.Config.Save();
         }
     }
 }

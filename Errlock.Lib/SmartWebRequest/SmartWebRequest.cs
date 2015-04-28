@@ -31,6 +31,10 @@ namespace Errlock.Lib.SmartWebRequest
             //this._request.Headers = Options.Headers;
             this._request.UserAgent = Options.UserAgent;
             this._request.MaximumAutomaticRedirections = Options.MaxRedirections;
+            if (this.Options.UseProxy) {
+                this._request.Proxy = new WebProxy(this.Options.ProxyAddress, 
+                    this.Options.ProxyPort);
+            }
         }
 
         private HttpWebResponse GetResponse()

@@ -227,5 +227,17 @@ namespace Errlock.Lib
                 handler(sender, e);
             }
         }
+
+        public static string ReverseStr(this string input)
+        {
+            return new string(input.Reverse().ToArray());
+        }
+
+        public static string ToUpperFirstChar(this string input)
+        {
+            if (String.IsNullOrEmpty(input))
+                throw new ArgumentException("ARGH!");
+            return input.First().ToString().ToUpper() + String.Join("", input.Skip(1));
+        }
     }
 }

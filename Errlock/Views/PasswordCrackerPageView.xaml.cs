@@ -13,7 +13,6 @@ namespace Errlock.Views
             = new PasswordCrackerPageViewModel();
 
         private PasswordCracker _module;
-        private CancellationTokenSource _token;
 
         public PasswordCrackerPageView()
         {
@@ -30,7 +29,6 @@ namespace Errlock.Views
 
         private void StartBtn_Click(object sender, RoutedEventArgs e)
         {
-            this._token = new CancellationTokenSource();
             var config = _viewModel.Config;
             this._module = new PasswordCracker(config, App.Config.Model.ConnectionConfiguration);
             ((MainWindow)Application.Current.MainWindow).StartModule(this._module);

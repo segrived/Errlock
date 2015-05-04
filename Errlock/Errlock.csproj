@@ -81,6 +81,7 @@
     <Compile Include="ViewModels\LogViewerViewModel.cs" />
     <Compile Include="ViewModels\PasswordCrackerPageViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
+    <Compile Include="ViewModels\XssScannerViewModel.cs" />
     <Compile Include="Views\AboutPageView.xaml.cs">
       <DependentUpon>AboutPageView.xaml</DependentUpon>
     </Compile>
@@ -113,8 +114,8 @@
     <Compile Include="Views\ScanResultWindowView.xaml.cs">
       <DependentUpon>ScanResultWindowView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\XSSInjectionView.xaml.cs">
-      <DependentUpon>XSSInjectionView.xaml</DependentUpon>
+    <Compile Include="Views\XssScannerView.xaml.cs">
+      <DependentUpon>XssScannerView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\AboutPageView.xaml">
       <SubType>Designer</SubType>
@@ -164,7 +165,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\XSSInjectionView.xaml">
+    <Page Include="Views\XssScannerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

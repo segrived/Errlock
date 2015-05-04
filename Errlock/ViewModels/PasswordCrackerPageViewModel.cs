@@ -17,7 +17,8 @@ namespace Errlock.ViewModels
                 RequestType = RequestType.Post,
                 InvalidPasswordAction = InvalidPasswordAction.Render403,
                 PasswordsCount = 100,
-                StopAfterFirstMatch = true
+                StopAfterFirstMatch = true,
+                UseHeuristic = true
             };
         }
     }

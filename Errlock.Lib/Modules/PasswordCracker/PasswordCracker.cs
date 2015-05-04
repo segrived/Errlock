@@ -44,14 +44,38 @@ namespace Errlock.Lib.Modules.PasswordCracker
                        .Replace("{{password}}", password);
         }
 
+        private int _processedCount;
+        private int _totalCount;
+
+        private List<string> GetHeuristicVariations(string login)
+        {
+            return new List<string> {
+                login,
+                login.ToUpper(), login.ToLower(),
+                login.ToLower().ReverseStr(), login.ToUpper().ReverseStr(),
+                login.ToUpperFirstChar()
+            };
+        }
+
         protected override ModuleScanStatus Process(Session session, IProgress<int> progress)
         {
-            var sessionUri = new Uri(session.Url);
-            for (int i = 0; i < this.ModuleConfig.PasswordsCount; i++) {
+            var sessionUri = new Uri(session.Url);  
+
+            this._totalCount = this.ModuleConfig.PasswordsCount;
+            IEnumerable<string> passwordsSource = PasswordListCache.Value
+                .Take(this.ModuleConfig.PasswordsCount);
+
+            if (this.ModuleConfig.UseHeuristic) {
+                var variations = this.GetHeuristicVariations(this.ModuleConfig.Login);
+                this._totalCount += variations.Count;
+                passwordsSource = variations.Concat(passwordsSource);
+            }
+
+            foreach (string password in passwordsSource) {
                 if (this.Token.IsCancellationRequested) {
                     return ModuleScanStatus.Canceled;
                 }
-                string password = PasswordListCache.Value[i];
+
                 string parameters = ProcessParameters(password);
 
                 var uri = new Uri(sessionUri, this.ModuleConfig.RequestUrl);
@@ -68,7 +92,8 @@ namespace Errlock.Lib.Modules.PasswordCracker
                 using (var response = requestAction.Invoke(parser)) {
                     string message = String.Format("Тест пароля `{0}`", password);
                     AddMessage(message, LoggerMessageType.Info);
-                    progress.Report((int)((double)i / this.ModuleConfig.PasswordsCount * 100));
+                    progress.Report((int)((double)_processedCount / _totalCount * 100));
+                    this._processedCount++;
                     if (this.ModuleConfig.InvalidPasswordAction == InvalidPasswordAction.Render403 &&
                         response.StatusCode == HttpStatusCode.Forbidden) {
                         continue;

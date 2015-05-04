@@ -136,7 +136,7 @@
                                     </StackPanel>
                                 </TabItem.Header>
                                 <Grid Background="#FFFFFF">
-                                    <Frame Source="Views/XSSInjectionView.xaml" />
+                                    <Frame Source="Views/XssScannerView.xaml" />
                                 </Grid>
                             </TabItem>
                             <TabItem x:Name="SQLInjectionTab">
@@ -149,7 +149,7 @@
                                     </StackPanel>
                                 </TabItem.Header>
                                 <Grid Background="#FFFFFF">
-                                    <Frame Source="Views/XSSInjectionView.xaml" />
+                                    <Frame Source="Views/XssScannerView.xaml" />
                                 </Grid>
                             </TabItem>
                         </TabControl>

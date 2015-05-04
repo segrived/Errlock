@@ -62,5 +62,11 @@ namespace Errlock.Lib.AppConfig
         {
             SerializationHelpers.Serialize(_configFilePath, this.Model);
         }
+
+        public void Save(ErrlockConfigModel model)
+        {
+            this.Model = model;
+            this.Save();
+        }
     }
 }

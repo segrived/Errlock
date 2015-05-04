@@ -11,5 +11,6 @@ namespace Errlock.Lib.Modules.PasswordCracker
         public RequestType RequestType { get; set; }
         public int PasswordsCount { get; set; }
         public bool StopAfterFirstMatch { get; set; }
+        public bool UseHeuristic { get; set; }
     }
 }

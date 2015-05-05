@@ -34,6 +34,8 @@ namespace Errlock.Lib.WebCrawler
             var parser = new SmartWebRequest.SmartWebRequest(this.Options, url);
             try {
                 var webParserResult = parser.GetRequest();
+
+                // Парсинг только HTML-страниц, игнорируя все остальное
                 if (! webParserResult.IsHtmlPage()) {
                     webParserResult.Dispose();
                     return new HashSet<string>();
@@ -41,15 +43,24 @@ namespace Errlock.Lib.WebCrawler
                 string rawContent = webParserResult.Download();
                 var dom = new CQ(rawContent);
                 webParserResult.Dispose();
-                var links = dom["a"]
-                    .Select(l => l.GetAttribute("href").RemoveAnchors())
-                    .MakeAbsoluteBatch(this.Session.Url)
-                    .Where(l => new Uri(l).Host == new Uri(this.Session.Url).Host)
-                    .Distinct()
-                    .Take(this.Session.Options.FetchPerPage)
-                    .SkipExceptions()
-                    .ToHashSet();
-                return links;
+
+                // Все ссылки, найденные на странице
+                IEnumerable<string> links = dom["a"].Select(l => l.GetAttribute("href"));
+
+                if (this.Session.Options.IngoreAnchors) {
+                    links = links.Select(x => x.RemoveAnchors());
+                }
+
+                links = links.MakeAbsoluteBatch(this.Session.Url)
+                             .Where(l => new Uri(l).Host == new Uri(this.Session.Url).Host);
+
+                if (this.Session.Options.UseRandomLinks) {
+                    
+                    links = links.Distinct();
+                }
+                links = links.Take(this.Session.Options.FetchPerPage)
+                             .SkipExceptions();
+                return links.ToHashSet();
             } catch {
                 return new HashSet<string>();
             }

@@ -43,11 +43,16 @@ namespace Errlock
             module.NewNotice +=
                 (sender, e) => { App.Logger.Log(e.Notice.Text, LoggerMessageType.Warn); };
 
-            this.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
+            this.ModuleProgress.IsIndeterminate = !module.IsSupportProgressReporting;
+            this.TaskbarItemInfo.ProgressState = module.IsSupportProgressReporting 
+                ? TaskbarItemProgressState.Normal 
+                : TaskbarItemProgressState.Indeterminate;
+
             module.Progress.ProgressChanged += (sender, i) => {
                 this.ModuleProgress.Value = i;
                 this.TaskbarItemInfo.ProgressValue = (double)i / 100;
             };
+
             ModuleProgress.Visibility = Visibility.Visible;
             var scanResult = await Task.Factory.StartNew(() => {
                 try {

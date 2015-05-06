@@ -7,17 +7,29 @@ namespace Errlock.Lib.SmartWebRequest
 {
     public enum RequestType
     {
+        [Description("HEAD")]
+        Head,
+
         [Description("GET")]
         Get,
 
         [Description("POST")]
-        Post
+        Post,
+
+        [Description("UPDATE")]
+        Update,
+
+        [Description("DELETE")]
+        Delete
     }
 
     public class SmartWebRequest
     {
-        public static readonly List<string> UserAgentList =  new List<string> {
-            "Errlock/Bot", "Firefox", "Opera", "Chrome"
+        public static readonly List<string> UserAgentList = new List<string> {
+            "Errlock/Bot",
+            "Firefox",
+            "Opera",
+            "Chrome"
         };
 
         private readonly HttpWebRequest _request;
@@ -32,7 +44,7 @@ namespace Errlock.Lib.SmartWebRequest
             this._request.UserAgent = Options.UserAgent;
             this._request.MaximumAutomaticRedirections = Options.MaxRedirections;
             if (this.Options.UseProxy) {
-                this._request.Proxy = new WebProxy(this.Options.ProxyAddress, 
+                this._request.Proxy = new WebProxy(this.Options.ProxyAddress,
                     this.Options.ProxyPort);
             }
         }

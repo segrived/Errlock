@@ -81,7 +81,7 @@ namespace Errlock.Lib.Modules.PasswordCracker
                 var uri = new Uri(sessionUri, this.ModuleConfig.RequestUrl);
                 
                 Func<SmartWebRequest.SmartWebRequest, HttpWebResponse> requestAction;
-                if (ModuleConfig.RequestType == RequestType.Get) {
+                if (ModuleConfig.RequestMethod == RequestMethod.Get) {
                     uri = new UriBuilder(uri) { Query = parameters }.Uri;
                     requestAction = p => p.GetRequest();
                 } else {

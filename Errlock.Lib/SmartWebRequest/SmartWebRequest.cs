@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
 using System.Text;
 
 namespace Errlock.Lib.SmartWebRequest
 {
-    public enum RequestType
+    public enum RequestMethod
     {
         [Description("HEAD")]
         Head,
@@ -20,7 +21,10 @@ namespace Errlock.Lib.SmartWebRequest
         Update,
 
         [Description("DELETE")]
-        Delete
+        Delete,
+
+        [Description("PUT")]
+        Put
     }
 
     public class SmartWebRequest
@@ -64,10 +68,9 @@ namespace Errlock.Lib.SmartWebRequest
             return response;
         }
 
-        public HttpWebResponse Request(RequestType type = RequestType.Get)
+        public HttpWebResponse Request(RequestMethod method = RequestMethod.Get)
         {
-            string method = type.ToString().ToUpper();
-            return this.Request(method);
+            return this.Request(method.ToString().ToUpper());
         }
 
         public HttpWebResponse Request(string requestType = "GET")

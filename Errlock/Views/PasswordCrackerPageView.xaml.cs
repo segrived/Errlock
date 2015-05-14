@@ -22,7 +22,7 @@ namespace Errlock.Views
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            this.RequestTypeComboBox.ItemsSource = EnumHelpers.EnumToDictionary<RequestType>();
+            this.RequestTypeComboBox.ItemsSource = EnumHelpers.EnumToDictionary<RequestMethod>();
             this.InvalidPasswordBehaviorComboBox.ItemsSource =
                 EnumHelpers.EnumToDictionary<InvalidPasswordAction>();
         }

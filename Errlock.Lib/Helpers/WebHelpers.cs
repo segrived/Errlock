@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Errlock.Lib.SmartWebRequest;
 
 namespace Errlock.Lib.Helpers
 {
@@ -30,16 +31,26 @@ namespace Errlock.Lib.Helpers
 
         public static bool IsOnline(string url)
         {
+            var request = WebRequest.CreateHttp(url);
+            request.Timeout = 3000;
+            request.AllowAutoRedirect = false;
+            request.Method = "HEAD";
             try {
-                var request = (HttpWebRequest)WebRequest.Create(url);
-                request.Timeout = 3000;
-                request.AllowAutoRedirect = false;
-                request.Method = "HEAD";
-                var response = request.GetResponse();
-                response.Dispose();
-                return true;
+                using (request.GetResponse()) {
+                    return true;
+                }
             } catch (WebException) {
                 return false;
+            }
+        }
+
+        public static RequestMethod ToRequestMethod(string method)
+        {
+            string res = method.Trim().ToUpperFirstChar();
+            try {
+                return (RequestMethod)Enum.Parse(typeof(RequestMethod), res);
+            } catch {
+                return RequestMethod.Get;
             }
         }
     }

@@ -14,7 +14,7 @@ namespace Errlock.ViewModels
                 Login = "admin",
                 RequestUrl = "login",
                 RequestParameters = @"login={{login}}&password={{password}}",
-                RequestType = RequestType.Post,
+                RequestMethod = RequestMethod.Post,
                 InvalidPasswordAction = InvalidPasswordAction.Render403,
                 PasswordsCount = 100,
                 StopAfterFirstMatch = true,

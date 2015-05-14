@@ -1,29 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using Errlock.Lib.SmartWebRequest;
 
 namespace Errlock.Lib.Modules.XssScanner
 {
-    public class WebForm
+    public class WebForm : IEquatable<WebForm>
     {
-        protected bool Equals(WebForm other)
+        public bool Equals(WebForm other)
         {
-            return string.Equals(Action, other.Action) && RequestType == other.RequestType;
+            return string.Equals(Action, other.Action) && RequestMethod == other.RequestMethod;
         }
 
         public override int GetHashCode()
         {
             unchecked {
-                return ((Action != null ? Action.GetHashCode() : 0) * 397) ^ (int)RequestType;
+                return ((Action != null ? Action.GetHashCode() : 0) * 397) ^ (int)RequestMethod;
             }
         }
 
         public string Action { get; set; }
-        public RequestType RequestType { get; set; }
+        public RequestMethod RequestMethod { get; set; }
+        public List<WebFormElement> WebFormElements { get; set; }
 
-        public WebForm(string action, RequestType requestType)
+        public WebForm(string action, RequestMethod requestMethod)
         {
             this.Action = action;
-            this.RequestType = requestType;
+            this.RequestMethod = requestMethod;
         }
 
         public override bool Equals(object obj)
@@ -42,7 +44,7 @@ namespace Errlock.Lib.Modules.XssScanner
 
         public override string ToString()
         {
-            return string.Format("{0} {1}", RequestType.GetDescription(), Action);
+            return string.Format("{0} {1}", RequestMethod.GetDescription(), Action);
         }
     }
 }

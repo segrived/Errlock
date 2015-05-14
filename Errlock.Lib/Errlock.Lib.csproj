@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="AppConfig\AppConfig.cs" />
     <Compile Include="AppConfig\ErrlockConfigModel.cs" />
+    <Compile Include="DomParser\DomParser.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Helpers\AppHelpers.cs" />
     <Compile Include="Helpers\EnumHelpers.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Modules\PublicFinder\PublicFinder.cs" />
     <Compile Include="Modules\PublicFinder\PublicFinderConfig.cs" />
     <Compile Include="Modules\XssScanner\WebForm.cs" />
+    <Compile Include="Modules\XssScanner\WebFormElement.cs" />
     <Compile Include="Modules\XssScanner\XssScanner.cs" />
     <Compile Include="Modules\XssScanner\XssScannerConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -97,6 +99,9 @@
       <Project>{9d294b8d-48b6-488b-9434-f55399da4c44}</Project>
       <Name>Errlock.Resources</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Modules\XssScanner\Notices\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

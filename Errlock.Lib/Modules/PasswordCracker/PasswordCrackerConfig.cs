@@ -8,7 +8,7 @@ namespace Errlock.Lib.Modules.PasswordCracker
         public string RequestUrl { get; set; }
         public string RequestParameters { get; set; }
         public InvalidPasswordAction InvalidPasswordAction { get; set; }
-        public RequestType RequestType { get; set; }
+        public RequestMethod RequestMethod { get; set; }
         public int PasswordsCount { get; set; }
         public bool StopAfterFirstMatch { get; set; }
         public bool UseHeuristic { get; set; }

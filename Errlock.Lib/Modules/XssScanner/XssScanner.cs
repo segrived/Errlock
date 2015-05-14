@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CsQuery;
+using Errlock.Lib.Helpers;
 using Errlock.Lib.Logger;
 using Errlock.Lib.Sessions;
 using Errlock.Lib.SmartWebRequest;
@@ -25,36 +26,33 @@ namespace Errlock.Lib.Modules.XssScanner
                 if (Token.IsCancellationRequested) {
                     return ModuleScanStatus.Canceled;
                 }
-                
-                var request = new SmartWebRequest.SmartWebRequest(ConnectionConfiguration, link);
-                using (var getReq = request.GetRequest()) {
-                    if (!getReq.IsHtmlPage()) {
-                        continue;
-                    }
-                    var domTree = new CQ(getReq.Download());
-                    var forms = domTree["form"];
-                    foreach (var form in forms) {
-                        var action = form.GetAttribute("action").MakeUrlAbsolute(session.Url);
-                        var method = form.GetAttribute("method");
-                        var requestType = default(RequestType);
-                        switch (method.Trim().ToUpper()) {
-                            case "GET":
-                                requestType = RequestType.Get;
-                                break;
-                            case "POST":
-                                requestType = RequestType.Post;
-                                break;
-                            default:
-                                requestType = RequestType.Get;
-                                break;
+                try {
+                    var request = new SmartWebRequest.SmartWebRequest(ConnectionConfiguration, link);
+                    using (var getReq = request.GetRequest()) {
+                        if (! getReq.IsHtmlPage()) {
+                            continue;
                         }
-                        var webForm = new WebForm(action, requestType);
-                        if (! _webForms.Contains(webForm)) {
+                        var domTree = new CQ(getReq.Download());
+                        var forms = domTree["form"];
+                        foreach (var form in forms) {
+                            string action = form.GetAttribute("action").MakeUrlAbsolute(session.Url);
+                            string method = form.GetAttribute("method");
+                            var requestType = WebHelpers.ToRequestMethod(method);
+                            var webForm = new WebForm(action, requestType);
+
+                            if (_webForms.Contains(webForm)) {
+                                continue;
+                            }
+                            //form.ChildElements.Where(e => e.NodeName == "INPUT");
+                            //form.ChildElements.Where(e => e.NodeName == "SELECT");
+
                             _webForms.Add(webForm);
                             var message = String.Format("Найдена новая форма: {0}", webForm);
                             AddMessage(message, LoggerMessageType.Info);
                         }
                     }
+                } catch (Exception ex) {
+                    AddMessage(String.Format("Ошибка при парсинге URL {0}", link), LoggerMessageType.Error);
                 }
                 AddMessage(link, LoggerMessageType.Info);
             }

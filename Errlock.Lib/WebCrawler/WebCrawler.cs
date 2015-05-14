@@ -31,36 +31,33 @@ namespace Errlock.Lib.WebCrawler
 
         private HashSet<string> FetchLinks(string url)
         {
-            var parser = new SmartWebRequest.SmartWebRequest(this.Options, url);
             try {
-                var webParserResult = parser.GetRequest();
+                var parser = new SmartWebRequest.SmartWebRequest(this.Options, url);
+                using (var webParserResult = parser.GetRequest()) {
+                    // Парсинг только HTML-страниц, игнорируя все остальное
+                    if (!webParserResult.IsHtmlPage()) {
+                        return new HashSet<string>();
+                    }
+                    string rawContent = webParserResult.Download();
+                    var dom = new CQ(rawContent);
 
-                // Парсинг только HTML-страниц, игнорируя все остальное
-                if (! webParserResult.IsHtmlPage()) {
-                    webParserResult.Dispose();
-                    return new HashSet<string>();
+                    // Все ссылки, найденные на странице
+                    var links = dom["a"].Select(l => l.GetAttribute("href"));
+
+                    if (this.Session.Options.IngoreAnchors) {
+                        links = links.Select(x => x.RemoveAnchors());
+                    }
+
+                    links = links.MakeAbsoluteBatch(this.Session.Url)
+                                 .Where(l => new Uri(l).Host == new Uri(this.Session.Url).Host);
+
+                    if (this.Session.Options.UseRandomLinks) {
+                        links = links.Distinct();
+                    }
+                    return links.Take(this.Session.Options.FetchPerPage)
+                                .SkipExceptions()
+                                .ToHashSet();
                 }
-                string rawContent = webParserResult.Download();
-                var dom = new CQ(rawContent);
-                webParserResult.Dispose();
-
-                // Все ссылки, найденные на странице
-                IEnumerable<string> links = dom["a"].Select(l => l.GetAttribute("href"));
-
-                if (this.Session.Options.IngoreAnchors) {
-                    links = links.Select(x => x.RemoveAnchors());
-                }
-
-                links = links.MakeAbsoluteBatch(this.Session.Url)
-                             .Where(l => new Uri(l).Host == new Uri(this.Session.Url).Host);
-
-                if (this.Session.Options.UseRandomLinks) {
-                    
-                    links = links.Distinct();
-                }
-                links = links.Take(this.Session.Options.FetchPerPage)
-                             .SkipExceptions();
-                return links.ToHashSet();
             } catch {
                 return new HashSet<string>();
             }

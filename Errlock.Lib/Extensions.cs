@@ -235,9 +235,7 @@ namespace Errlock.Lib
 
         public static string ToUpperFirstChar(this string input)
         {
-            if (String.IsNullOrEmpty(input))
-                throw new ArgumentException("ARGH!");
-            return input.First().ToString().ToUpper() + String.Join("", input.Skip(1));
+            return input.First().ToString().ToUpper() + input.Substring(1);
         }
     }
 }

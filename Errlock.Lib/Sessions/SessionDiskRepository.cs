@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Errlock.Lib.Helpers;
-using Errlock.Lib.Modules;
 
 namespace Errlock.Lib.Sessions
 {
-    public class SessionDiskRepository : ISessionRepository
+    public class SessionDiskRepository : IRepository<Session>
     {
         /// <summary>
         /// Файл с информацией о сессии
@@ -26,12 +25,12 @@ namespace Errlock.Lib.Sessions
         /// Возвращает директорию текущего экземпляра сессии
         /// </summary>
         /// <returns>Директория, хранящая данные сессии</returns>
-        public string GetSessionDirectory(Session session)
+        private string GetSessionDirectory(Session session)
         {
             return Path.Combine(SessionsDirectory, session.Id.ToString());
         }
 
-        public void Insert(Session session)
+        public void InsertOrUpdate(Session session)
         {
             string sessionDir = this.GetSessionDirectory(session);
             // Создание необходимых директорий

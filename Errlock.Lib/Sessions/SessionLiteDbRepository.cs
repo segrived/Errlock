@@ -7,13 +7,13 @@ using LiteDB;
 
 namespace Errlock.Lib.Sessions
 {
-    public class SessionLiteDbRepository : ISessionRepository
+    public class SessionLiteDbRepository : IRepository<Session>
     {
         private const string DbFileName = "Errlock.db";
         private readonly LiteCollection<Session> _collection = 
             new LiteDatabase(DbFileName).GetCollection<Session>("sessions");
 
-        public void Insert(Session item)
+        public void InsertOrUpdate(Session item)
         {
             this._collection.Insert(item);
         }

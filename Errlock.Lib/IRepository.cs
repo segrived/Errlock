@@ -9,7 +9,7 @@ namespace Errlock.Lib
         /// Добавляет элемент
         /// </summary>
         /// <param name="item"></param>
-        void Insert(T item);
+        void InsertOrUpdate(T item);
 
         /// <summary>
         /// Удаляет элемент

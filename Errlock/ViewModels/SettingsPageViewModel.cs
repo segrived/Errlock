@@ -12,7 +12,7 @@ namespace Errlock.ViewModels
         public SettingsPageViewModel()
         {
             ConfigModel = App.Config.Model;
-            this.UserAgentsList = SmartWebRequest.UserAgentList;
+            this.UserAgentsList = SmartRequest.UserAgentList;
         }
     }
 }

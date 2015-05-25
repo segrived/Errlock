@@ -1,4 +1,4 @@
-﻿namespace Errlock.Lib.Modules.PublicFinder
+﻿namespace Errlock.Lib.Modules.PublicFinderModule
 {
     public class PublicFinderConfig : ModuleConfig
     {

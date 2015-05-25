@@ -22,7 +22,7 @@ namespace Errlock.ViewModels
             set
             {
                 _selectedSession = value;
-                OnPropertyChanged("SelectedSession");
+                OnPropertyChanged();
                 OnPropertyChanged("IsSelectedSession");
             }
         }
@@ -32,11 +32,11 @@ namespace Errlock.ViewModels
             get { return _selectedSession != null; }
         }
 
-        public SessionLogFile SelectedLogFile
-        {
-            get { return Get<SessionLogFile>(); }
-            set { Set(value); }
-        }
+        //public SessionLogFile SelectedLogFile
+        //{
+        //    get { return Get<SessionLogFile>(); }
+        //    set { Set(value); }
+        //}
 
         public IModule SelectedModule
         {

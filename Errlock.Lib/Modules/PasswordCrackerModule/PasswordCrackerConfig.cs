@@ -1,6 +1,6 @@
 ﻿using Errlock.Lib.SmartWebRequest;
 
-namespace Errlock.Lib.Modules.PasswordCracker
+namespace Errlock.Lib.Modules.PasswordCrackerModule
 {
     public class PasswordCrackerConfig : ModuleConfig
     {

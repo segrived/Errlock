@@ -1,15 +1,11 @@
-﻿using System.Threading;
-using System.Windows;
-using Errlock.Lib.Modules;
-using Errlock.Lib.Modules.PublicFinder;
+﻿using System.Windows;
 using Errlock.ViewModels;
 
 namespace Errlock.Views
 {
     public partial class PublicFinderView
     {
-        private readonly PublicFinderViewModel _viewModel = new PublicFinderViewModel();
-        private IModule _module;
+        private PublicFinderViewModel _viewModel;
 
         public PublicFinderView()
         {
@@ -17,20 +13,10 @@ namespace Errlock.Views
             this.DataContext = _viewModel;
         }
 
-        private void StartBtn_Click(object sender, RoutedEventArgs e)
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            var config = _viewModel.Config;
-            this._module = new PublicFinder(config, App.Config.Model.ConnectionConfiguration);
-            ((MainWindow)Application.Current.MainWindow).StartModule(this._module);
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e) { }
-
-        private void StopBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (this._module != null) {
-                this._module.Stop();
-            }
+            _viewModel = new PublicFinderViewModel();
+            ((MainWindow)Application.Current.MainWindow).CurrentModule = _viewModel.Module;
         }
     }
 }

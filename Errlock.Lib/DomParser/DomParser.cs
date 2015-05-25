@@ -8,7 +8,5 @@
         {
             this._htmlRawData = htmlRawData;
         }
-
-
     }
 }

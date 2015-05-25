@@ -4,6 +4,7 @@ using System.Windows;
 using Errlock.Lib;
 using Errlock.Lib.AppConfig;
 using Errlock.Lib.Logger;
+using Errlock.Lib.Sessions;
 
 namespace Errlock
 {
@@ -12,6 +13,8 @@ namespace Errlock
         Mutex _myMutex;
 
         public static readonly AppConfig Config = new AppConfig(ErrlockConfigModel.Defaults);
+
+        public static IRepository<Session> SessionRepository;
 
         public static readonly Logger Logger = new Logger((input, type) => {
             string time = DateTime.Now.ToString("HH:mm:ss");
@@ -28,6 +31,8 @@ namespace Errlock
                 App.Current.Shutdown();
             }
             Config.Model.LastStartTime = DateTime.Now;
+
+            SessionRepository = new SessionLiteDbRepository();
         }
 
         private void OnExit(object sender, ExitEventArgs e)

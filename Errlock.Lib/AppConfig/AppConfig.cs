@@ -19,7 +19,7 @@ namespace Errlock.Lib.AppConfig
         private readonly string _configFilePath =
             Path.Combine(AppHelpers.DefaultConfigPath, ConfigFileName);
 
-        public ErrlockConfigModel Model { get; set; }
+        public ErrlockConfigModel Model { get; private set; }
 
         /// <summary>
         /// Инициализирует новый экземпляр класса AppConfig
@@ -44,25 +44,36 @@ namespace Errlock.Lib.AppConfig
             }
         }
 
+        /// <summary>
+        /// Пересоздает файл настроек; вызывается в случае, если при попытке прочитать
+        /// файл конфигурации произошел сбой
+        /// </summary>
+        /// <param name="defaults">Настройки по умолчанию</param>
+        /// <returns>Экземпляр класса ErrlockConfigModel</returns>
         private ErrlockConfigModel RecreateConfigFile(ErrlockConfigModel defaults)
         {
             var fileInfo = new FileInfo(_configFilePath);
-            Directory.CreateDirectory(fileInfo.DirectoryName);
+            if (fileInfo.DirectoryName != null) {
+                Directory.CreateDirectory(fileInfo.DirectoryName);
+            }
             File.Create(_configFilePath).Dispose();
             // Сохраняет настройки по умолчанию в новый файл
-            this.Model = defaults;
-            this.Save();
+            this.Save(defaults);
             return this.Model;
         }
 
         /// <summary>
-        /// Сохраняет настройки обратно в файл
+        /// Сохраняет настройки в файл
         /// </summary>
         public void Save()
         {
             SerializationHelpers.Serialize(_configFilePath, this.Model);
         }
 
+        /// <summary>
+        /// Сохраняет указанный экземляр настроек в файл
+        /// </summary>
+        /// <param name="model">Экземпляр настроек, который необохдимо сохранить в файл</param>
         public void Save(ErrlockConfigModel model)
         {
             this.Model = model;

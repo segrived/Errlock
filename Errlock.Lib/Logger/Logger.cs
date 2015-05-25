@@ -33,13 +33,11 @@ namespace Errlock.Lib.Logger
 
         public event EventHandler<LoggerEventArgs> NewMessage;
 
-        private void OnNewMessage(string message, LoggerMessageType messageType)
+        private void OnNewMessage(string message, LoggerMessageType type)
         {
             var handle = this.NewMessage;
-            string formattedMessage = this._formatter.Invoke(message, messageType);
-            if (handle != null) {
-                handle(this, new LoggerEventArgs(message, formattedMessage, messageType));
-            }
+            string formattedMessage = this._formatter.Invoke(message, type);
+            handle.Raise(this, new LoggerEventArgs(formattedMessage, type));
         }
     }
 }

@@ -12,7 +12,7 @@
     </Window.TaskbarItemInfo>
     <Grid HorizontalAlignment="Left">
         <Grid Width="219"
-              Margin="10,10,0,143"
+              Margin="10,10,0,181"
               HorizontalAlignment="Left">
             <ListBox x:Name="SessionList"
                      Margin="0,0,0,37"
@@ -54,7 +54,7 @@
                 </StackPanel>
             </Button>
         </Grid>
-        <Grid Margin="234,10,0,143">
+        <Grid Margin="234,10,0,181">
             <TabControl Height="Auto"
                         Margin="0,0,10,0"
                         VerticalAlignment="Stretch">
@@ -153,57 +153,6 @@
                                 </Grid>
                             </TabItem>
                         </TabControl>
-                        <ProgressBar x:Name="ModuleProgress"
-                                     Width="145"
-                                     Height="19"
-                                     HorizontalAlignment="Right"
-                                     VerticalAlignment="Bottom"
-                                     Visibility="Hidden" />
-                    </Grid>
-                </TabItem>
-                <TabItem x:Name="LogsTab" IsEnabled="{Binding IsSelectedSession}">
-                    <TabItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Width="16"
-                                   Margin="0, 0, 10, 0"
-                                   Source="Media/Images/log_16.png" />
-                            <TextBlock Text="Сохраненные логи" />
-                        </StackPanel>
-                    </TabItem.Header>
-                    <Grid Background="#FFFFFF">
-                        <ListBox x:Name="LogFilesList" ItemsSource="{Binding SelectedSession.AllLogs}">
-                            <ListBox.ItemContainerStyle>
-                                <Style BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="{x:Type ListBoxItem}">
-                                    <EventSetter Event="MouseDoubleClick" Handler="LogListBoxItem_MouseDoubleClick" />
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                            <ListBox.Resources>
-                                <BitmapImage x:Key="LogIcon" UriSource="Media/Images/log_32.png" />
-                            </ListBox.Resources>
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Width="32"
-                                               Height="32"
-                                               Margin="0,0,10,0"
-                                               HorizontalAlignment="Center"
-                                               Source="{StaticResource LogIcon}" />
-                                        <StackPanel x:Name="LogItem"
-                                                    HorizontalAlignment="Left"
-                                                    VerticalAlignment="Center">
-                                            <TextBlock>
-                                                <Run Text="Модуль: " />
-                                                <Run FontWeight="Bold" Text="{Binding Module}" />
-                                            </TextBlock>
-                                            <TextBlock>
-                                                <Run Text="Дата создания: " />
-                                                <Run FontStyle="Italic" Text="{Binding CreatingDate, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}}" />
-                                            </TextBlock>
-                                        </StackPanel>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
                     </Grid>
                 </TabItem>
                 <TabItem>
@@ -246,5 +195,13 @@
                 </Style>
             </RichTextBox.Resources>
         </RichTextBox>
+        <Button Name="StartStopModule"
+                Margin="683,418,10,143"
+                Click="StartStopModule_Click"
+                Content="Запустить тест" />
+        <ProgressBar x:Name="ModuleProgress"
+                     Height="32"
+                     Margin="10,0,234,144"
+                     VerticalAlignment="Bottom" />
     </Grid>
 </Window>

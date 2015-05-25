@@ -1,9 +1,12 @@
 ﻿using Errlock.Lib.Sessions;
 
-namespace Errlock.Lib.Modules.PublicFinder.Notices
+namespace Errlock.Lib.Modules.PublicFinderModule.Notices
 {
     public class OpenResourceNotice : ModuleNotice
     {
+        private const string TextFormat = "Возможно открытый доступ по URL '{0}', " +
+                                          "рекомендуется проверить";
+
         public override NoticePriority Priority
         {
             get { return NoticePriority.Medium; }
@@ -11,11 +14,7 @@ namespace Errlock.Lib.Modules.PublicFinder.Notices
 
         public override string Text
         {
-            get
-            {
-                string format = "Возможно открытый доступ по URL '{0}', рекомендуется проверить";
-                return string.Format(format, this.LinkedUrl);
-            }
+            get { return string.Format(TextFormat, this.LinkedUrl); }
         }
 
         public OpenResourceNotice(Session session, string linkedUrl)

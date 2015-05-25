@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
 using System.Text;
 
 namespace Errlock.Lib.SmartWebRequest
 {
+    /// <summary>
+    /// Тип метода запроса серверу
+    /// </summary>
     public enum RequestMethod
     {
         [Description("HEAD")]
@@ -27,8 +29,11 @@ namespace Errlock.Lib.SmartWebRequest
         Put
     }
 
-    public class SmartWebRequest
+    public class SmartRequest
     {
+        /// <summary>
+        /// Список юзер-агентов по умолчанию
+        /// </summary>
         public static readonly List<string> UserAgentList = new List<string> {
             "Errlock/Bot",
             "Firefox",
@@ -39,7 +44,7 @@ namespace Errlock.Lib.SmartWebRequest
         private readonly HttpWebRequest _request;
         private ConnectionConfiguration Options { get; set; }
 
-        public SmartWebRequest(ConnectionConfiguration options, string url)
+        public SmartRequest(ConnectionConfiguration options, string url)
         {
             this.Options = options;
             this._request = WebRequest.CreateHttp(url);
@@ -79,16 +84,29 @@ namespace Errlock.Lib.SmartWebRequest
             return this.GetResponse();
         }
 
+        /// <summary>
+        /// Выполняет HEAD-запрос
+        /// </summary>
+        /// <returns>Ответ сервера</returns>
         public HttpWebResponse HeadRequest()
         {
             return Request("HEAD");
         }
 
+        /// <summary>
+        /// Выполняет GET-запрос
+        /// </summary>
+        /// <returns>Ответ сервера</returns>
         public HttpWebResponse GetRequest()
         {
             return Request("GET");
         }
 
+        /// <summary>
+        /// Выполняет POST-запрос
+        /// </summary>
+        /// <param name="parametersString">Параметры запроса в виде строки</param>
+        /// <returns>Ответ сервера</returns>
         public HttpWebResponse PostRequest(string parametersString)
         {
             this._request.Method = "POST";

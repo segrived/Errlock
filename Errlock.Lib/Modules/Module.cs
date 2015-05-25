@@ -24,26 +24,35 @@ namespace Errlock.Lib.Modules
         High
     }
 
-    public abstract class Module<T> : IModule where T : ModuleConfig
+    public abstract class Module<T> : IModule where T: ModuleConfig
     {
-        protected T ModuleConfig { get; private set; }
-        protected ILogger Logger { get; private set; }
+        public T Config { get; private set; }
+        private ILogger Logger { get; set; }
         private List<ModuleNotice> Notices { get; set; }
         private List<string> Messages { get; set; }
-        protected CancellationTokenSource Token { get; set; }
-        public ConnectionConfiguration ConnectionConfiguration { get; set; }
+        protected CancellationTokenSource Token { get; private set; }
+        protected ConnectionConfiguration ConnectionConfiguration { get; private set; }
 
         protected Module(T moduleConfig, ConnectionConfiguration connectionConfig)
         {
-            this.ModuleConfig = moduleConfig;
-
+            this.Config = moduleConfig;
             this.Notices = new List<ModuleNotice>();
             this.Messages = new List<string>();
             this.Progress = new Progress<int>();
             this.ConnectionConfiguration = connectionConfig;
         }
 
-        public Progress<int> Progress { get; set; }
+        protected virtual void ProcessConfig()
+        {
+            // Ничего не делаем
+        }
+
+        public void SetConfig(ModuleConfig config)
+        {
+            this.Config = config as T;
+        }
+
+        public Progress<int> Progress { get; private set; }
         public abstract bool IsSupportProgressReporting { get; }
 
         public void SetLogger(ILogger logger)
@@ -57,23 +66,30 @@ namespace Errlock.Lib.Modules
 
         public ModuleScanResult Start(Session session)
         {
+            //cleanup
+            this.Messages = new List<string>();
+            this.Notices = new List<ModuleNotice>();
+
             this.Token = new CancellationTokenSource();
             ModuleScanResult scanResult;
             this.OnStarted();
             if (! WebHelpers.IsOnline(session.Url)) {
-                string msg = "В данный момент тестируемый сайт недоступен, повторите попытку позже";
-                AddMessage(msg, LoggerMessageType.Error);
-                scanResult = GetScanResult(ModuleScanStatus.SiteUnavailable);
+                const string msg = 
+                    "В данный момент тестируемый сайт недоступен, повторите попытку позже";
+                this.AddMessage(msg, LoggerMessageType.Error);
+                scanResult = this.GetScanResult(ModuleScanStatus.SiteUnavailable);
                 this.OnCompleted(scanResult);
                 return scanResult;
             }
-            var status = Process(session, this.Progress);
-            scanResult = GetScanResult(status);
-            this.Logger.Log("Создание лога тестирования...", LoggerMessageType.Info);
-            session.SaveLog(new SessionScanLog {
-                Module = this.GetType().Name,
-                ScanResult = scanResult
-            });
+            this.ProcessConfig();
+            var status = this.Process(session, this.Progress);
+            scanResult = this.GetScanResult(status);
+            this.AddMessage("Создание лога тестирования...", LoggerMessageType.Info);
+            //session.SaveLog(new SessionScanLog {
+            //    Module = this.GetType().Name,
+            //    ScanResult = scanResult
+            //});
+
             this.OnCompleted(scanResult);
             return scanResult;
         }

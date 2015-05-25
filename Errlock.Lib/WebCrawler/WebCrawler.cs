@@ -29,10 +29,15 @@ namespace Errlock.Lib.WebCrawler
             return this.EnumerateLinks(url, this.Session.Options.RecursionDepth);
         }
 
+        /// <summary>
+        /// Собирает ссылки с указанного URL
+        /// </summary>
+        /// <param name="url">Адрес страницы, с которой необходимо собрать все ссылки</param>
+        /// <returns>Коллекция ссылок</returns>
         private HashSet<string> FetchLinks(string url)
         {
             try {
-                var parser = new SmartWebRequest.SmartWebRequest(this.Options, url);
+                var parser = new SmartWebRequest.SmartRequest(this.Options, url);
                 using (var webParserResult = parser.GetRequest()) {
                     // Парсинг только HTML-страниц, игнорируя все остальное
                     if (!webParserResult.IsHtmlPage()) {
@@ -44,6 +49,7 @@ namespace Errlock.Lib.WebCrawler
                     // Все ссылки, найденные на странице
                     var links = dom["a"].Select(l => l.GetAttribute("href"));
 
+                    // 
                     if (this.Session.Options.IngoreAnchors) {
                         links = links.Select(x => x.RemoveAnchors());
                     }
@@ -65,10 +71,10 @@ namespace Errlock.Lib.WebCrawler
 
         private IEnumerable<string> EnumerateLinks(string url, int currentDepth)
         {
-            if (currentDepth == 0 || AnalysedUrls.Contains(url)) {
-                yield break;
-            }
-            if (this.FoundedUrls.Count > this.Session.Options.MaxLinks) {
+            if (currentDepth == 0
+                || AnalysedUrls.Contains(url)
+                || this.FoundedUrls.Count > this.Session.Options.MaxLinks
+                ) {
                 yield break;
             }
 

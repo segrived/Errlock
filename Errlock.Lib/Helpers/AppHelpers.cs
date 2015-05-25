@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
@@ -30,5 +31,12 @@ namespace Errlock.Lib.Helpers
         /// </summary>
         public static readonly string ExecAssemblyDir =
             Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+        /// <summary>
+        /// Версия данной библиотеки
+        /// </summary>
+        public static readonly string LibVersion =
+            Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
     }
 }

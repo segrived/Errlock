@@ -34,6 +34,16 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="GroupBox">
+            <Setter Property="Margin" Value="25,1,5,5" />
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock FontWeight="Bold" Text="{Binding}" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style TargetType="TextBox">
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Padding" Value="5,0,5,0" />

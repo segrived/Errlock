@@ -1,9 +1,11 @@
-﻿using Errlock.Lib.Modules.XssScanner;
+﻿using Errlock.Lib.Modules.XssScannerModule;
 
 namespace Errlock.ViewModels
 {
-    public class XssScannerViewModel
+    public class XssScannerViewModel : BaseModuleViewModel<XssScanner, XssScannerConfig>
     {
-        public XssScannerConfig Config { get; set; }
+        public XssScannerViewModel()
+            : base(new XssScanner(App.Config.Model.ConnectionConfiguration))
+        {  }
     }
 }

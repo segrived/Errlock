@@ -17,65 +17,24 @@ namespace Errlock
     {
         private readonly ViewModelLocator _locator = new ViewModelLocator();
 
+        public IModule CurrentModule { get; set; }
+        public ModuleConfig ModuleConfig { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
 
-            _locator.MainWindowViewModel.Sessions = Session.EnumerateSessions();
+            _locator.MainWindowViewModel.Sessions = App.SessionRepository.EnumerateAll();
 
-            Session.SessionChanged +=
-                (sender, e) => {
-                    _locator.MainWindowViewModel.Sessions = Session.EnumerateSessions();
-                };
+            //Session.SessionChanged +=
+            //    (sender, e) => {
+            //        _locator.MainWindowViewModel.Sessions = Session.EnumerateSessions();
+            //    };
 
             App.Logger.NewMessage += (sender, e) => {
                 Action callback = () => LogData.AppendText(e.FormattedMessage + "\n");
                 Dispatcher.Invoke(callback);
             };
-        }
-
-        public async void StartModule(IModule module)
-        {
-            module.SetLogger(App.Logger);
-            var session = this._locator.MainWindowViewModel.SelectedSession;
-
-            // При поступлении нового предупреждения от модуля
-            module.NewNotice +=
-                (sender, e) => { App.Logger.Log(e.Notice.Text, LoggerMessageType.Warn); };
-
-            this.ModuleProgress.IsIndeterminate = !module.IsSupportProgressReporting;
-            this.TaskbarItemInfo.ProgressState = module.IsSupportProgressReporting 
-                ? TaskbarItemProgressState.Normal 
-                : TaskbarItemProgressState.Indeterminate;
-
-            module.Progress.ProgressChanged += (sender, i) => {
-                this.ModuleProgress.Value = i;
-                this.TaskbarItemInfo.ProgressValue = (double)i / 100;
-            };
-
-            ModuleProgress.Visibility = Visibility.Visible;
-            var scanResult = await Task.Factory.StartNew(() => {
-                try {
-                    return module.Start(session);
-                } catch (WebException ex) {
-                    App.Logger.Log(ex.Message, LoggerMessageType.Error);
-                    return null;
-                }
-            });
-            ModuleProgress.Value = 0;
-            ModuleProgress.Visibility = Visibility.Hidden;
-            if (scanResult == null) {
-                return;
-            }
-            if (scanResult.Status == ModuleScanStatus.Error) {
-                this.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Error;
-            } else {
-                this.TaskbarItemInfo.ProgressValue = 0;
-                this.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.None;
-            }
-            if (scanResult.Status != ModuleScanStatus.SiteUnavailable) {
-                new ScanResultWindowView(scanResult).ShowDialog();
-            }
         }
 
         private void SessionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -91,7 +50,7 @@ namespace Errlock
             }
             var session = SessionList.SelectedItem as Session;
             if (session != null) {
-                session.Delete();
+                App.SessionRepository.Delete(session);
             }
         }
 
@@ -111,8 +70,52 @@ namespace Errlock
             if (SessionList.SelectedIndex == -1) {
                 return;
             }
-            var logFile = LogFilesList.SelectedItem as SessionLogFile;
-            new LogViewerView(logFile).ShowDialog();
+            //var logFile = LogFilesList.SelectedItem as SessionLogFile;
+            //new LogViewerView(logFile).ShowDialog();
+        }
+
+        private async void StartStopModule_Click(object sender, RoutedEventArgs e)
+        {
+            this.CurrentModule.SetLogger(App.Logger);
+            var session = this._locator.MainWindowViewModel.SelectedSession;
+
+            // При поступлении нового предупреждения от модуля
+            this.CurrentModule.NewNotice +=
+                (pSender, pe) => { App.Logger.Log(pe.Notice.Text, LoggerMessageType.Warn); };
+
+            this.ModuleProgress.IsIndeterminate = !this.CurrentModule.IsSupportProgressReporting;
+            this.TaskbarItemInfo.ProgressState = this.CurrentModule.IsSupportProgressReporting
+                ? TaskbarItemProgressState.Normal
+                : TaskbarItemProgressState.Indeterminate;
+
+            this.CurrentModule.Progress.ProgressChanged += (pSender, i) => {
+                this.ModuleProgress.Value = i;
+                this.TaskbarItemInfo.ProgressValue = (double)i / 100;
+            };
+
+            ModuleProgress.Visibility = Visibility.Visible;
+            var scanResult = await Task.Factory.StartNew(() => {
+                try {
+                    return this.CurrentModule.Start(session);
+                } catch (WebException ex) {
+                    App.Logger.Log(ex.Message, LoggerMessageType.Error);
+                    return null;
+                }
+            });
+            ModuleProgress.Value = 0;
+            ModuleProgress.Visibility = Visibility.Hidden;
+            if (scanResult == null) {
+                return;
+            }
+            if (scanResult.Status == ModuleScanStatus.Error) {
+                this.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Error;
+            } else {
+                this.TaskbarItemInfo.ProgressValue = 0;
+                this.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.None;
+            }
+            if (scanResult.Status != ModuleScanStatus.SiteUnavailable) {
+                new ScanResultWindowView(scanResult).ShowDialog();
+            }
         }
     }
 }

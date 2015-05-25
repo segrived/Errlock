@@ -3,7 +3,7 @@ using Errlock.Lib.Logger;
 
 namespace ErrlockConsole
 {
-    public class ConsoleLogFormatter : ILogMessageFormatter
+    public class ConsoleLogFormatter
     {
         public string FormatMessage(string message, LoggerMessageType messageType)
         {

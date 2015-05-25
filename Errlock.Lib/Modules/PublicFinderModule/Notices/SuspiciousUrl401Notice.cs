@@ -1,9 +1,12 @@
 ﻿using Errlock.Lib.Sessions;
 
-namespace Errlock.Lib.Modules.PublicFinder.Notices
+namespace Errlock.Lib.Modules.PublicFinderModule.Notices
 {
     public class SuspiciousUrl401Notice : ModuleNotice
     {
+        private const string TextFormat = "Подозрительный URL: {0}, сервер вернул ошибку 401\n" +
+                                          "Заголовок `WWW-Authenticate`: {1}";
+
         public override NoticePriority Priority
         {
             get { return NoticePriority.Low; }
@@ -11,12 +14,7 @@ namespace Errlock.Lib.Modules.PublicFinder.Notices
 
         public override string Text
         {
-            get
-            {
-                string format = "Подозрительный URL: {0}, сервер вернул ошибку 401\n" +
-                                "Заголовок `WWW-Authenticate`: {1}";
-                return string.Format(format, this.LinkedUrl, this.HeaderString);
-            }
+            get { return string.Format(TextFormat, this.LinkedUrl, this.HeaderString); }
         }
 
         private string HeaderString { get; set; }

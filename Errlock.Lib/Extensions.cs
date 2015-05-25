@@ -212,6 +212,32 @@ namespace Errlock.Lib
             return new StringBuilder().Insert(0, value, count).ToString();
         }
 
+        /// <summary>
+        /// Возвращает случайный элемент коллекции
+        /// </summary>
+        /// <typeparam name="T">Тип элементов в коллекции</typeparam>
+        /// <param name="collection">Исходная коллекция</param>
+        /// <returns>Случайный элемент коллекции</returns>
+        public static T PickRandom<T>(this IEnumerable<T> collection)
+        {
+            var rnd = new Random();
+            int index = rnd.Next(collection.Count());
+            return collection.ElementAt(index);
+        }
+
+        /// <summary>
+        /// Возвращает случайный элемент коллекции (перегруженная версия для списков)
+        /// </summary>
+        /// <typeparam name="T">Тип элементов в коллекции</typeparam>
+        /// <param name="collection">Исходная коллекция</param>
+        /// <returns>Случайный элемент коллекции</returns>
+        public static T PickRandom<T>(this IList<T> collection)
+        {
+            var rnd = new Random();
+            int index = rnd.Next(collection.Count);
+            return collection.ElementAt(index);
+        }
+
         public static void Raise<TEventArgs>(
             this EventHandler<TEventArgs> handler, object sender, TEventArgs e)
             where TEventArgs : EventArgs
@@ -228,14 +254,30 @@ namespace Errlock.Lib
             }
         }
 
+        /// <summary>
+        /// Выполняет реверс указанной строки
+        /// </summary>
+        /// <param name="input">Исходная строка</param>
+        /// <returns>Реверсированная строка</returns>
         public static string ReverseStr(this string input)
         {
             return new string(input.Reverse().ToArray());
         }
 
+        /// <summary>
+        /// Преобразовывает первый символ в строке в верхний регистр
+        /// </summary>
+        /// <param name="input">Исходная строка</param>
+        /// <returns>Строка, в который первый символ преобразован в верхний регистр</returns>
         public static string ToUpperFirstChar(this string input)
         {
             return input.First().ToString().ToUpper() + input.Substring(1);
+        }
+
+        public static StringBuilder AppendFormatLine(
+            this StringBuilder sb, string format, params object[] args)
+        {
+            return sb.AppendFormat(format, args).AppendLine();
         }
     }
 }

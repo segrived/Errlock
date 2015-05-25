@@ -9,22 +9,6 @@
       d:DesignWidth="400"
       mc:Ignorable="d">
     <Grid>
-        <Button x:Name="StartBtn"
-                Width="181"
-                Height="33"
-                Margin="10,0,0,10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
-                Click="StartBtn_Click"
-                Content="Запустить тест" />
-        <Button x:Name="StopBtn"
-                Width="181"
-                Height="33"
-                Margin="196,0,0,10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
-                Click="StopBtn_Click"
-                Content="Остановить тест" />
         <GroupBox Height="58"
                   Margin="10,10,10,0"
                   VerticalAlignment="Top"

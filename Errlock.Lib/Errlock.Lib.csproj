@@ -36,13 +36,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CsQuery">
-      <HintPath>..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
+    <Reference Include="CsQuery, Version=1.3.5.124, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsQuery.1.3.5-beta5\lib\net40\CsQuery.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LiteDB, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiteDB.1.0.2\lib\net40\LiteDB.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="YamlDotNet">
-      <HintPath>..\packages\YamlDotNet.3.5.1\lib\net35\YamlDotNet.dll</HintPath>
+    <Reference Include="YamlDotNet, Version=3.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YamlDotNet.3.6.0\lib\net35\YamlDotNet.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -53,40 +59,44 @@
     <Compile Include="Helpers\AppHelpers.cs" />
     <Compile Include="Helpers\EnumHelpers.cs" />
     <Compile Include="Helpers\GuidHelpers.cs" />
+    <Compile Include="Helpers\EnumerableHelpers.cs" />
     <Compile Include="Helpers\SerializationHelpers.cs" />
     <Compile Include="Helpers\WebHelpers.cs" />
+    <Compile Include="IRepository.cs" />
+    <Compile Include="Modules\ConfigurationTestModule\ConfigurationTest.cs" />
+    <Compile Include="Modules\ConfigurationTestModule\ConfigurationTestConfig.cs" />
+    <Compile Include="Modules\ConfigurationTestModule\Notices\NonProductionServerNotice.cs" />
     <Compile Include="Modules\IModule.cs" />
     <Compile Include="Logger\ILogger.cs" />
-    <Compile Include="Logger\ILogMessageFormatter.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Logger\LoggerEventArgs.cs" />
-    <Compile Include="Modules\ModuleDatabaseFileException.cs" />
     <Compile Include="Modules\ModuleConfig.cs" />
     <Compile Include="Modules\Module.cs" />
     <Compile Include="Modules\ModuleNotice.cs" />
     <Compile Include="Modules\ModuleNoticeEventArgs.cs" />
     <Compile Include="Modules\ModuleScanResult.cs" />
     <Compile Include="Modules\ModuleScanResultEventArgs.cs" />
-    <Compile Include="Modules\PasswordCracker\Notices\PasswordMatchNotice.cs" />
-    <Compile Include="Modules\PasswordCracker\PasswordCracker.cs" />
-    <Compile Include="Modules\PasswordCracker\PasswordCrackerConfig.cs" />
-    <Compile Include="Modules\PublicFinder\Notices\OpenResourceNotice.cs" />
-    <Compile Include="Modules\PublicFinder\Notices\SuspiciousUrl403Notice.cs" />
-    <Compile Include="Modules\PublicFinder\Notices\SuspiciousUrl401Notice.cs" />
-    <Compile Include="Modules\PublicFinder\PublicFinder.cs" />
-    <Compile Include="Modules\PublicFinder\PublicFinderConfig.cs" />
-    <Compile Include="Modules\XssScanner\WebForm.cs" />
-    <Compile Include="Modules\XssScanner\WebFormElement.cs" />
-    <Compile Include="Modules\XssScanner\XssScanner.cs" />
-    <Compile Include="Modules\XssScanner\XssScannerConfig.cs" />
+    <Compile Include="Modules\PasswordCrackerModule\Notices\PasswordMatchNotice.cs" />
+    <Compile Include="Modules\PasswordCrackerModule\PasswordCracker.cs" />
+    <Compile Include="Modules\PasswordCrackerModule\PasswordCrackerConfig.cs" />
+    <Compile Include="Modules\PublicFinderModule\Notices\OpenResourceNotice.cs" />
+    <Compile Include="Modules\PublicFinderModule\Notices\SuspiciousUrl403Notice.cs" />
+    <Compile Include="Modules\PublicFinderModule\Notices\SuspiciousUrl401Notice.cs" />
+    <Compile Include="Modules\PublicFinderModule\PublicFinder.cs" />
+    <Compile Include="Modules\PublicFinderModule\PublicFinderConfig.cs" />
+    <Compile Include="Modules\XssScannerModule\WebForm.cs" />
+    <Compile Include="Modules\XssScannerModule\WebFormElement.cs" />
+    <Compile Include="Modules\XssScannerModule\XssScanner.cs" />
+    <Compile Include="Modules\XssScannerModule\XssScannerConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sessions\SessionLogFile.cs" />
-    <Compile Include="Sessions\SessionScanLog.cs" />
+    <Compile Include="Sessions\ISessionRepository.cs" />
     <Compile Include="Sessions\Session.cs" />
+    <Compile Include="Sessions\SessionDiskRepository.cs" />
     <Compile Include="Sessions\SessionEventArgs.cs" />
+    <Compile Include="Sessions\SessionLiteDbRepository.cs" />
     <Compile Include="Sessions\SessionScanOptions.cs" />
     <Compile Include="WebCrawler\WebCrawler.cs" />
-    <Compile Include="SmartWebRequest\SmartWebRequest.cs" />
+    <Compile Include="SmartWebRequest\SmartRequest.cs" />
     <Compile Include="SmartWebRequest\ConnectionConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -101,7 +111,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Modules\XssScanner\Notices\" />
+    <Folder Include="Modules\XssScannerModule\Notices\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

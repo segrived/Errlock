@@ -1,20 +1,11 @@
-﻿using Errlock.Lib;
-using Errlock.Lib.Modules.PublicFinder;
+﻿using Errlock.Lib.Modules.PublicFinderModule;
 
 namespace Errlock.ViewModels
 {
-    public class PublicFinderViewModel : Bindable
+    public class PublicFinderViewModel : BaseModuleViewModel<PublicFinder, PublicFinderConfig>
     {
-        public PublicFinderConfig Config { get; set; }
-
-        public PublicFinderViewModel()
-        {
-            this.Config = new PublicFinderConfig {
-                UsePermutations = true,
-                DetectSuspicious = true,
-                UseGetRequests = false,
-                UserWordsList = ""
-            };
-        }
+        public PublicFinderViewModel() 
+            : base(new PublicFinder(App.Config.Model.ConnectionConfiguration))
+        { }
     }
 }

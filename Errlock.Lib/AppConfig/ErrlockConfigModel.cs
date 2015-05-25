@@ -3,8 +3,15 @@ using Errlock.Lib.SmartWebRequest;
 
 namespace Errlock.Lib.AppConfig
 {
+    /// <summary>
+    /// Модель настроек Errlock
+    /// </summary>
     public class ErrlockConfigModel
     {
+        /// <summary>
+        /// Настройки по умолчанию: используются при создании файла настроек при первом запуске,
+        /// либо пересоздания в случае проблем
+        /// </summary>
         public static readonly ErrlockConfigModel Defaults = new ErrlockConfigModel {
             LastStartTime = DateTime.Now,
             ConnectionConfiguration = new ConnectionConfiguration {
@@ -17,7 +24,14 @@ namespace Errlock.Lib.AppConfig
             }
         };
 
+        /// <summary>
+        /// Время последнего запуска программы
+        /// </summary>
         public DateTime LastStartTime { get; set; }
-        public ConnectionConfiguration ConnectionConfiguration { get; set; }
+
+        /// <summary>
+        /// Настройки подключения
+        /// </summary>
+        public ConnectionConfiguration ConnectionConfiguration { get; private set; }
     }
 }

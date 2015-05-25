@@ -8,7 +8,7 @@ namespace Errlock.Lib.Modules
         private static readonly ResourceManager NoticeDescriptions
             = Resources.NoticeDescriptions.ResourceManager;
 
-        public Session Session { get; private set; }
+        public Session Session { get; set; }
         public string LinkedUrl { get; private set; }
         public abstract NoticePriority Priority { get; }
         public string Information { get; private set; }

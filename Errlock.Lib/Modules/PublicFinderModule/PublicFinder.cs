@@ -4,12 +4,12 @@ using System.Linq;
 using System.Net;
 using Errlock.Lib.Helpers;
 using Errlock.Lib.Logger;
-using Errlock.Lib.Modules.PublicFinder.Notices;
+using Errlock.Lib.Modules.PublicFinderModule.Notices;
 using Errlock.Lib.Sessions;
 using Errlock.Lib.SmartWebRequest;
 using Errlock.Resources.ModulesData;
 
-namespace Errlock.Lib.Modules.PublicFinder
+namespace Errlock.Lib.Modules.PublicFinderModule
 {
     public class PublicFinder : Module<PublicFinderConfig>
     {
@@ -20,9 +20,24 @@ namespace Errlock.Lib.Modules.PublicFinder
 
         private List<string> Urls { get; set; }
 
+        private static readonly PublicFinderConfig DefaultConfig = new PublicFinderConfig {
+            UsePermutations = true,
+            DetectSuspicious = true,
+            UseGetRequests = false,
+            UserWordsList = ""
+        };
+
         public PublicFinder(
             PublicFinderConfig moduleConfig, ConnectionConfiguration connectionConfig)
             : base(moduleConfig, connectionConfig)
+        {
+        }
+
+        public PublicFinder(ConnectionConfiguration connectionConfig)
+            : base(DefaultConfig, connectionConfig)
+        { }
+
+        protected override void ProcessConfig()
         {
             this.Urls = new List<string>();
             // В первых двух ресурсах содержатся части URL, которые, при использовании
@@ -36,14 +51,15 @@ namespace Errlock.Lib.Modules.PublicFinder
             // Разделители, которые используется для перестановок
             var separators = PublicFinderData.Separators.Lines();
             this.Urls.AddRange(completed);
-            if (this.ModuleConfig.UsePermutations) {
+            if (this.Config.UsePermutations) {
                 foreach (string separator in separators) {
-                    var permutations = WebHelpers.Permutations(data0, data1, separator);
+                    var permutations = EnumerableHelpers
+                        .StringCartesianProduct(data0, data1, separator);
                     this.Urls.AddRange(permutations);
                 }
             }
-            if (! String.IsNullOrEmpty(this.ModuleConfig.UserWordsList)) {
-                var lines = this.ModuleConfig.UserWordsList
+            if (! String.IsNullOrEmpty(this.Config.UserWordsList)) {
+                var lines = this.Config.UserWordsList
                     .Lines()
                     .Where(line => ! string.IsNullOrEmpty(line));
                 this.Urls.AddRange(lines);
@@ -52,8 +68,9 @@ namespace Errlock.Lib.Modules.PublicFinder
 
         protected override ModuleScanStatus Process(Session session, IProgress<int> progress)
         {
+            int currentProgress = 0;
             const string format = "Сканирование начато, будет просканировано {0} вариантов";
-            this.Logger.Log(string.Format(format, this.Urls.Count), LoggerMessageType.Info);
+            AddMessage(string.Format(format, this.Urls.Count), LoggerMessageType.Info);
             // Если пользоваль выбора отправу GET запросов вместо HEAD
             for (int i = 0; i < this.Urls.Count; i++) {
                 if (this.Token.IsCancellationRequested) {
@@ -62,33 +79,44 @@ namespace Errlock.Lib.Modules.PublicFinder
                 try {
                     string urlPart = this.Urls[i];
                     string url = new Uri(new Uri(session.Url), urlPart).AbsoluteUri;
-                    string requestType = this.ModuleConfig.UseGetRequests ? "GET" : "HEAD";
-                    using (var result = new SmartWebRequest.SmartWebRequest(this.ConnectionConfiguration, url).Request(requestType)) {
-                        AddMessage(
-                            string.Format("Обработка [{2} из {3}] | [{0}] {1} ",
-                                (int)result.StatusCode, url, i + 1, this.Urls.Count),
-                            LoggerMessageType.Info);
-                        if (this.ModuleConfig.DetectSuspicious &&
+                    string requestType = this.Config.UseGetRequests ? "GET" : "HEAD";
+                    var requester = new SmartRequest(this.ConnectionConfiguration, url);
+                    using (var result = requester.Request(requestType)) {
+                        string message = String.Format("[{0}%] | [{1}] {2}", currentProgress,
+                            (int)result.StatusCode, url);
+                        AddMessage(message, LoggerMessageType.Info);
+
+                        // Обнаружение страниц с 403 кодом ошибки
+                        if (this.Config.DetectSuspicious &&
                             result.StatusCode == HttpStatusCode.Forbidden) {
                             var notice = new SuspiciousUrl403Notice(session, url);
                             this.AddNotice(notice);
                         }
-                        if (this.ModuleConfig.DetectSuspicious &&
+
+                        // Обнаружение страинц с 401 кодом ошибки
+                        if (this.Config.DetectSuspicious &&
                             result.StatusCode == HttpStatusCode.Unauthorized) {
                             string header = result.Headers["WWW-Authenticate"];
                             var notice = new SuspiciousUrl401Notice(session, url, header);
                             this.AddNotice(notice);
                         }
+
+                        // Обнаржение страниц, которые были уцспешно загружены
                         if (result.StatusCode == HttpStatusCode.OK) {
                             var notice = new OpenResourceNotice(session, url);
                             this.AddNotice(notice);
                         }
                     }
-                } catch (Exception ex) {
+                } catch (Exception) {
                     string message = string.Format("Ошибка - URL: {0}", this.Urls[i]);
                     AddMessage(message, LoggerMessageType.Error);
                 }
-                progress.Report((int)((double)i / this.Urls.Count * 100.0));
+
+                int percentProgress = (int)((double)i / this.Urls.Count * 100.0);
+                if (percentProgress > currentProgress) {
+                    progress.Report(percentProgress);
+                    currentProgress = percentProgress;
+                }
             }
             return ModuleScanStatus.Completed;
         }

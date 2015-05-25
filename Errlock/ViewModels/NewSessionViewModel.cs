@@ -57,7 +57,7 @@ namespace Errlock.ViewModels
         public void SaveSession()
         {
             this.Session.Url = this.FullUrl;
-            this.Session.Save();
+            App.SessionRepository.InsertOrUpdate(this.Session);
             this.OnClosingRequest();
         }
 

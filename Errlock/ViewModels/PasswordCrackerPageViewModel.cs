@@ -1,25 +1,12 @@
-﻿using Errlock.Lib;
-using Errlock.Lib.Modules.PasswordCracker;
-using Errlock.Lib.SmartWebRequest;
+﻿using Errlock.Lib.Modules.PasswordCrackerModule;
 
 namespace Errlock.ViewModels
 {
-    public class PasswordCrackerPageViewModel : Bindable
+    public class PasswordCrackerPageViewModel : BaseModuleViewModel<PasswordCracker, PasswordCrackerConfig>
     {
-        public PasswordCrackerConfig Config { get; set; }
-
         public PasswordCrackerPageViewModel()
-        {
-            this.Config = new PasswordCrackerConfig {
-                Login = "admin",
-                RequestUrl = "login",
-                RequestParameters = @"login={{login}}&password={{password}}",
-                RequestMethod = RequestMethod.Post,
-                InvalidPasswordAction = InvalidPasswordAction.Render403,
-                PasswordsCount = 100,
-                StopAfterFirstMatch = true,
-                UseHeuristic = true
-            };
-        }
+            : base(new PasswordCracker(App.Config.Model.ConnectionConfiguration))
+        { }
+
     }
 }

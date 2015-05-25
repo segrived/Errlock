@@ -1,7 +1,6 @@
-﻿using System.Threading;
-using System.Windows;
+﻿using System.Windows;
 using Errlock.Lib.Helpers;
-using Errlock.Lib.Modules.PasswordCracker;
+using Errlock.Lib.Modules.PasswordCrackerModule;
 using Errlock.Lib.SmartWebRequest;
 using Errlock.ViewModels;
 
@@ -9,14 +8,12 @@ namespace Errlock.Views
 {
     public partial class PasswordCrackerPageView
     {
-        private readonly PasswordCrackerPageViewModel _viewModel
-            = new PasswordCrackerPageViewModel();
-
-        private PasswordCracker _module;
+        private PasswordCrackerPageViewModel _viewModel;
 
         public PasswordCrackerPageView()
         {
             InitializeComponent();
+            _viewModel = new PasswordCrackerPageViewModel();
             this.DataContext = _viewModel;
         }
 
@@ -25,20 +22,8 @@ namespace Errlock.Views
             this.RequestTypeComboBox.ItemsSource = EnumHelpers.EnumToDictionary<RequestMethod>();
             this.InvalidPasswordBehaviorComboBox.ItemsSource =
                 EnumHelpers.EnumToDictionary<InvalidPasswordAction>();
-        }
-
-        private void StartBtn_Click(object sender, RoutedEventArgs e)
-        {
-            var config = _viewModel.Config;
-            this._module = new PasswordCracker(config, App.Config.Model.ConnectionConfiguration);
-            ((MainWindow)Application.Current.MainWindow).StartModule(this._module);
-        }
-
-        private void StopBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (this._module != null) {
-                this._module.Stop();
-            }
+            _viewModel = new PasswordCrackerPageViewModel();
+            ((MainWindow)Application.Current.MainWindow).CurrentModule = _viewModel.Module;
         }
     }
 }

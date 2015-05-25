@@ -4,26 +4,10 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       Title="XSSInjectionView"
+      Loaded="Page_Loaded"
       d:DesignHeight="300"
       d:DesignWidth="500"
       mc:Ignorable="d">
 
-    <Grid >
-        <Button x:Name="StartBtn"
-    		Width="181"
-    		Height="33"
-    		Margin="10,0,0,10"
-    		HorizontalAlignment="Left"
-    		VerticalAlignment="Bottom"
-    		Click="StartBtn_Click"
-    		Content="Запустить тест" />
-        <Button x:Name="StopBtn"
-    		Width="181"
-    		Height="33"
-    		Margin="196,0,-77,10"
-    		HorizontalAlignment="Left"
-    		VerticalAlignment="Bottom"
-    		Click="StopBtn_Click"
-    		Content="Остановить тест" />
-    </Grid>
+    <Grid />
 </Page>

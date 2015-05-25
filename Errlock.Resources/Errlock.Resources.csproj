@@ -44,6 +44,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PublicFinderData.resx</DependentUpon>
     </Compile>
+    <Compile Include="ModulesData\XssScanner.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>XssScanner.resx</DependentUpon>
+    </Compile>
     <Compile Include="NoticeDescriptions.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -59,6 +64,10 @@
     <EmbeddedResource Include="ModulesData\PublicFinderData.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>PublicFinderData.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModulesData\XssScanner.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>XssScanner.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="NoticeDescriptions.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

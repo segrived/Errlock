@@ -5,12 +5,12 @@ using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
 using Errlock.Lib.Logger;
-using Errlock.Lib.Modules.PasswordCracker.Notices;
+using Errlock.Lib.Modules.PasswordCrackerModule.Notices;
 using Errlock.Lib.Sessions;
 using Errlock.Lib.SmartWebRequest;
 using Errlock.Resources.ModulesData;
 
-namespace Errlock.Lib.Modules.PasswordCracker
+namespace Errlock.Lib.Modules.PasswordCrackerModule
 {
     public enum InvalidPasswordAction
     {
@@ -32,6 +32,20 @@ namespace Errlock.Lib.Modules.PasswordCracker
             get { return true; }
         }
 
+        private static readonly PasswordCrackerConfig DefaultConfig = new PasswordCrackerConfig {
+            Login = @"admin",
+            RequestUrl = @"login",
+            RequestParameters = @"login={{login}}&password={{password}}",
+            RequestMethod = RequestMethod.Post,
+            InvalidPasswordAction = InvalidPasswordAction.Render403,
+            PasswordsCount = 100,
+            StopAfterFirstMatch = true,
+            UseHeuristic = true
+        };
+
+        public PasswordCracker(ConnectionConfiguration connectionConfig)
+            : base(DefaultConfig, connectionConfig) { }
+
         public PasswordCracker(
             PasswordCrackerConfig moduleConfig, ConnectionConfiguration connectionConfig)
             : base(moduleConfig, connectionConfig) { }
@@ -39,8 +53,8 @@ namespace Errlock.Lib.Modules.PasswordCracker
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private string ProcessParameters(string password)
         {
-            return this.ModuleConfig.RequestParameters
-                       .Replace("{{login}}", this.ModuleConfig.Login)
+            return this.Config.RequestParameters
+                       .Replace("{{login}}", this.Config.Login)
                        .Replace("{{password}}", password);
         }
 
@@ -59,14 +73,16 @@ namespace Errlock.Lib.Modules.PasswordCracker
 
         protected override ModuleScanStatus Process(Session session, IProgress<int> progress)
         {
+            int currentProgress = 0;
+
             var sessionUri = new Uri(session.Url);  
 
-            this._totalCount = this.ModuleConfig.PasswordsCount;
+            this._totalCount = this.Config.PasswordsCount;
             IEnumerable<string> passwordsSource = PasswordListCache.Value
-                .Take(this.ModuleConfig.PasswordsCount);
+                .Take(this.Config.PasswordsCount);
 
-            if (this.ModuleConfig.UseHeuristic) {
-                var variations = this.GetHeuristicVariations(this.ModuleConfig.Login);
+            if (this.Config.UseHeuristic) {
+                var variations = this.GetHeuristicVariations(this.Config.Login);
                 this._totalCount += variations.Count;
                 passwordsSource = variations.Concat(passwordsSource);
             }
@@ -78,31 +94,37 @@ namespace Errlock.Lib.Modules.PasswordCracker
 
                 string parameters = ProcessParameters(password);
 
-                var uri = new Uri(sessionUri, this.ModuleConfig.RequestUrl);
+                var uri = new Uri(sessionUri, this.Config.RequestUrl);
                 
-                Func<SmartWebRequest.SmartWebRequest, HttpWebResponse> requestAction;
-                if (ModuleConfig.RequestMethod == RequestMethod.Get) {
+                Func<SmartWebRequest.SmartRequest, HttpWebResponse> requestAction;
+                if (Config.RequestMethod == RequestMethod.Get) {
                     uri = new UriBuilder(uri) { Query = parameters }.Uri;
                     requestAction = p => p.GetRequest();
                 } else {
                     requestAction = p => p.PostRequest(parameters);
                 }
-                var parser = new SmartWebRequest.SmartWebRequest(this.ConnectionConfiguration,
+                var parser = new SmartWebRequest.SmartRequest(this.ConnectionConfiguration,
                     uri.AbsoluteUri);
                 using (var response = requestAction.Invoke(parser)) {
                     string message = String.Format("Тест пароля `{0}`", password);
                     AddMessage(message, LoggerMessageType.Info);
-                    progress.Report((int)((double)_processedCount / _totalCount * 100));
+
+                    int percentProgress = (int)((double)_processedCount / _totalCount * 100);
+                    if (percentProgress > currentProgress) {
+                        progress.Report(percentProgress);
+                        currentProgress = percentProgress;
+                    }
+
                     this._processedCount++;
-                    if (this.ModuleConfig.InvalidPasswordAction == InvalidPasswordAction.Render403 &&
+                    if (this.Config.InvalidPasswordAction == InvalidPasswordAction.Render403 &&
                         response.StatusCode == HttpStatusCode.Forbidden) {
                         continue;
                     }
-                    if (this.ModuleConfig.InvalidPasswordAction == InvalidPasswordAction.RedirectBack &&
+                    if (this.Config.InvalidPasswordAction == InvalidPasswordAction.RedirectBack &&
                         response.ResponseUri == uri) {
                         continue;
                     }
-                    var notice = new PasswordMatchNotice(session, uri.AbsoluteUri, this.ModuleConfig.Login,
+                    var notice = new PasswordMatchNotice(session, uri.AbsoluteUri, this.Config.Login,
                         password);
                     AddNotice(notice);
                     string successMessage =
@@ -110,7 +132,7 @@ namespace Errlock.Lib.Modules.PasswordCracker
                             "Ни один из триггеров не сработал, возможно найден пароль. Пароль: `{0}` подошел",
                             password);
                     AddMessage(successMessage, LoggerMessageType.Info);
-                    if (this.ModuleConfig.StopAfterFirstMatch) {
+                    if (this.Config.StopAfterFirstMatch) {
                         return ModuleScanStatus.Completed;
                     }
                 }

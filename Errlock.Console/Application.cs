@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using Errlock.Lib;
 using Errlock.Lib.AppConfig;
 using Errlock.Lib.Helpers;
@@ -80,6 +81,14 @@ namespace Errlock.Console
             s.Options.MaxLinks = ConsoleRequester
                 .RequestInt("Глобальное ограничение на количество ссылок: ");
             this._repository.InsertOrUpdate(s);
+        }
+
+        private void RemoveSession()
+        {
+            var sessions = this._repository.EnumerateAll();
+            const string title = "Укажите сессию, которую необходимо удалить";
+            var session = ConsoleRequester.RequestListItem(sessions, s => s.Url, title);
+            this._repository.Delete(session);
         }
 
         private XssScanner CreateXssScannerInstance()
@@ -191,11 +200,23 @@ namespace Errlock.Console
                 case "add":
                     this.AddSession();
                     break;
+                // Удаление сессии
+                case "remove":
+                    this.RemoveSession();
+                    break;
                 // Выбор сессии и запуск модуля
-                case "start":
+                case "go":
                     var module = this.GetModule();
                     var session = this.GetSession();
                     this.StartModule(module, session);
+                    break;
+                // Информацию о программе
+                case "about":
+                    this.ShowAboutMessage();
+                    break;
+                // Отображение справки
+                case "help":
+                    this.DisplayHelp();
                     break;
                 default:
                     ConsoleHelpers.ShowError("Неизвестная команда");
@@ -204,9 +225,39 @@ namespace Errlock.Console
         }
 
         /// <summary>
+        /// Отображает справку по командам программы
+        /// </summary>
+        private void DisplayHelp()
+        {
+            System.Console.WriteLine();
+            ConsoleHelpers.WriteColorLine("СПРАВКА ПО КОМАНДАМ", ConsoleColor.Yellow);
+            System.Console.WriteLine();
+
+            ConsoleHelpers.WriteColor("add", ConsoleColor.Magenta);
+            const string addHelp = " - запрашивает информацию и добавляет сессию в репозиторий";
+            System.Console.WriteLine(addHelp);
+
+            ConsoleHelpers.WriteColor("remove", ConsoleColor.Magenta);
+            const string removeHelp = " - запрашивает сессию и удаляет её";
+            System.Console.WriteLine(removeHelp);
+
+            ConsoleHelpers.WriteColor("go", ConsoleColor.Magenta);
+            const string goHelp = " - отображает диалоги выбора модуля и сессии после чего запускает тест";
+            System.Console.WriteLine(goHelp);
+
+            ConsoleHelpers.WriteColor("about", ConsoleColor.Magenta);
+            const string aboutHelp = " - отображает информацию о программе";
+            System.Console.WriteLine(aboutHelp);
+
+            ConsoleHelpers.WriteColor("help", ConsoleColor.Magenta);
+            const string helpHelp = " - отображает эту справку";
+            System.Console.WriteLine(helpHelp);
+        }
+
+        /// <summary>
         /// Выводит приветствие на экран
         /// </summary>
-        private void ShowWelcomeMessage()
+        private void ShowAboutMessage()
         {
             const string message = @"
  ___  __   __        __   __           __   __        __   __        ___
@@ -229,13 +280,14 @@ namespace Errlock.Console
         /// </summary>
         private void MainLoop()
         {
-            ShowWelcomeMessage();
+            ShowAboutMessage();
             var commandRequester = new ConsoleRequester<string>();
             commandRequester.AddPredicate(string.IsNullOrWhiteSpace, "Команда не должа быть пустой");
             string command = String.Empty;
             while (command != "exit") {
-                command = commandRequester.RequestValue("Команда: ");
+                command = commandRequester.RequestValue(color: ConsoleColor.Cyan);
                 ProcessCommand(command);
+                System.Console.WriteLine();
             }
         }
     }

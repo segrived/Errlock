@@ -6,7 +6,7 @@ namespace Errlock.Console
     {
         public static void ShowPrompt(string text = "", ConsoleColor color = ConsoleColor.Green)
         {
-            WriteColor(String.Format("> {0}", text), color);
+            WriteColor(String.Format(">>> {0}", text), color);
         }
 
         public static void ShowError(string errorText)

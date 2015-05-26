@@ -96,13 +96,15 @@ namespace Errlock.Console
         /// попыток ввод не разу не прошел проверку одним из добавленных предикатов, 
         /// функция возращает null
         /// </param>
+        /// <param name="color">Цвет строки запроса</param>
         /// <returns>Обработанное значение, введенное с консоли</returns>
-        public T RequestValue(string prompt = "", int maxAttempts = -1)
+        public T RequestValue(string prompt = "", int maxAttempts = -1, 
+            ConsoleColor color = ConsoleColor.Green)
         {
             int attempts = 0;
             while (maxAttempts == -1 || attempts < maxAttempts) {
                 try {
-                    ConsoleHelpers.ShowPrompt(prompt);
+                    ConsoleHelpers.ShowPrompt(prompt, color);
                     var value = _stringConverter(System.Console.ReadLine());
                     var pred = this._predicatesList.FirstOrDefault(p => p.Item1.Invoke(value));
                     if (pred == null) {

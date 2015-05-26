@@ -14,6 +14,7 @@ using Errlock.Lib.Modules.PasswordCrackerModule;
 using Errlock.Lib.Modules.PublicFinderModule;
 using Errlock.Lib.Modules.XssScannerModule;
 using Errlock.Lib.Sessions;
+using Errlock.Lib.Helpers;
 
 namespace ErrlockConsole
 {
@@ -31,6 +32,8 @@ namespace ErrlockConsole
 
         private readonly ILogger _consoleLogger = new ConsoleLogger();
 
+        private IRepository<Session> _repository = new SessionLiteDbRepository();
+
         private Session SelectedSession { get; set; }
 
         private bool IsSessionSelected
@@ -44,9 +47,30 @@ namespace ErrlockConsole
             app.MainLoop();
         }
 
-        private static Session ReadSession()
+        private Session AddSession() {
+            var s = new Session();
+            var urlReq = new ConsoleRequester<string>();
+            urlReq.AddPredicate(u => ! WebHelpers.IsValidUrl(u), "Неверный URL");
+            s.Url = urlReq
+                .RequestValue("Введите URL (включая протокол, например http://google.ru)");
+            s.Options.RecursionDepth = ConsoleRequester
+                .RequestInt("Введите макс. глубину рекурсии");
+            s.Options.FetchPerPage = ConsoleRequester
+                .RequestInt("Максимальное количество ссылок с одной страницы");
+            s.Options.IngoreAnchors = ConsoleRequester
+                .RequestBool("Игнорировать якоря");
+            s.Options.UseRandomLinks = ConsoleRequester
+                .RequestBool("Собирать случайные ссылки");
+            s.Options.MaxLinks = ConsoleRequester
+                .RequestInt("Глобальное ограничение на количество ссылок");
+            this._repository.InsertOrUpdate(s);
+            return s;
+        }
+
+        private Session ReadSession()
         {
-            return ConsoleRequester.RequestListItem(Session.EnumerateSessions(), s => s.Url);
+            var sessionList = this._repository.EnumerateAll();
+            return ConsoleRequester.RequestListItem(sessionList, s => s.Url);
         }
 
         private static XssScanner CreateXssScannerInstance()
@@ -93,8 +117,16 @@ namespace ErrlockConsole
         private void ProcessCommand(string command, List<string> arguments)
         {
             switch (command) {
+                case "add":
+                    this.AddSession();
+                    break;
                 case "setsession":
-                    this.SelectedSession = ReadSession();
+                    try {
+                        this.SelectedSession = ReadSession();
+                    } catch (EmptyCollectionException ex) {
+                        var msg = "Нет созданных сессий, сначала создайте сессию с помощью команды add";
+                        ConsoleHelpers.ShowError(msg);
+                    }
                     break;
                 case "start":
                     if (arguments.Count != 1) {

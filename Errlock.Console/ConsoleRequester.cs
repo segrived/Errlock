@@ -25,10 +25,13 @@ namespace ErrlockConsole
 
         public static T RequestListItem<T>(IEnumerable<T> items, Func<T, string> itemToStringFunc)
         {
-            var sessionList = items.ToList();
-            var indexesList = Enumerable.Range(0, sessionList.Count).ToList();
+            var sourceList = items.ToList();
+            if (sourceList.Count == 0) {
+                throw new EmptyCollectionException("Пустая коллекция");
+            }
+            var indexesList = Enumerable.Range(0, sourceList.Count).ToList();
             var zipped = indexesList
-                .Zip(sessionList, (i, x) => new KeyValuePair<int, T>(i, x))
+                .Zip(sourceList, (i, x) => new KeyValuePair<int, T>(i, x))
                 .ToDictionary(i => i.Key, i => i.Value);
             foreach (var kvPair in zipped) {
                 ConsoleHelpers.WriteColor(kvPair.Key + ". ", ConsoleColor.Magenta);

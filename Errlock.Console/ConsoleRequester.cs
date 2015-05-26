@@ -18,7 +18,7 @@ namespace Errlock.Console
 
         public static bool RequestBool(string prompt)
         {
-            var trueVariations = new List<string> { "true", "1", "yes", "да" };
+            var trueVariations = new List<string> { "true", "1", "yes", "да", "+" };
             return new ConsoleRequester<bool>(s => trueVariations.Contains(s.ToLower()))
                 .RequestValue(prompt);
         }
@@ -30,7 +30,7 @@ namespace Errlock.Console
             if (sourceList.Count == 0) {
                 throw new EmptyCollectionException("Пустая коллекция");
             }
-            var indexesList = Enumerable.Range(0, sourceList.Count).ToList();
+            var indexesList = Enumerable.Range(1, sourceList.Count).ToList();
             var zipped = indexesList
                 .Zip(sourceList, (i, x) => new KeyValuePair<int, T>(i, x))
                 .ToDictionary(i => i.Key, i => i.Value);
@@ -45,7 +45,7 @@ namespace Errlock.Console
                 ConsoleHelpers.WriteColorLine(valueStr, ConsoleColor.Gray);
             }
             var requester = new ConsoleRequester<int>(Int32.Parse);
-            requester.AddPredicate(x => x < 0 || x >= indexesList.Count, "Неверный номер");
+            requester.AddPredicate(x => x < 1 || x > indexesList.Count, "Неверный номер");
             int selectedNumber = requester.RequestValue("Введите номер необходимого варианта: ");
             var selectedItem = zipped[selectedNumber];
             string selectedValueStr = itemToStringFunc.Invoke(selectedItem);

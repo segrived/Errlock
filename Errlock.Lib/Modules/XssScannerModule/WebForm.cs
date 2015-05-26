@@ -52,15 +52,15 @@ namespace Errlock.Lib.Modules.XssScanner
             switch (input.NodeName.ToLower()) {
                 case "input":
                     elementType = ElementType.Input;
-                    return new WebFormElement(name, elementType, new List<string> { "test" }, true);
+                    return new WebFormElement(name, elementType, true, new List<string> { "test" });
                 case "textarea":
                     elementType = ElementType.TextArea;
-                    return new WebFormElement(name, elementType, new List<string> { "test" }, true);
+                    return new WebFormElement(name, elementType, true, new List<string> { "test" });
                 case "select":
                     elementType = ElementType.Select;
                     var availableValues =
                         input.Cq()["option"].Select(x => x.GetAttribute("value")).ToList();
-                    return new WebFormElement(name, ElementType.Select, availableValues, true);
+                    return new WebFormElement(name, ElementType.Select, true, availableValues);
                 default:
                     throw new ArgumentException("Неподдерживаемый тип элемента");
             }

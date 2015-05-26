@@ -7,7 +7,7 @@ namespace Errlock.Lib.Modules.PublicFinderModule.Notices
         private const string TextFormat = "Подозрительный URL: {0}, сервер вернул ошибку 401\n" +
                                           "Заголовок `WWW-Authenticate`: {1}";
 
-        public override NoticePriority Priority
+        protected override NoticePriority Priority
         {
             get { return NoticePriority.Low; }
         }
@@ -19,8 +19,7 @@ namespace Errlock.Lib.Modules.PublicFinderModule.Notices
 
         private string HeaderString { get; set; }
 
-        public SuspiciousUrl401Notice(Session session, string linkedUrl, string headerString)
-            : base(session, linkedUrl)
+        public SuspiciousUrl401Notice(string linkedUrl, string headerString) : base(linkedUrl)
         {
             this.HeaderString = headerString;
         }

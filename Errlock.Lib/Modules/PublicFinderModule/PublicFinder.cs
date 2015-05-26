@@ -89,7 +89,7 @@ namespace Errlock.Lib.Modules.PublicFinderModule
                         // Обнаружение страниц с 403 кодом ошибки
                         if (this.Config.DetectSuspicious &&
                             result.StatusCode == HttpStatusCode.Forbidden) {
-                            var notice = new SuspiciousUrl403Notice(session, url);
+                            var notice = new SuspiciousUrl403Notice(url);
                             this.AddNotice(notice);
                         }
 
@@ -97,13 +97,13 @@ namespace Errlock.Lib.Modules.PublicFinderModule
                         if (this.Config.DetectSuspicious &&
                             result.StatusCode == HttpStatusCode.Unauthorized) {
                             string header = result.Headers["WWW-Authenticate"];
-                            var notice = new SuspiciousUrl401Notice(session, url, header);
+                            var notice = new SuspiciousUrl401Notice(url, header);
                             this.AddNotice(notice);
                         }
 
                         // Обнаржение страниц, которые были уцспешно загружены
                         if (result.StatusCode == HttpStatusCode.OK) {
-                            var notice = new OpenResourceNotice(session, url);
+                            var notice = new OpenResourceNotice(url);
                             this.AddNotice(notice);
                         }
                     }

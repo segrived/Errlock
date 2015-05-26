@@ -10,8 +10,8 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule.Notices
         private const string TextFormat = "Используется сервер, не предназначенный " +
                                           "для работе в продакшене: {0}";
 
-        public NonProductionServerNotice(Session session, string linkedUrl, string serverName)
-            : base(session, linkedUrl)
+        public NonProductionServerNotice(string linkedUrl, string serverName)
+            : base(linkedUrl)
         {
             this.ServerName = serverName;
         }
@@ -21,7 +21,7 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule.Notices
             get { return String.Format(TextFormat, this.ServerName); }
         }
 
-        public override NoticePriority Priority
+        protected override NoticePriority Priority
         {
             get { return NoticePriority.Medium; }
         }

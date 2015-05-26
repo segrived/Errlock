@@ -38,13 +38,13 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule
                 // Информацию о используемых специальных заголовках
                 var specialHeaders = res.Headers.AllKeys.Where(k => k.StartsWith("X-")).ToList();
                 if (specialHeaders.Any()) {
-                    var specHeadersNotice = new SpecialHeadersNotice(session, url, specialHeaders);
+                    var specHeadersNotice = new SpecialHeadersNotice(url, specialHeaders);
                     this.AddNotice(specHeadersNotice);
                 }
 
                 // Проверка на заголовок X-Xss-Protection 
                 if (res.Headers["X-Xss-Protection"] == "0") {
-                    var disabledXssNotice = new XssProtectionDisabled(session, url);
+                    var disabledXssNotice = new XssProtectionDisabled(url);
                     this.AddNotice(disabledXssNotice);
                 }
 
@@ -52,7 +52,7 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule
                 string server = res.Server;
                 bool isNonProd = nonProductionServerPatterns.Any(r => Regex.IsMatch(server, r));
                 if (isNonProd) {
-                    var notice = new NonProductionServerNotice(session, url, server);
+                    var notice = new NonProductionServerNotice(url, server);
                     this.AddNotice(notice);
                 }
 
@@ -62,13 +62,10 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule
                 var externalScriptsCount = dom["script"]
                     .Count(e => e.GetAttribute("src") != null);
                 if (externalScriptsCount >= 5) {
-                    var scriptNotice = new TooManyScriptsNotice(session, url, externalScriptsCount);
+                    var scriptNotice = new TooManyScriptsNotice(url, externalScriptsCount);
                     this.AddNotice(scriptNotice);
                 }
             }
-
-
-
             return ModuleScanStatus.Completed;
         }
 

@@ -7,7 +7,7 @@ namespace Errlock.Lib.Modules.PublicFinderModule.Notices
         private const string TextFormat = "Возможно открытый доступ по URL '{0}', " +
                                           "рекомендуется проверить";
 
-        public override NoticePriority Priority
+        protected override NoticePriority Priority
         {
             get { return NoticePriority.Medium; }
         }
@@ -17,7 +17,7 @@ namespace Errlock.Lib.Modules.PublicFinderModule.Notices
             get { return string.Format(TextFormat, this.LinkedUrl); }
         }
 
-        public OpenResourceNotice(Session session, string linkedUrl)
-            : base(session, linkedUrl) { }
+        public OpenResourceNotice(string linkedUrl)
+            : base(linkedUrl) { }
     }
 }

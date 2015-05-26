@@ -1,5 +1,4 @@
 ﻿using System.Resources;
-using Errlock.Lib.Sessions;
 
 namespace Errlock.Lib.Modules
 {
@@ -8,19 +7,17 @@ namespace Errlock.Lib.Modules
         private static readonly ResourceManager NoticeDescriptions
             = Resources.NoticeDescriptions.ResourceManager;
 
-        public Session Session { get; set; }
-        public string LinkedUrl { get; private set; }
-        public abstract NoticePriority Priority { get; }
-        public string Information { get; private set; }
+        protected string LinkedUrl { get; private set; }
+        protected abstract NoticePriority Priority { get; }
+        private string Information { get; set; }
 
         public virtual string Text
         {
             get { return string.Format("[{0}] | {1}", this.Priority, this.LinkedUrl); }
         }
 
-        protected ModuleNotice(Session session, string linkedUrl)
+        protected ModuleNotice(string linkedUrl)
         {
-            this.Session = session;
             this.LinkedUrl = linkedUrl;
 
             string resName = this.GetType().Name.TrimEnd("Notice");

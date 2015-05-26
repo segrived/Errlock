@@ -4,11 +4,11 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule.Notices
 {
     public class XssProtectionDisabled : ModuleNotice
     {
-        public XssProtectionDisabled(Session session, string linkedUrl) : base(session, linkedUrl) { }
+        public XssProtectionDisabled(string linkedUrl) : base(linkedUrl) { }
 
         private const string TextFormat = "Отключена проверка на XSS-уязвимости браузеров.";
 
-        public override NoticePriority Priority
+        protected override NoticePriority Priority
         {
             get { return NoticePriority.High; }
         }

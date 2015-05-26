@@ -124,7 +124,7 @@ namespace Errlock.Lib.Modules.PasswordCrackerModule
                         response.ResponseUri == uri) {
                         continue;
                     }
-                    var notice = new PasswordMatchNotice(session, uri.AbsoluteUri, this.Config.Login,
+                    var notice = new PasswordMatchNotice(uri.AbsoluteUri, this.Config.Login,
                         password);
                     AddNotice(notice);
                     string successMessage =

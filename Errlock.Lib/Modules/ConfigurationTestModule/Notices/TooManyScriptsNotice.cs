@@ -14,8 +14,8 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule.Notices
         private const string TextFormat = "На странице подключено слишком много внешних скриптов " +
                                           "({0} штук)";
 
-        public TooManyScriptsNotice(Session session, string linkedUrl, int scriptsCount) 
-            : base(session, linkedUrl)
+        public TooManyScriptsNotice(string linkedUrl, int scriptsCount) 
+            : base(linkedUrl)
         {
             this.ScriptsCount = scriptsCount;
         }
@@ -25,7 +25,7 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule.Notices
             get { return String.Format(TextFormat, ScriptsCount); }
         }
 
-        public override NoticePriority Priority
+        protected override NoticePriority Priority
         {
             get
             {

@@ -6,7 +6,7 @@ namespace Errlock.Lib.Modules.PublicFinderModule.Notices
     {
         private const string TextFormat = "Подозрительный URL: {0}, сервер вернул ошибку 403";
 
-        public override NoticePriority Priority
+        protected override NoticePriority Priority
         {
             get { return NoticePriority.Low; }
         }
@@ -16,7 +16,6 @@ namespace Errlock.Lib.Modules.PublicFinderModule.Notices
             get { return string.Format(TextFormat, this.LinkedUrl); }
         }
 
-        public SuspiciousUrl403Notice(Session session, string linkedUrl)
-            : base(session, linkedUrl) { }
+        public SuspiciousUrl403Notice(string linkedUrl) : base(linkedUrl) { }
     }
 }

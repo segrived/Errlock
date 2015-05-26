@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 
 namespace Errlock.Lib.Modules.XssScanner
 {
@@ -10,7 +9,7 @@ namespace Errlock.Lib.Modules.XssScanner
         public string Name { get; set; }
         public ElementType Type { get; set; }
         public List<string> AvailableValues { get; set; }
-        public bool IsInextionAllowed { get; set; }
+        public bool IsInjectionAllowed { get; set; }
 
         internal WebFormElement(string name, ElementType type)
         {
@@ -18,12 +17,13 @@ namespace Errlock.Lib.Modules.XssScanner
             Type = type;
         }
 
-        internal WebFormElement(string name, ElementType type, List<string> availableValues, bool isInjectionAllowed)
+        internal WebFormElement(string name, ElementType type, bool isInjectionAllowed, 
+            List<string> availableValues = null)
         {
             this.Name = name;
             this.Type = type;
             this.AvailableValues = availableValues;
-            this.IsInextionAllowed = isInjectionAllowed;
+            this.IsInjectionAllowed = isInjectionAllowed;
         }
 
         public override string ToString()

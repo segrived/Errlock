@@ -16,13 +16,13 @@ namespace Errlock.Lib.Modules.PasswordCrackerModule.Notices
             get { return string.Format(TextFormat, this.Login, this.Password); }
         }
 
-        public override NoticePriority Priority
+        protected override NoticePriority Priority
         {
             get { return NoticePriority.Info; }
         }
 
-        public PasswordMatchNotice(Session session, string linkedUrl, string login, string password)
-            : base(session, linkedUrl)
+        public PasswordMatchNotice(string linkedUrl, string login, string password)
+            : base(linkedUrl)
         {
             this.Login = login;
             this.Password = password;

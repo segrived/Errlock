@@ -14,8 +14,8 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule.Notices
         private const string TextFormat = "В ответе сервера найдены нестандартные заголовки. " +
                                           "Список нестандартных заголовков: {0}";
 
-        public SpecialHeadersNotice(Session session, string linkedUrl, List<string> headerKeys) 
-            : base(session, linkedUrl)
+        public SpecialHeadersNotice(string linkedUrl, List<string> headerKeys) 
+            : base(linkedUrl)
         {
             _headerKeys = headerKeys;
         }
@@ -25,7 +25,7 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule.Notices
             get { return String.Format(TextFormat, String.Join(", ", this._headerKeys)); }
         }
 
-        public override NoticePriority Priority
+        protected override NoticePriority Priority
         {
             get { return NoticePriority.Info; }
         }

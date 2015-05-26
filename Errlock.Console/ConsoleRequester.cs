@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +18,7 @@ namespace ErrlockConsole
 
         public static bool RequestBool(string prompt)
         {
-            var trueVariations = new List<string> { "true", "1", "yes", "да" };
+            var trueVariations = new List<string> { "true", "1", "yes", "РґР°" };
             return new ConsoleRequester<bool>(s => trueVariations.Contains(s.ToLower()))
                 .RequestValue(prompt);
         }
@@ -27,7 +27,7 @@ namespace ErrlockConsole
         {
             var sourceList = items.ToList();
             if (sourceList.Count == 0) {
-                throw new EmptyCollectionException("Пустая коллекция");
+                throw new EmptyCollectionException("РџСѓСЃС‚Р°СЏ РєРѕР»Р»РµРєС†РёСЏ");
             }
             var indexesList = Enumerable.Range(0, sourceList.Count).ToList();
             var zipped = indexesList
@@ -39,12 +39,12 @@ namespace ErrlockConsole
                 ConsoleHelpers.WriteColorLine(valueStr, ConsoleColor.Gray);
             }
             var requester = new ConsoleRequester<int>(Int32.Parse);
-            requester.AddPredicate(x => x < 0 || x >= indexesList.Count, "Неверный номер");
-            int selectedNumber = requester.RequestValue("Укажите номер: ");
+            requester.AddPredicate(x => x < 0 || x >= indexesList.Count, "РќРµРІРµСЂРЅС‹Р№ РЅРѕРјРµСЂ");
+            int selectedNumber = requester.RequestValue("РЈРєР°Р¶РёС‚Рµ РЅРѕРјРµСЂ: ");
             var selectedItem = zipped[selectedNumber];
             string selectedValueStr = itemToStringFunc.Invoke(selectedItem);
 
-            string message = String.Format("Было выбрано значение `{0}`", selectedValueStr);
+            string message = String.Format("Р‘С‹Р»Рѕ РІС‹Р±СЂР°РЅРѕ Р·РЅР°С‡РµРЅРёРµ `{0}`", selectedValueStr);
             ConsoleHelpers.ShowOkMessage(message);
             return selectedItem;
         }
@@ -52,10 +52,10 @@ namespace ErrlockConsole
 
     public class ConsoleRequester<T>
     {
-        private const string DefaultErrorMessage = "Ввод не удовлетворяет предикат";
+        private const string DefaultErrorMessage = "Р’РІРѕРґ РЅРµ СѓРґРѕРІР»РµС‚РІРѕСЂСЏРµС‚ РїСЂРµРґРёРєР°С‚";
 
         /// <summary>
-        /// Конвертор по умолчанию, возвращает введенную строку
+        /// РљРѕРЅРІРµСЂС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ, РІРѕР·РІСЂР°С‰Р°РµС‚ РІРІРµРґРµРЅРЅСѓСЋ СЃС‚СЂРѕРєСѓ
         /// </summary>
         private readonly Func<string, T> _defaultConverter =
             _ => (T)Convert.ChangeType(_, typeof(T));
@@ -81,15 +81,15 @@ namespace ErrlockConsole
         }
 
         /// <summary>
-        /// Запрашивает ввод данных с консоли
+        /// Р—Р°РїСЂР°С€РёРІР°РµС‚ РІРІРѕРґ РґР°РЅРЅС‹С… СЃ РєРѕРЅСЃРѕР»Рё
         /// </summary>
         /// <param name="prompt"></param>
         /// <param name="maxAttempts">
-        /// Количество максимальных попыток. Если за указанное количество 
-        /// попыток ввод не разу не прошел проверку одним из добавленных предикатов, 
-        /// функция возращает null
+        /// РљРѕР»РёС‡РµСЃС‚РІРѕ РјР°РєСЃРёРјР°Р»СЊРЅС‹С… РїРѕРїС‹С‚РѕРє. Р•СЃР»Рё Р·Р° СѓРєР°Р·Р°РЅРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ 
+        /// РїРѕРїС‹С‚РѕРє РІРІРѕРґ РЅРµ СЂР°Р·Сѓ РЅРµ РїСЂРѕС€РµР» РїСЂРѕРІРµСЂРєСѓ РѕРґРЅРёРј РёР· РґРѕР±Р°РІР»РµРЅРЅС‹С… РїСЂРµРґРёРєР°С‚РѕРІ, 
+        /// С„СѓРЅРєС†РёСЏ РІРѕР·СЂР°С‰Р°РµС‚ null
         /// </param>
-        /// <returns>Обработанное значение, введенное с консоли</returns>
+        /// <returns>РћР±СЂР°Р±РѕС‚Р°РЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ, РІРІРµРґРµРЅРЅРѕРµ СЃ РєРѕРЅСЃРѕР»Рё</returns>
         public T RequestValue(string prompt = "", int maxAttempts = -1)
         {
             int attempts = 0;
@@ -103,11 +103,11 @@ namespace ErrlockConsole
                     }
                     ConsoleHelpers.ShowError(pred.Item2);
                 } catch {
-                    ConsoleHelpers.ShowError("Неверный ввод");
+                    ConsoleHelpers.ShowError("РќРµРІРµСЂРЅС‹Р№ РІРІРѕРґ");
                 }
                 attempts++;
             }
-            ConsoleHelpers.ShowError("Превышено максимальное количество попыток ввода");
+            ConsoleHelpers.ShowError("РџСЂРµРІС‹С€РµРЅРѕ РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРїС‹С‚РѕРє РІРІРѕРґР°");
             return default(T);
         }
     }

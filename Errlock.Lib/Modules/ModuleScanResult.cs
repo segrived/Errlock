@@ -30,14 +30,11 @@ namespace Errlock.Lib.Modules
         /// </summary>
         public ModuleScanStatus Status { get; private set; }
 
-        public List<string> LogMessages { get; private set; }
-
         internal ModuleScanResult(
-            List<ModuleNotice> notices, ModuleScanStatus status, List<string> logMessages)
+            List<ModuleNotice> notices, ModuleScanStatus status)
         {
             this.Notices = notices;
             this.Status = status;
-            this.LogMessages = logMessages;
         }
     }
 }

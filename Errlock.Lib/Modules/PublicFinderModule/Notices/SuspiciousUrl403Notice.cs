@@ -4,7 +4,7 @@
     {
         private const string TextFormat = "Подозрительный URL: {0}, сервер вернул ошибку 403";
 
-        protected override NoticePriority Priority
+        public override NoticePriority Priority
         {
             get { return NoticePriority.Low; }
         }

@@ -5,7 +5,7 @@
         private const string TextFormat = "Возможно открытый доступ по URL '{0}', " +
                                           "рекомендуется проверить";
 
-        protected override NoticePriority Priority
+        public override NoticePriority Priority
         {
             get { return NoticePriority.Medium; }
         }

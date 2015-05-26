@@ -14,7 +14,7 @@
             get { return string.Format(TextFormat, this.Login, this.Password); }
         }
 
-        protected override NoticePriority Priority
+        public override NoticePriority Priority
         {
             get { return NoticePriority.Info; }
         }

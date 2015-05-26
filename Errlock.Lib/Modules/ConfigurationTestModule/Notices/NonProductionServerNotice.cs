@@ -20,7 +20,7 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule.Notices
             get { return String.Format(TextFormat, this.ServerName); }
         }
 
-        protected override NoticePriority Priority
+        public override NoticePriority Priority
         {
             get { return NoticePriority.Medium; }
         }

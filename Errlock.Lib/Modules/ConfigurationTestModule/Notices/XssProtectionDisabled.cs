@@ -6,7 +6,7 @@
 
         private const string TextFormat = "Отключена проверка на XSS-уязвимости браузеров.";
 
-        protected override NoticePriority Priority
+        public override NoticePriority Priority
         {
             get { return NoticePriority.High; }
         }

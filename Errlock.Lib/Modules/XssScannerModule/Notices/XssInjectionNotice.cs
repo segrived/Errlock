@@ -20,7 +20,7 @@ namespace Errlock.Lib.Modules.XssScannerModule.Notices
             get { return String.Format(TextFormat, LinkedUrl, _queryString); }
         }
 
-        protected override NoticePriority Priority
+        public override NoticePriority Priority
         {
             get { return NoticePriority.High; }
         }

@@ -21,7 +21,7 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule.Notices
             get { return String.Format(TextFormat, String.Join(", ", this._headerKeys)); }
         }
 
-        protected override NoticePriority Priority
+        public override NoticePriority Priority
         {
             get { return NoticePriority.Info; }
         }

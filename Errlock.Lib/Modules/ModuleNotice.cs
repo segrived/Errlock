@@ -7,10 +7,10 @@ namespace Errlock.Lib.Modules
         private static readonly ResourceManager NoticeDescriptions
             = Resources.NoticeDescriptions.ResourceManager;
 
-        protected string LinkedUrl { get; private set; }
+        public string LinkedUrl { get; private set; }
         public abstract string Text { get; }
-        protected abstract NoticePriority Priority { get; }
-        private string Information { get; set; }
+        public abstract NoticePriority Priority { get; }
+        public string Information { get; set; }
 
         protected ModuleNotice(string linkedUrl)
         {

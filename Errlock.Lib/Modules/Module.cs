@@ -29,7 +29,6 @@ namespace Errlock.Lib.Modules
         public T Config { get; private set; }
         private ILogger Logger { get; set; }
         private List<ModuleNotice> Notices { get; set; }
-        private List<string> Messages { get; set; }
         protected CancellationTokenSource Token { get; private set; }
         protected ConnectionConfiguration ConnectionConfiguration { get; private set; }
 
@@ -37,7 +36,6 @@ namespace Errlock.Lib.Modules
         {
             this.Config = moduleConfig;
             this.Notices = new List<ModuleNotice>();
-            this.Messages = new List<string>();
             this.Progress = new Progress<int>();
             this.ConnectionConfiguration = connectionConfig;
         }
@@ -66,10 +64,6 @@ namespace Errlock.Lib.Modules
 
         public ModuleScanResult Start(Session session)
         {
-            //cleanup
-            this.Messages = new List<string>();
-            this.Notices = new List<ModuleNotice>();
-
             this.Token = new CancellationTokenSource();
             ModuleScanResult scanResult;
             this.OnStarted();
@@ -84,11 +78,6 @@ namespace Errlock.Lib.Modules
             this.ProcessConfig();
             var status = this.Process(session, this.Progress);
             scanResult = this.GetScanResult(status);
-            this.AddMessage("Создание лога тестирования...", LoggerMessageType.Info);
-            //session.SaveLog(new SessionScanLog {
-            //    Module = this.GetType().Name,
-            //    ScanResult = scanResult
-            //});
 
             this.OnCompleted(scanResult);
             return scanResult;
@@ -106,7 +95,7 @@ namespace Errlock.Lib.Modules
 
         private ModuleScanResult GetScanResult(ModuleScanStatus status)
         {
-            return new ModuleScanResult(this.Notices, status, this.Messages);
+            return new ModuleScanResult(this.Notices, status);
         }
 
         protected virtual void OnStarted()
@@ -129,7 +118,6 @@ namespace Errlock.Lib.Modules
 
         protected void AddMessage(string message, LoggerMessageType type)
         {
-            this.Messages.Add(message);
             if (this.Logger != null) {
                 this.Logger.Log(message, type);
             }

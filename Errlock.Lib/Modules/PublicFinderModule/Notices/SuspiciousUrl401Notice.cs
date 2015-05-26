@@ -5,7 +5,7 @@
         private const string TextFormat = "Подозрительный URL: {0}, сервер вернул ошибку 401\n" +
                                           "Заголовок `WWW-Authenticate`: {1}";
 
-        protected override NoticePriority Priority
+        public override NoticePriority Priority
         {
             get { return NoticePriority.Low; }
         }

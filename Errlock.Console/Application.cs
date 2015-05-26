@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
-using System.Threading;
 using Errlock.Lib;
 using Errlock.Lib.AppConfig;
 using Errlock.Lib.Helpers;
@@ -29,27 +28,33 @@ namespace Errlock.Console
         }
     }
 
+    /// <summary>
+    /// Основной класс консольного приложения Errlock
+    /// </summary>
     public class Application
     {
         /// <summary>
         /// Конфигурация приложения
         /// </summary>
-        private static readonly AppConfig ErrlockConfig = 
+        private static readonly AppConfig ErrlockConfig =
             new AppConfig(ErrlockConfigModel.Defaults);
+
+        /// <summary>
+        /// Настройки подключения
+        /// </summary>
+        private readonly ConnectionConfiguration _connectionConfig =
+            ErrlockConfig.Model.ConnectionConfiguration;
 
         /// <summary>
         /// Консольный логгер
         /// </summary>
         private readonly ILogger _consoleLogger = new ConsoleLogger();
 
-        private readonly IRepository<Session> _repository = 
-            new SessionLiteDbRepository();
-
         /// <summary>
-        /// Настройки подключения
+        /// Репозиторий сессий
         /// </summary>
-        private readonly ConnectionConfiguration ConnectionConfig =
-            ErrlockConfig.Model.ConnectionConfiguration;
+        private readonly IRepository<Session> _repository =
+            new SessionLiteDbRepository();
 
         /// <summary>
         /// Запускает консольное приложение
@@ -64,10 +69,11 @@ namespace Errlock.Console
         /// Запрашивает информацию о сессии и добавляет её в репозиторий
         /// </summary>
         /// <returns>Добавленная сессия</returns>
-        private void AddSession() {
+        private void AddSession()
+        {
             var s = new Session();
             var urlReq = new ConsoleRequester<string>();
-            urlReq.AddPredicate(u => !WebHelpers.IsValidUrl(u), "Неверный URL: ");
+            urlReq.AddPredicate(u => ! WebHelpers.IsValidUrl(u), "Неверный URL: ");
             s.Url = urlReq
                 .RequestValue("Введите URL (включая протокол, например http://google.ru): ");
             s.Options.RecursionDepth = ConsoleRequester
@@ -75,7 +81,7 @@ namespace Errlock.Console
             s.Options.FetchPerPage = ConsoleRequester
                 .RequestInt("Максимальное количество ссылок с одной страницы: ");
             s.Options.IngoreAnchors = ConsoleRequester
-                .RequestBool("Игнорировать якоря");
+                .RequestBool("Игнорировать якоря: ");
             s.Options.UseRandomLinks = ConsoleRequester
                 .RequestBool("Собирать случайные ссылки: ");
             s.Options.MaxLinks = ConsoleRequester
@@ -94,7 +100,7 @@ namespace Errlock.Console
         private XssScanner CreateXssScannerInstance()
         {
             var config = new XssScannerConfig();
-            return new XssScanner(config, ConnectionConfig);
+            return new XssScanner(config, _connectionConfig);
         }
 
         private PublicFinder CreatePublicFinderInstance()
@@ -107,11 +113,11 @@ namespace Errlock.Console
                 UsePermutations = ConsoleRequester
                     .RequestBool("Использовать перестановки: ")
             };
-            return new PublicFinder(config, ConnectionConfig);
+            return new PublicFinder(config, _connectionConfig);
         }
 
         private PasswordCracker CreatePasswordCrackerInstance()
-        {  
+        {
             var config = new PasswordCrackerConfig {
                 Login = ConsoleRequester
                     .RequestString("Логин: "),
@@ -126,13 +132,13 @@ namespace Errlock.Console
                 StopAfterFirstMatch = ConsoleRequester
                     .RequestBool("Останавливать после первого совпадения: ")
             };
-            return new PasswordCracker(config, ConnectionConfig);
+            return new PasswordCracker(config, _connectionConfig);
         }
 
         private ConfigurationTest CreateConfigurationTestInstance()
         {
             var config = new ConfigurationTestConfig();
-            return new ConfigurationTest(config, ConnectionConfig);
+            return new ConfigurationTest(config, _connectionConfig);
         }
 
         /// <summary>
@@ -149,15 +155,14 @@ namespace Errlock.Console
         private IModule GetModule()
         {
             var modList = new Dictionary<string, Func<IModule>> {
-                    { "Поиск доступных директории", CreatePublicFinderInstance },
-                    { "Подбор пароля к ресурсу", CreatePasswordCrackerInstance },
-                    { "Поиск XSS-уязвимостей", CreateXssScannerInstance },
-                    { "Проверка конфигурации", CreateConfigurationTestInstance }
+                { "Поиск доступных директории", CreatePublicFinderInstance },
+                { "Подбор пароля к ресурсу", CreatePasswordCrackerInstance },
+                { "Поиск XSS-уязвимостей", CreateXssScannerInstance },
+                { "Проверка конфигурации", CreateConfigurationTestInstance }
             };
             const string title = "Необходимый модуль";
             var item = ConsoleRequester.RequestListItem(modList, i => i.Key, title);
             return item.Value.Invoke();
-            
         }
 
         /// <summary>
@@ -180,7 +185,7 @@ namespace Errlock.Console
             module.Completed += (sender, args) => {
                 var result = args.ScanResult;
                 foreach (var notice in result.Notices) {
-                    var message = PrepareNoticeMessage(notice);
+                    string message = PrepareNoticeMessage(notice);
                     ConsoleHelpers.WriteColorLine(message, ConsoleColor.DarkRed);
                 }
             };
@@ -219,7 +224,9 @@ namespace Errlock.Console
                     this.DisplayHelp();
                     break;
                 default:
-                    ConsoleHelpers.ShowError("Неизвестная команда");
+                    const string msg = "Неизвестная команда. Для отображения списка доступых " +
+                                       "комманд введите help";
+                    ConsoleHelpers.ShowError(msg);
                     break;
             }
         }
@@ -242,7 +249,8 @@ namespace Errlock.Console
             System.Console.WriteLine(removeHelp);
 
             ConsoleHelpers.WriteColor("go", ConsoleColor.Magenta);
-            const string goHelp = " - отображает диалоги выбора модуля и сессии после чего запускает тест";
+            const string goHelp =
+                " - отображает диалоги выбора модуля и сессии после чего запускает тест";
             System.Console.WriteLine(goHelp);
 
             ConsoleHelpers.WriteColor("about", ConsoleColor.Magenta);
@@ -275,7 +283,7 @@ namespace Errlock.Console
         }
 
         /// <summary>
-        /// Основной цикл работы приложения, выход из приложение осуществляется вводом 
+        /// Основной цикл работы приложения, выход из приложение осуществляется вводом
         /// команды exit
         /// </summary>
         private void MainLoop()

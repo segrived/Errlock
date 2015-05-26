@@ -27,11 +27,6 @@ namespace Errlock.Console
             System.Console.ResetColor();
         }
 
-        public static void PrintColor(this string message, ConsoleColor color)
-        {
-            WriteColor(message, color);
-        }
-
         public static void WriteColorLine(string message, ConsoleColor color)
         {
             WriteColor(message, color);

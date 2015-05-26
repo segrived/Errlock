@@ -23,7 +23,8 @@ namespace Errlock.Console
                 .RequestValue(prompt);
         }
 
-        public static T RequestListItem<T>(IEnumerable<T> items, Func<T, string> itemToStringFunc,
+        public static T RequestListItem<T>(
+            IEnumerable<T> items, Func<T, string> itemToStringFunc,
             string title = null)
         {
             var sourceList = items.ToList();
@@ -92,13 +93,14 @@ namespace Errlock.Console
         /// </summary>
         /// <param name="prompt"></param>
         /// <param name="maxAttempts">
-        /// Количество максимальных попыток. Если за указанное количество 
-        /// попыток ввод не разу не прошел проверку одним из добавленных предикатов, 
+        /// Количество максимальных попыток. Если за указанное количество
+        /// попыток ввод не разу не прошел проверку одним из добавленных предикатов,
         /// функция возращает null
         /// </param>
         /// <param name="color">Цвет строки запроса</param>
         /// <returns>Обработанное значение, введенное с консоли</returns>
-        public T RequestValue(string prompt = "", int maxAttempts = -1, 
+        public T RequestValue(
+            string prompt = "", int maxAttempts = -1,
             ConsoleColor color = ConsoleColor.Green)
         {
             int attempts = 0;

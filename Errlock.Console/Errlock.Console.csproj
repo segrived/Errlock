@@ -7,8 +7,8 @@
     <ProjectGuid>{49809FDF-91E3-4CBC-B675-380478AA6411}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ErrlockConsole</RootNamespace>
-    <AssemblyName>ErrlockConsole</AssemblyName>
+    <RootNamespace>Errlock.Console</RootNamespace>
+    <AssemblyName>Errlock.Console</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <UpdateAssemblyVersion>True</UpdateAssemblyVersion>

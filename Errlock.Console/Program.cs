@@ -1,4 +1,4 @@
-﻿namespace ErrlockConsole
+﻿namespace Errlock.Console
 {
 
     internal static class Program

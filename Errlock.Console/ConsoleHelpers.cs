@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ErrlockConsole
+namespace Errlock.Console
 {
     public static class ConsoleHelpers
     {
@@ -22,9 +22,9 @@ namespace ErrlockConsole
 
         public static void WriteColor(string message, ConsoleColor color)
         {
-            Console.ForegroundColor = color;
-            Console.Write(message);
-            Console.ResetColor();
+            System.Console.ForegroundColor = color;
+            System.Console.Write(message);
+            System.Console.ResetColor();
         }
 
         public static void PrintColor(this string message, ConsoleColor color)
@@ -35,7 +35,7 @@ namespace ErrlockConsole
         public static void WriteColorLine(string message, ConsoleColor color)
         {
             WriteColor(message, color);
-            Console.WriteLine();
+            System.Console.WriteLine();
         }
     }
 }

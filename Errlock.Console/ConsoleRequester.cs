@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ErrlockConsole
+namespace Errlock.Console
 {
     public static class ConsoleRequester
     {
@@ -23,7 +23,8 @@ namespace ErrlockConsole
                 .RequestValue(prompt);
         }
 
-        public static T RequestListItem<T>(IEnumerable<T> items, Func<T, string> itemToStringFunc)
+        public static T RequestListItem<T>(IEnumerable<T> items, Func<T, string> itemToStringFunc,
+            string title = null)
         {
             var sourceList = items.ToList();
             if (sourceList.Count == 0) {
@@ -33,6 +34,11 @@ namespace ErrlockConsole
             var zipped = indexesList
                 .Zip(sourceList, (i, x) => new KeyValuePair<int, T>(i, x))
                 .ToDictionary(i => i.Key, i => i.Value);
+
+            if (! String.IsNullOrEmpty(title)) {
+                ConsoleHelpers.WriteColorLine(title, ConsoleColor.DarkYellow);
+            }
+
             foreach (var kvPair in zipped) {
                 ConsoleHelpers.WriteColor(kvPair.Key + ". ", ConsoleColor.Magenta);
                 string valueStr = itemToStringFunc.Invoke(kvPair.Value);
@@ -40,19 +46,20 @@ namespace ErrlockConsole
             }
             var requester = new ConsoleRequester<int>(Int32.Parse);
             requester.AddPredicate(x => x < 0 || x >= indexesList.Count, "Неверный номер");
-            int selectedNumber = requester.RequestValue("Укажите номер: ");
+            int selectedNumber = requester.RequestValue("Введите номер необходимого варианта: ");
             var selectedItem = zipped[selectedNumber];
             string selectedValueStr = itemToStringFunc.Invoke(selectedItem);
-
+#if DEBUG
             string message = String.Format("Было выбрано значение `{0}`", selectedValueStr);
-            ConsoleHelpers.ShowOkMessage(message);
+            ConsoleHelpers.WriteColorLine(message, ConsoleColor.DarkGray);
+#endif
             return selectedItem;
         }
     }
 
     public class ConsoleRequester<T>
     {
-        private const string DefaultErrorMessage = "Ввод не удовлетворяет предикат";
+        private const string DefaultErrorMessage = "Ввод не удовлетворяет предикату";
 
         /// <summary>
         /// Конвертор по умолчанию, возвращает введенную строку
@@ -96,7 +103,7 @@ namespace ErrlockConsole
             while (maxAttempts == -1 || attempts < maxAttempts) {
                 try {
                     ConsoleHelpers.ShowPrompt(prompt);
-                    var value = _stringConverter(Console.ReadLine());
+                    var value = _stringConverter(System.Console.ReadLine());
                     var pred = this._predicatesList.FirstOrDefault(p => p.Item1.Invoke(value));
                     if (pred == null) {
                         return value;

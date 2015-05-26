@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Runtime.Serialization;
 
-namespace ErrlockConsole
+namespace Errlock.Console
 {
     [Serializable]
     public class EmptyCollectionException : Exception
@@ -10,8 +10,7 @@ namespace ErrlockConsole
         public EmptyCollectionException(string message) : base(message) { }
         public EmptyCollectionException(string message, Exception inner) : base(message, inner) { }
 
-        protected EmptyCollectionException(
-            SerializationInfo info,
-            StreamingContext context) : base(info, context) { }
+        protected EmptyCollectionException(SerializationInfo info, StreamingContext context)
+            : base(info, context) { }
     }
 }

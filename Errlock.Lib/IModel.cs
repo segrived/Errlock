@@ -1,5 +1,4 @@
 ﻿using System;
-using LiteDB;
 
 namespace Errlock.Lib
 {

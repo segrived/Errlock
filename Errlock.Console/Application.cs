@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Errlock.Lib;
 using Errlock.Lib.AppConfig;
+using Errlock.Lib.Helpers;
 using Errlock.Lib.Logger;
 using Errlock.Lib.Modules;
 using Errlock.Lib.Modules.ConfigurationTestModule;
@@ -14,7 +15,6 @@ using Errlock.Lib.Modules.PasswordCrackerModule;
 using Errlock.Lib.Modules.PublicFinderModule;
 using Errlock.Lib.Modules.XssScannerModule;
 using Errlock.Lib.Sessions;
-using Errlock.Lib.Helpers;
 
 namespace ErrlockConsole
 {

@@ -1,6 +1,4 @@
-﻿using Errlock.Lib.Sessions;
-
-namespace Errlock.Lib.Modules.ConfigurationTestModule.Notices
+﻿namespace Errlock.Lib.Modules.ConfigurationTestModule.Notices
 {
     public class XssProtectionDisabled : ModuleNotice
     {

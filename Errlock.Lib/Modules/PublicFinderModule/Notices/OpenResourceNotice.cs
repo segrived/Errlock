@@ -1,6 +1,4 @@
-﻿using Errlock.Lib.Sessions;
-
-namespace Errlock.Lib.Modules.PublicFinderModule.Notices
+﻿namespace Errlock.Lib.Modules.PublicFinderModule.Notices
 {
     public class OpenResourceNotice : ModuleNotice
     {

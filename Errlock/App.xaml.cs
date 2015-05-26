@@ -28,7 +28,7 @@ namespace Errlock
             if (! aIsNewInstance) {
                 MessageBox.Show("Приложение уже запущено", "Ошибка", MessageBoxButton.OK, 
                     MessageBoxImage.Error);
-                App.Current.Shutdown();
+                Current.Shutdown();
             }
             Config.Model.LastStartTime = DateTime.Now;
 

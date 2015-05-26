@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using CsQuery;
-using CsQuery.Engine.PseudoClassSelectors;
 using Errlock.Lib.Modules.ConfigurationTestModule.Notices;
 using Errlock.Lib.RequestWrapper;
 using Errlock.Lib.Sessions;

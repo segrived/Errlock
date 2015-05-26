@@ -1,6 +1,4 @@
-﻿using Errlock.Lib.Sessions;
-
-namespace Errlock.Lib.Modules.PasswordCrackerModule.Notices
+﻿namespace Errlock.Lib.Modules.PasswordCrackerModule.Notices
 {
     public class PasswordMatchNotice : ModuleNotice
     {

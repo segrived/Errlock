@@ -1,5 +1,4 @@
 ﻿using System;
-using Errlock.Lib.Sessions;
 
 namespace Errlock.Lib.Modules.ConfigurationTestModule.Notices
 {

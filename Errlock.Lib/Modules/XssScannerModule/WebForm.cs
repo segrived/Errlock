@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
-using System.Runtime.CompilerServices;
 using System.Text;
 using CsQuery;
 using Errlock.Lib.Helpers;
-using Errlock.Lib.Modules.XssScannerModule.Notices;
 using Errlock.Lib.RequestWrapper;
 using Errlock.Lib.Sessions;
 

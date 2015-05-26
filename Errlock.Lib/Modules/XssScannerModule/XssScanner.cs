@@ -47,18 +47,12 @@ namespace Errlock.Lib.Modules.XssScannerModule
                             .Where(webForm => ! _webForms.Contains(webForm));
                         foreach (var webForm in webForms) {
                             _webForms.Add(webForm);
-                            var query = webForm.GetQuery();
-                            var xssReq = new WebRequestWrapper(ConnectionConfiguration, query);
-                            using (var xssRes = xssReq.GetRequest()) {
-                                var res = xssRes.Download();
-                                if (webForm.HasInjection(res)) {
-                                    var notice = new XssInjectionNotice(link, query);
-                                    this.AddNotice(notice);
-                                }
+
+                            if (webForm.CheckForXssInjection(ConnectionConfiguration)) {
+                                var notice = new XssInjectionNotice(link, webForm.GetFullQuery());
+                                this.AddNotice(notice);
                             }
-                            
-                            AddMessage(query, LoggerMessageType.Info);
-                            var message = String.Format("Найдена новая форма: {0}", webForm);
+                            string message = String.Format("Найдена новая форма: {0}", webForm);
                             AddMessage(message, LoggerMessageType.Info);
                         }
                     }

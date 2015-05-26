@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net;
-using Errlock.Lib.SmartWebRequest;
+using Errlock.Lib.RequestWrapper;
 
 namespace Errlock.Lib.Helpers
 {

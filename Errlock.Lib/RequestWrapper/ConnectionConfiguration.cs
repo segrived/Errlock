@@ -1,4 +1,4 @@
-﻿namespace Errlock.Lib.SmartWebRequest
+﻿namespace Errlock.Lib.RequestWrapper
 {
     /// <summary>
     /// Настройки подключения к серверу

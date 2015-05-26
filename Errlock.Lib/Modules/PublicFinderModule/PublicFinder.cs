@@ -5,8 +5,8 @@ using System.Net;
 using Errlock.Lib.Helpers;
 using Errlock.Lib.Logger;
 using Errlock.Lib.Modules.PublicFinderModule.Notices;
+using Errlock.Lib.RequestWrapper;
 using Errlock.Lib.Sessions;
-using Errlock.Lib.SmartWebRequest;
 using Errlock.Resources.ModulesData;
 
 namespace Errlock.Lib.Modules.PublicFinderModule
@@ -80,7 +80,7 @@ namespace Errlock.Lib.Modules.PublicFinderModule
                     string urlPart = this.Urls[i];
                     string url = new Uri(new Uri(session.Url), urlPart).AbsoluteUri;
                     string requestType = this.Config.UseGetRequests ? "GET" : "HEAD";
-                    var requester = new SmartRequest(this.ConnectionConfiguration, url);
+                    var requester = new WebRequestWrapper(this.ConnectionConfiguration, url);
                     using (var result = requester.Request(requestType)) {
                         string message = String.Format("[{0}%] | [{1}] {2}", currentProgress,
                             (int)result.StatusCode, url);

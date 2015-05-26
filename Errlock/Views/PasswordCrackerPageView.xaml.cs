@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using Errlock.Lib.Helpers;
 using Errlock.Lib.Modules.PasswordCrackerModule;
-using Errlock.Lib.SmartWebRequest;
+using Errlock.Lib.RequestWrapper;
 using Errlock.ViewModels;
 
 namespace Errlock.Views

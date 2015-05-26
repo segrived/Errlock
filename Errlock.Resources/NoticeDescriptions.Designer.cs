@@ -104,5 +104,14 @@ namespace Errlock.Resources {
                 return ResourceManager.GetString("SuspiciousUrl403", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to На странице подключено слишком много внешних скритов. Это можно сильно уменьшить скорость закгрузки страницы. Рекодендуется, при возможности, минифицировать файлы скритов в один скрипт для более быстрой загрузки..
+        /// </summary>
+        public static string TooManyScripts {
+            get {
+                return ResourceManager.GetString("TooManyScripts", resourceCulture);
+            }
+        }
     }
 }

@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using CsQuery;
 using Errlock.Lib.Helpers;
+using Errlock.Lib.Modules.XssScannerModule.Notices;
 using Errlock.Lib.RequestWrapper;
 using Errlock.Lib.Sessions;
 
@@ -107,7 +110,7 @@ namespace Errlock.Lib.Modules.XssScanner
         /// Генерирует полный URL, на основе данных формы
         /// </summary>
         /// <returns></returns>
-        public string GetQuery()
+        public string GetParameters()
         {
             var collection = new NameValueCollection();
             foreach (var element in this.WebFormElements) {
@@ -120,10 +123,39 @@ namespace Errlock.Lib.Modules.XssScanner
                 }
                 collection.Add(element.Name, value);
             }
+            return this.ToQueryString(collection);
+        }
+
+        public string GetFullQuery()
+        {
+            var parameters = this.GetParameters();
             var builder = new UriBuilder(this.Action) {
-                Query = ToQueryString(collection)
+                Query = parameters
             };
             return builder.Uri.AbsoluteUri;
+        }
+
+        public HttpWebResponse GetServerResponse(ConnectionConfiguration config)
+        {
+            HttpWebResponse response = default(HttpWebResponse);
+            if (this.RequestMethod == RequestMethod.Get) {
+                var xssReq = new WebRequestWrapper(config, this.GetFullQuery());
+                 response= xssReq.GetRequest();
+            } else if (this.RequestMethod == RequestMethod.Post) {
+                var xssReq = new WebRequestWrapper(config, this.Action);
+                response = xssReq.PostRequest(this.GetParameters());
+            }
+            return response;
+        }
+
+        public bool CheckForXssInjection(ConnectionConfiguration config)
+        {
+            
+            using(var response = this.GetServerResponse(config))
+            {
+                string res = response.Download();
+                return res.Contains(XssVector);
+            }
         }
 
         public override bool Equals(object obj)

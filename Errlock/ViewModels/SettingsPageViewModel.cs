@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Errlock.Lib.AppConfig;
-using Errlock.Lib.SmartWebRequest;
+using Errlock.Lib.RequestWrapper;
 
 namespace Errlock.ViewModels
 {
@@ -12,7 +12,7 @@ namespace Errlock.ViewModels
         public SettingsPageViewModel()
         {
             ConfigModel = App.Config.Model;
-            this.UserAgentsList = SmartRequest.UserAgentList;
+            this.UserAgentsList = WebRequestWrapper.DefaultUserAgentList;
         }
     }
 }

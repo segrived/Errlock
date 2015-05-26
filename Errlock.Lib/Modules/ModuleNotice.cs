@@ -8,13 +8,9 @@ namespace Errlock.Lib.Modules
             = Resources.NoticeDescriptions.ResourceManager;
 
         protected string LinkedUrl { get; private set; }
+        public abstract string Text { get; }
         protected abstract NoticePriority Priority { get; }
         private string Information { get; set; }
-
-        public virtual string Text
-        {
-            get { return string.Format("[{0}] | {1}", this.Priority, this.LinkedUrl); }
-        }
 
         protected ModuleNotice(string linkedUrl)
         {

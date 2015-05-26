@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using CsQuery;
+using Errlock.Lib.RequestWrapper;
 using Errlock.Lib.Sessions;
-using Errlock.Lib.SmartWebRequest;
 
 namespace Errlock.Lib.WebCrawler
 {
@@ -37,7 +37,7 @@ namespace Errlock.Lib.WebCrawler
         private HashSet<string> FetchLinks(string url)
         {
             try {
-                var parser = new SmartWebRequest.SmartRequest(this.Options, url);
+                var parser = new WebRequestWrapper(this.Options, url);
                 using (var webParserResult = parser.GetRequest()) {
                     // Парсинг только HTML-страниц, игнорируя все остальное
                     if (!webParserResult.IsHtmlPage()) {

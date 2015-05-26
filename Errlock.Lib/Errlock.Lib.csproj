@@ -62,10 +62,14 @@
     <Compile Include="Helpers\EnumerableHelpers.cs" />
     <Compile Include="Helpers\SerializationHelpers.cs" />
     <Compile Include="Helpers\WebHelpers.cs" />
+    <Compile Include="IModel.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Modules\ConfigurationTestModule\ConfigurationTest.cs" />
     <Compile Include="Modules\ConfigurationTestModule\ConfigurationTestConfig.cs" />
     <Compile Include="Modules\ConfigurationTestModule\Notices\NonProductionServerNotice.cs" />
+    <Compile Include="Modules\ConfigurationTestModule\Notices\SpecialHeadersNotice.cs" />
+    <Compile Include="Modules\ConfigurationTestModule\Notices\TooManyScriptsNotice.cs" />
+    <Compile Include="Modules\ConfigurationTestModule\Notices\XssProtectionDisabled.cs" />
     <Compile Include="Modules\IModule.cs" />
     <Compile Include="Logger\ILogger.cs" />
     <Compile Include="Logger\Logger.cs" />
@@ -84,6 +88,7 @@
     <Compile Include="Modules\PublicFinderModule\Notices\SuspiciousUrl401Notice.cs" />
     <Compile Include="Modules\PublicFinderModule\PublicFinder.cs" />
     <Compile Include="Modules\PublicFinderModule\PublicFinderConfig.cs" />
+    <Compile Include="Modules\XssScannerModule\Notices\XssInjectionNotice.cs" />
     <Compile Include="Modules\XssScannerModule\WebForm.cs" />
     <Compile Include="Modules\XssScannerModule\WebFormElement.cs" />
     <Compile Include="Modules\XssScannerModule\XssScanner.cs" />
@@ -96,8 +101,8 @@
     <Compile Include="Sessions\SessionLiteDbRepository.cs" />
     <Compile Include="Sessions\SessionScanOptions.cs" />
     <Compile Include="WebCrawler\WebCrawler.cs" />
-    <Compile Include="SmartWebRequest\SmartRequest.cs" />
-    <Compile Include="SmartWebRequest\ConnectionConfiguration.cs" />
+    <Compile Include="RequestWrapper\WebRequestWrapper.cs" />
+    <Compile Include="RequestWrapper\ConnectionConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -110,9 +115,7 @@
       <Name>Errlock.Resources</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Modules\XssScannerModule\Notices\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

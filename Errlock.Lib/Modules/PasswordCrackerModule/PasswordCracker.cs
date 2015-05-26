@@ -6,8 +6,8 @@ using System.Net;
 using System.Runtime.CompilerServices;
 using Errlock.Lib.Logger;
 using Errlock.Lib.Modules.PasswordCrackerModule.Notices;
+using Errlock.Lib.RequestWrapper;
 using Errlock.Lib.Sessions;
-using Errlock.Lib.SmartWebRequest;
 using Errlock.Resources.ModulesData;
 
 namespace Errlock.Lib.Modules.PasswordCrackerModule
@@ -96,14 +96,14 @@ namespace Errlock.Lib.Modules.PasswordCrackerModule
 
                 var uri = new Uri(sessionUri, this.Config.RequestUrl);
                 
-                Func<SmartWebRequest.SmartRequest, HttpWebResponse> requestAction;
+                Func<WebRequestWrapper, HttpWebResponse> requestAction;
                 if (Config.RequestMethod == RequestMethod.Get) {
                     uri = new UriBuilder(uri) { Query = parameters }.Uri;
                     requestAction = p => p.GetRequest();
                 } else {
                     requestAction = p => p.PostRequest(parameters);
                 }
-                var parser = new SmartWebRequest.SmartRequest(this.ConnectionConfiguration,
+                var parser = new WebRequestWrapper(this.ConnectionConfiguration,
                     uri.AbsoluteUri);
                 using (var response = requestAction.Invoke(parser)) {
                     string message = String.Format("Тест пароля `{0}`", password);

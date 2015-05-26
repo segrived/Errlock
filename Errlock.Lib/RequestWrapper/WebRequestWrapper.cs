@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Net;
 using System.Text;
 
-namespace Errlock.Lib.SmartWebRequest
+namespace Errlock.Lib.RequestWrapper
 {
     /// <summary>
     /// Тип метода запроса серверу
@@ -29,12 +29,12 @@ namespace Errlock.Lib.SmartWebRequest
         Put
     }
 
-    public class SmartRequest
+    public class WebRequestWrapper
     {
         /// <summary>
         /// Список юзер-агентов по умолчанию
         /// </summary>
-        public static readonly List<string> UserAgentList = new List<string> {
+        public static readonly List<string> DefaultUserAgentList = new List<string> {
             "Errlock/Bot",
             "Firefox",
             "Opera",
@@ -44,7 +44,7 @@ namespace Errlock.Lib.SmartWebRequest
         private readonly HttpWebRequest _request;
         private ConnectionConfiguration Options { get; set; }
 
-        public SmartRequest(ConnectionConfiguration options, string url)
+        public WebRequestWrapper(ConnectionConfiguration options, string url)
         {
             this.Options = options;
             this._request = WebRequest.CreateHttp(url);

@@ -8,8 +8,8 @@ using System.Text.RegularExpressions;
 using CsQuery;
 using CsQuery.Engine.PseudoClassSelectors;
 using Errlock.Lib.Modules.ConfigurationTestModule.Notices;
+using Errlock.Lib.RequestWrapper;
 using Errlock.Lib.Sessions;
-using Errlock.Lib.SmartWebRequest;
 
 namespace Errlock.Lib.Modules.ConfigurationTestModule
 {
@@ -26,7 +26,7 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule
         protected override ModuleScanStatus Process(Session session, IProgress<int> progress)
         {
             var url = session.Url;
-            var req = new SmartRequest(this.ConnectionConfiguration, url);
+            var req = new WebRequestWrapper(this.ConnectionConfiguration, url);
 
             // Попытка обнаружения непредназначенного для продакшена сервера
             var nonProductionServerPatterns = new List<string> {

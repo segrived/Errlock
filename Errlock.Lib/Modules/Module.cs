@@ -4,8 +4,8 @@ using System.ComponentModel;
 using System.Threading;
 using Errlock.Lib.Helpers;
 using Errlock.Lib.Logger;
+using Errlock.Lib.RequestWrapper;
 using Errlock.Lib.Sessions;
-using Errlock.Lib.SmartWebRequest;
 
 namespace Errlock.Lib.Modules
 {

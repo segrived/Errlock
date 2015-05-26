@@ -6,16 +6,32 @@ namespace Errlock.Console
 {
     public static class ConsoleRequester
     {
+        /// <summary>
+        /// Запрашивает целое число с консоли
+        /// </summary>
+        /// <param name="prompt">Строка запроса</param>
+        /// <returns></returns>
         public static int RequestInt(string prompt)
         {
             return new ConsoleRequester<int>(Int32.Parse).RequestValue(prompt);
         }
 
+        /// <summary>
+        /// Запрашивает строку с консоли
+        /// </summary>
+        /// <param name="prompt">Строка запроса</param>
+        /// <returns></returns>
         public static string RequestString(string prompt)
         {
             return new ConsoleRequester<string>().RequestValue(prompt);
         }
 
+        /// <summary>
+        /// Запрашивает булево значение с консоли. Значения "true", "1", "yes", "да" и "+"
+        /// интерпретируются как True, все остальное как False. Регистр при сравнении не учитывается
+        /// </summary>
+        /// <param name="prompt">Строка запроса</param>
+        /// <returns></returns>
         public static bool RequestBool(string prompt)
         {
             var trueVariations = new List<string> { "true", "1", "yes", "да", "+" };
@@ -23,6 +39,19 @@ namespace Errlock.Console
                 .RequestValue(prompt);
         }
 
+        /// <summary>
+        /// Запрашивает элемент коллекции с консоли
+        /// </summary>
+        /// <typeparam name="T">Тип элементов коллекции</typeparam>
+        /// <param name="items">Исходная коллекция, из которой необходимо выбрать элемент</param>
+        /// <param name="itemToStringFunc">
+        /// Функция, преобразовывающая элемент в строку, для вывода этой строки на экран
+        /// в качестве значения
+        /// </param>
+        /// <param name="title">
+        /// Заголовок, отображает над элементами коллеции, указывать необзяательно
+        /// </param>
+        /// <returns>Выбранный элемент исходной коллекции типа <typeparam name="T" /></returns>
         public static T RequestListItem<T>(
             IEnumerable<T> items, Func<T, string> itemToStringFunc,
             string title = null)
@@ -83,6 +112,18 @@ namespace Errlock.Console
             this._stringConverter = _defaultConverter;
         }
 
+        /// <summary>
+        /// Добавляет ограничение на вводимые данные
+        /// </summary>
+        /// <param name="predicate">
+        /// Предикат. При вызове метода RequestValue, в случае, если предикат примененный к
+        /// значению возвращает True, будет отображено сообщение об ошибке и будет предложено 
+        /// ввести значение повторно
+        /// </param>
+        /// <param name="message">
+        /// Сообщение об ошибке, если не указано, то по умолчанию
+        /// будет использоваться системное сообщение
+        /// </param>
         public void AddPredicate(Predicate<T> predicate, string message = DefaultErrorMessage)
         {
             this._predicatesList.Add(Tuple.Create(predicate, message));
@@ -91,20 +132,12 @@ namespace Errlock.Console
         /// <summary>
         /// Запрашивает ввод данных с консоли
         /// </summary>
-        /// <param name="prompt"></param>
-        /// <param name="maxAttempts">
-        /// Количество максимальных попыток. Если за указанное количество
-        /// попыток ввод не разу не прошел проверку одним из добавленных предикатов,
-        /// функция возращает null
-        /// </param>
+        /// <param name="prompt">Строка запроса</param>
         /// <param name="color">Цвет строки запроса</param>
         /// <returns>Обработанное значение, введенное с консоли</returns>
-        public T RequestValue(
-            string prompt = "", int maxAttempts = -1,
-            ConsoleColor color = ConsoleColor.Green)
+        public T RequestValue(string prompt = "", ConsoleColor color = ConsoleColor.Green)
         {
-            int attempts = 0;
-            while (maxAttempts == -1 || attempts < maxAttempts) {
+            while (true) {
                 try {
                     ConsoleHelpers.ShowPrompt(prompt, color);
                     var value = _stringConverter(System.Console.ReadLine());
@@ -116,10 +149,7 @@ namespace Errlock.Console
                 } catch {
                     ConsoleHelpers.ShowError("Неверный ввод");
                 }
-                attempts++;
             }
-            ConsoleHelpers.ShowError("Превышено максимальное количество попыток ввода");
-            return default(T);
         }
     }
 }

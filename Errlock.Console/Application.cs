@@ -249,8 +249,8 @@ namespace Errlock.Console
             System.Console.WriteLine(removeHelp);
 
             ConsoleHelpers.WriteColor("go", ConsoleColor.Magenta);
-            const string goHelp =
-                " - отображает диалоги выбора модуля и сессии после чего запускает тест";
+            const string goHelp = " - отображает диалоги выбора модуля и сессии " +
+                                  "после чего запускает тестирование";
             System.Console.WriteLine(goHelp);
 
             ConsoleHelpers.WriteColor("about", ConsoleColor.Magenta);

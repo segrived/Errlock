@@ -5,13 +5,15 @@ using System.Linq;
 using System.Text;
 using CsQuery;
 using Errlock.Lib.Helpers;
+using Errlock.Lib.RequestWrapper;
 using Errlock.Lib.Sessions;
-using Errlock.Lib.SmartWebRequest;
 
 namespace Errlock.Lib.Modules.XssScanner
 {
     public class WebForm : IEquatable<WebForm>
     {
+        private const string XssVector = "<script>alert('1');</script>";
+
         public bool Equals(WebForm other)
         {
             return string.Equals(Action, other.Action) && RequestMethod == other.RequestMethod;
@@ -45,6 +47,11 @@ namespace Errlock.Lib.Modules.XssScanner
             return inputElements;
         }
 
+        /// <summary>
+        /// Выполняем парсинг элемент формы и возвращает экземпляр класса WebFormElement
+        /// </summary>
+        /// <param name="input">Исходный элемент типа IDomObject</param>
+        /// <returns>Экземпляр объекта WebFormElement, представляющий элемент формы</returns>
         private WebFormElement ParseInputElement(IDomObject input)
         {
             var name = input.GetAttribute("name");
@@ -66,6 +73,15 @@ namespace Errlock.Lib.Modules.XssScanner
             }
         }
 
+        public bool HasInjection(string input)
+        {
+            return input.Contains(XssVector);
+        }
+
+        /// <summary>
+        /// Генерирует строку параметров на основе данных формы
+        /// </summary>
+        /// <returns></returns>
         private string ToQueryString(NameValueCollection nvc)
         {
             StringBuilder sb = new StringBuilder();
@@ -87,11 +103,22 @@ namespace Errlock.Lib.Modules.XssScanner
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Генерирует полный URL, на основе данных формы
+        /// </summary>
+        /// <returns></returns>
         public string GetQuery()
         {
             var collection = new NameValueCollection();
             foreach (var element in this.WebFormElements) {
-                collection.Add(element.Name, element.AvailableValues.PickRandom());
+                string value = String.Empty;
+                if (element.IsInjectionAllowed) {
+                    // injection string
+                    value = XssVector;
+                } else {
+                    value = element.AvailableValues.PickRandom();
+                }
+                collection.Add(element.Name, value);
             }
             var builder = new UriBuilder(this.Action) {
                 Query = ToQueryString(collection)

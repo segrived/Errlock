@@ -4,8 +4,9 @@ using System.Linq;
 using CsQuery;
 using Errlock.Lib.Logger;
 using Errlock.Lib.Modules.XssScanner;
+using Errlock.Lib.Modules.XssScannerModule.Notices;
+using Errlock.Lib.RequestWrapper;
 using Errlock.Lib.Sessions;
-using Errlock.Lib.SmartWebRequest;
 
 namespace Errlock.Lib.Modules.XssScannerModule
 {
@@ -35,7 +36,7 @@ namespace Errlock.Lib.Modules.XssScannerModule
                     return ModuleScanStatus.Canceled;
                 }
                 try {
-                    var request = new SmartWebRequest.SmartRequest(ConnectionConfiguration, link);
+                    var request = new WebRequestWrapper(ConnectionConfiguration, link);
                     using (var getReq = request.GetRequest()) {
                         if (! getReq.IsHtmlPage()) {
                             continue;
@@ -47,6 +48,15 @@ namespace Errlock.Lib.Modules.XssScannerModule
                         foreach (var webForm in webForms) {
                             _webForms.Add(webForm);
                             var query = webForm.GetQuery();
+                            var xssReq = new WebRequestWrapper(ConnectionConfiguration, query);
+                            using (var xssRes = xssReq.GetRequest()) {
+                                var res = xssRes.Download();
+                                if (webForm.HasInjection(res)) {
+                                    var notice = new XssInjectionNotice(link, query);
+                                    this.AddNotice(notice);
+                                }
+                            }
+                            
                             AddMessage(query, LoggerMessageType.Info);
                             var message = String.Format("Найдена новая форма: {0}", webForm);
                             AddMessage(message, LoggerMessageType.Info);

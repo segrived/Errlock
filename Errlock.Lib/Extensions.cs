@@ -318,5 +318,35 @@ namespace Errlock.Lib
             string name = type.Name;
             return db.GetCollection<T>(name);
         }
+
+        public static Dictionary<char, char> ZipWith(this string str1, string str2)
+        {
+            if (str1.Length != str2.Length) {
+                throw new Exception("Количество символов в строках должно быть одинаково");
+            }
+            return str1
+                .Zip(str2, (lc, cc) => new KeyValuePair<char, char>(lc, cc))
+                .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        }
+
+        /// <summary>
+        /// http://stackoverflow.com/questions/6171401/
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="mappings"></param>
+        /// <returns></returns>
+        static public string Translate(this string s, Dictionary<char, char> mappings)
+        {
+            var sb = new StringBuilder(s.Length);
+            foreach (char c in s) {
+                char to;
+                if (mappings.TryGetValue(c, out to)) {
+                    sb.Append(to);
+                } else {
+                    sb.Append(c);
+                }
+            }
+            return sb.ToString();
+        }
     }
 }

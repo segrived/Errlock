@@ -61,14 +61,23 @@ namespace Errlock.Lib.Modules.PasswordCrackerModule
         private int _processedCount;
         private int _totalCount;
 
+        private string LatinToCyrillic(string input)
+        {
+            string latin = @"qwertyuiop[]\asdfghjkl;'zxcvbnm,./";
+            string cyrillic = @"йцукенгшщзхъ\фывапролджэячсмитьбю.";
+            var mapping = latin.ZipWith(cyrillic);
+            return input.Translate(mapping);
+        }
+
         private List<string> GetHeuristicVariations(string login)
         {
-            return new List<string> {
+            var def = new List<string> {
                 login,
                 login.ToUpper(), login.ToLower(),
                 login.ToLower().ReverseStr(), login.ToUpper().ReverseStr(),
-                login.ToUpperFirstChar()
+                login.ToUpperFirstChar(),
             };
+            return def.Concat(def.Select(LatinToCyrillic)).ToList();
         }
 
         protected override ModuleScanStatus Process(Session session, IProgress<int> progress)

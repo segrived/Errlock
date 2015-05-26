@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Errlock.Lib;
 using Errlock.Lib.Modules;
 using Errlock.Lib.Sessions;
@@ -7,7 +8,7 @@ namespace Errlock.ViewModels
 {
     public class MainWindowViewModel : Bindable
     {
-        private IModule _selectedModule;
+        private Func<IModule> _selectedModule;
         private Session _selectedSession;
 
         public IEnumerable<Session> Sessions
@@ -38,7 +39,7 @@ namespace Errlock.ViewModels
         //    set { Set(value); }
         //}
 
-        public IModule SelectedModule
+        public Func<IModule> SelectedModule
         {
             get { return _selectedModule; }
             set

@@ -10,8 +10,6 @@ namespace Errlock
 {
     public partial class App
     {
-        Mutex _myMutex;
-
         public static readonly AppConfig Config = new AppConfig(ErrlockConfigModel.Defaults);
 
         public static IRepository<Session> SessionRepository;
@@ -23,8 +21,8 @@ namespace Errlock
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            bool aIsNewInstance = false;
-            _myMutex = new Mutex(true, "ErrlockApp", out aIsNewInstance);
+            bool aIsNewInstance;
+            new Mutex(true, "ErrlockApp", out aIsNewInstance);
             if (! aIsNewInstance) {
                 MessageBox.Show("Приложение уже запущено", "Ошибка", MessageBoxButton.OK, 
                     MessageBoxImage.Error);

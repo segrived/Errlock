@@ -12,7 +12,7 @@
     </Window.TaskbarItemInfo>
     <Grid HorizontalAlignment="Left">
         <Grid Width="219"
-              Margin="10,10,0,181"
+              Margin="10,10,0,143"
               HorizontalAlignment="Left">
             <ListBox x:Name="SessionList"
                      Margin="0,0,0,37"
@@ -54,7 +54,7 @@
                 </StackPanel>
             </Button>
         </Grid>
-        <Grid Margin="234,10,0,181">
+        <Grid Margin="234,10,0,143">
             <TabControl Height="Auto"
                         Margin="0,0,10,0"
                         VerticalAlignment="Stretch">
@@ -63,10 +63,7 @@
                         <Setter Property="Padding" Value="7,4,7,4" />
                     </Style>
                 </TabControl.Resources>
-                <TabItem x:Name="HomeTab"
-                         IsEnabled="{Binding IsSelectedSession}"
-                         IsSelected="{Binding IsSelectedSession,
-                                              Mode=OneWay}">
+                <TabItem x:Name="HomeTab" IsEnabled="{Binding IsSelectedSession}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Width="16"
@@ -90,6 +87,7 @@
                     </TabItem.Header>
                     <Grid>
                         <TabControl x:Name="MainTabControl"
+                                    Margin="0,0,0,52"
                                     HorizontalContentAlignment="Stretch"
                                     Padding="0"
                                     TabStripPlacement="Right">
@@ -108,7 +106,9 @@
                                     </StackPanel>
                                 </TabItem.Header>
                                 <Grid Background="#FFFFFF">
-                                    <Frame Source="Views/PublicFinderView.xaml" />
+                                    <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                        <Frame Source="Views/PublicFinderView.xaml" />
+                                    </ScrollViewer>
                                 </Grid>
                             </TabItem>
                             <TabItem x:Name="PasswordCrackerTab">
@@ -132,7 +132,7 @@
                                         <Image Width="16"
                                                Margin="0, 5, 10, 5"
                                                Source="Media/Images/tab-xss_16.ico" />
-                                        <TextBlock VerticalAlignment="Center" Text="XSS" />
+                                        <TextBlock VerticalAlignment="Center" Text="XSS уязвимости" />
                                     </StackPanel>
                                 </TabItem.Header>
                                 <Grid Background="#FFFFFF">
@@ -153,6 +153,20 @@
                                 </Grid>
                             </TabItem>
                         </TabControl>
+                        <Button Name="StartStopModule"
+                                Width="133"
+                                Height="32"
+                                Margin="0,0,10,10"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Click="StartStopModule_Click"
+                                Content="Запустить тест"
+                                IsEnabled="{Binding IsModuleSelected}"
+                                RenderTransformOrigin="0.5,0.5" />
+                        <ProgressBar x:Name="ModuleProgress"
+                                     Height="32"
+                                     Margin="10,0,148,10"
+                                     VerticalAlignment="Bottom" />
                     </Grid>
                 </TabItem>
                 <TabItem>
@@ -168,7 +182,7 @@
                         <Frame Source="Views/SettingsPageView.xaml" />
                     </Grid>
                 </TabItem>
-                <TabItem IsSelected="True">
+                <TabItem>
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Width="16"
@@ -195,13 +209,6 @@
                 </Style>
             </RichTextBox.Resources>
         </RichTextBox>
-        <Button Name="StartStopModule"
-                Margin="683,418,10,143"
-                Click="StartStopModule_Click"
-                Content="Запустить тест" />
-        <ProgressBar x:Name="ModuleProgress"
-                     Height="32"
-                     Margin="10,0,234,144"
-                     VerticalAlignment="Bottom" />
+
     </Grid>
 </Window>

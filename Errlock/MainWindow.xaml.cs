@@ -3,7 +3,6 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Shell;
 using Errlock.Lib.Logger;
 using Errlock.Lib.Modules;
@@ -16,9 +15,6 @@ namespace Errlock
     public partial class MainWindow
     {
         private readonly ViewModelLocator _locator = new ViewModelLocator();
-
-        public IModule CurrentModule { get; set; }
-        public ModuleConfig ModuleConfig { get; set; }
 
         public MainWindow()
         {
@@ -65,30 +61,23 @@ namespace Errlock
             win.ShowDialog();
         }
 
-        private void LogListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (SessionList.SelectedIndex == -1) {
-                return;
-            }
-            //var logFile = LogFilesList.SelectedItem as SessionLogFile;
-            //new LogViewerView(logFile).ShowDialog();
-        }
-
         private async void StartStopModule_Click(object sender, RoutedEventArgs e)
         {
-            this.CurrentModule.SetLogger(App.Logger);
+            var module = _locator.MainWindowViewModel.SelectedModule.Invoke();
+            
+            module.SetLogger(App.Logger);
             var session = this._locator.MainWindowViewModel.SelectedSession;
 
             // При поступлении нового предупреждения от модуля
-            this.CurrentModule.NewNotice +=
+            module.NewNotice +=
                 (pSender, pe) => { App.Logger.Log(pe.Notice.Text, LoggerMessageType.Warn); };
 
-            this.ModuleProgress.IsIndeterminate = !this.CurrentModule.IsSupportProgressReporting;
-            this.TaskbarItemInfo.ProgressState = this.CurrentModule.IsSupportProgressReporting
+            this.ModuleProgress.IsIndeterminate = !module.IsSupportProgressReporting;
+            this.TaskbarItemInfo.ProgressState = module.IsSupportProgressReporting
                 ? TaskbarItemProgressState.Normal
                 : TaskbarItemProgressState.Indeterminate;
 
-            this.CurrentModule.Progress.ProgressChanged += (pSender, i) => {
+            module.Progress.ProgressChanged += (pSender, i) => {
                 this.ModuleProgress.Value = i;
                 this.TaskbarItemInfo.ProgressValue = (double)i / 100;
             };
@@ -96,7 +85,7 @@ namespace Errlock
             ModuleProgress.Visibility = Visibility.Visible;
             var scanResult = await Task.Factory.StartNew(() => {
                 try {
-                    return this.CurrentModule.Start(session);
+                    return module.Start(session);
                 } catch (WebException ex) {
                     App.Logger.Log(ex.Message, LoggerMessageType.Error);
                     return null;

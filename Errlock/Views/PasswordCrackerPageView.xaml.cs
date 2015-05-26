@@ -1,13 +1,17 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Errlock.Lib.Helpers;
 using Errlock.Lib.Modules.PasswordCrackerModule;
 using Errlock.Lib.RequestWrapper;
+using Errlock.Locators;
 using Errlock.ViewModels;
 
 namespace Errlock.Views
 {
     public partial class PasswordCrackerPageView
     {
+        private readonly ViewModelLocator _locator = new ViewModelLocator();
+
         private PasswordCrackerPageViewModel _viewModel;
 
         public PasswordCrackerPageView()
@@ -22,8 +26,9 @@ namespace Errlock.Views
             this.RequestTypeComboBox.ItemsSource = EnumHelpers.EnumToDictionary<RequestMethod>();
             this.InvalidPasswordBehaviorComboBox.ItemsSource =
                 EnumHelpers.EnumToDictionary<InvalidPasswordAction>();
-            _viewModel = new PasswordCrackerPageViewModel();
-            ((MainWindow)Application.Current.MainWindow).CurrentModule = _viewModel.Module;
+
+            _locator.MainWindowViewModel.SelectedModule =
+                () => new PasswordCracker(_viewModel.Config, App.Config.Model.ConnectionConfiguration);
         }
     }
 }

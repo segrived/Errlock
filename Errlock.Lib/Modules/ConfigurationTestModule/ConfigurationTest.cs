@@ -12,7 +12,7 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule
     public class ConfigurationTest : Module<ConfigurationTestConfig>
     {
         private static readonly ConfigurationTestConfig DefaultConfig 
-            = new ConfigurationTestConfig { };
+            = new ConfigurationTestConfig();
 
         public override bool IsSupportProgressReporting
         {
@@ -21,7 +21,7 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule
 
         protected override ModuleScanStatus Process(Session session, IProgress<int> progress)
         {
-            var url = session.Url;
+            string url = session.Url;
             var req = new WebRequestWrapper(this.ConnectionConfiguration, url);
 
             // Попытка обнаружения непредназначенного для продакшена сервера

@@ -140,6 +140,9 @@ namespace Errlock.Lib
         public static string Download(this WebResponse response)
         {
             var stream = response.GetResponseStream();
+            if (stream == null) {
+                return String.Empty;
+            }
             using (var reader = new StreamReader(stream)) {
                 string content = reader.ReadToEnd();
                 return content;
@@ -222,8 +225,9 @@ namespace Errlock.Lib
         public static T PickRandom<T>(this IEnumerable<T> collection)
         {
             var rnd = new Random();
-            int index = rnd.Next(collection.Count());
-            return collection.ElementAt(index);
+            var enumerable = collection.ToList();
+            int index = rnd.Next(enumerable.Count());
+            return enumerable.ElementAt(index);
         }
 
         /// <summary>
@@ -275,10 +279,9 @@ namespace Errlock.Lib
             return input.First().ToString().ToUpper() + input.Substring(1);
         }
 
-        public static StringBuilder AppendFormatLine(
-            this StringBuilder sb, string format, params object[] args)
+        public static void AppendFormatLine(this StringBuilder sb, string format, params object[] args)
         {
-            return sb.AppendFormat(format, args).AppendLine();
+            sb.AppendFormat(format, args).AppendLine();
         }
 
         /// <summary>
@@ -340,11 +343,7 @@ namespace Errlock.Lib
             var sb = new StringBuilder(s.Length);
             foreach (char c in s) {
                 char to;
-                if (mappings.TryGetValue(c, out to)) {
-                    sb.Append(to);
-                } else {
-                    sb.Append(c);
-                }
+                sb.Append(mappings.TryGetValue(c, out to) ? to : c);
             }
             return sb.ToString();
         }

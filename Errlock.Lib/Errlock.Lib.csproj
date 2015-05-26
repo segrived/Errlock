@@ -54,7 +54,6 @@
   <ItemGroup>
     <Compile Include="AppConfig\AppConfig.cs" />
     <Compile Include="AppConfig\ErrlockConfigModel.cs" />
-    <Compile Include="DomParser\DomParser.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Helpers\AppHelpers.cs" />
     <Compile Include="Helpers\EnumHelpers.cs" />
@@ -94,7 +93,6 @@
     <Compile Include="Modules\XssScannerModule\XssScanner.cs" />
     <Compile Include="Modules\XssScannerModule\XssScannerConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sessions\ISessionRepository.cs" />
     <Compile Include="Sessions\Session.cs" />
     <Compile Include="Sessions\SessionDiskRepository.cs" />
     <Compile Include="Sessions\SessionEventArgs.cs" />

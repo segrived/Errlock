@@ -25,14 +25,14 @@ namespace Errlock.Lib.Sessions
         /// Возвращает директорию текущего экземпляра сессии
         /// </summary>
         /// <returns>Директория, хранящая данные сессии</returns>
-        private string GetSessionDirectory(Session session)
+        private static string GetSessionDirectory(Session session)
         {
             return Path.Combine(SessionsDirectory, session.Id.ToString());
         }
 
         public void InsertOrUpdate(Session session)
         {
-            string sessionDir = this.GetSessionDirectory(session);
+            string sessionDir = GetSessionDirectory(session);
             // Создание необходимых директорий
             Directory.CreateDirectory(sessionDir);
             Directory.CreateDirectory(Path.Combine(sessionDir, LogsDirectory));
@@ -45,7 +45,7 @@ namespace Errlock.Lib.Sessions
         /// </summary>
         public void Delete(Session session)
         {
-            string path = this.GetSessionDirectory(session);
+            string path = GetSessionDirectory(session);
             if (! Directory.Exists(path)) {
                 return;
             }
@@ -59,7 +59,7 @@ namespace Errlock.Lib.Sessions
         /// <returns>Возвращает True, если сессия существует; иначе возвращает False</returns>
         public bool Exists(Guid sessionId)
         {
-            var sessionIdStr = sessionId.ToString();
+            string sessionIdStr = sessionId.ToString();
             string sessionDir = Path.Combine(SessionsDirectory, sessionIdStr);
             return GuidHelpers.IsValidGuid(sessionIdStr) && Directory.Exists(sessionDir);
         }
@@ -86,7 +86,7 @@ namespace Errlock.Lib.Sessions
         /// </summary>
         /// <param name="sessionId">ID сессии</param>
         /// <returns>Экземпляр открытой сессии</returns>
-        public Session GetItemById(string sessionId)
+        private static Session GetItemById(string sessionId)
         {
             string sessionInfoFile = Path.Combine(SessionsDirectory, sessionId, InfoFileName);
             if (!File.Exists(sessionInfoFile)) {
@@ -103,7 +103,7 @@ namespace Errlock.Lib.Sessions
         /// <returns>Экземпляр открытой сессии</returns>
         public Session GetItemById(Guid sessionId)
         {
-            return this.GetItemById(sessionId.ToString());
+            return GetItemById(sessionId.ToString());
         }
     }
 }

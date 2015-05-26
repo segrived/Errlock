@@ -39,6 +39,7 @@ namespace Errlock.Lib.WebCrawler
             try {
                 var parser = new WebRequestWrapper(this.Options, url);
                 using (var webParserResult = parser.GetRequest()) {
+
                     // Парсинг только HTML-страниц, игнорируя все остальное
                     if (!webParserResult.IsHtmlPage()) {
                         return new HashSet<string>();
@@ -49,7 +50,7 @@ namespace Errlock.Lib.WebCrawler
                     // Все ссылки, найденные на странице
                     var links = dom["a"].Select(l => l.GetAttribute("href"));
 
-                    // 
+                    // Ингорировать якори
                     if (this.Session.Options.IngoreAnchors) {
                         links = links.Select(x => x.RemoveAnchors());
                     }
@@ -57,6 +58,7 @@ namespace Errlock.Lib.WebCrawler
                     links = links.MakeAbsoluteBatch(this.Session.Url)
                                  .Where(l => new Uri(l).Host == new Uri(this.Session.Url).Host);
 
+                    // Использовать случайные ссылки вместо последовательных
                     if (this.Session.Options.UseRandomLinks) {
                         links = links.Distinct();
                     }

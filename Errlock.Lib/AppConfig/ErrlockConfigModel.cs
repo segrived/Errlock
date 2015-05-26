@@ -13,7 +13,6 @@ namespace Errlock.Lib.AppConfig
         /// либо пересоздания в случае проблем
         /// </summary>
         public static readonly ErrlockConfigModel Defaults = new ErrlockConfigModel {
-            LastStartTime = DateTime.Now,
             ConnectionConfiguration = new ConnectionConfiguration {
                 MaxRedirections = 12,
                 Timeout = 3500,
@@ -23,11 +22,6 @@ namespace Errlock.Lib.AppConfig
                 ProxyPort = 0
             }
         };
-
-        /// <summary>
-        /// Время последнего запуска программы
-        /// </summary>
-        public DateTime LastStartTime { get; set; }
 
         /// <summary>
         /// Настройки подключения

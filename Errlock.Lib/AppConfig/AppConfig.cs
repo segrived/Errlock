@@ -25,8 +25,7 @@ namespace Errlock.Lib.AppConfig
         /// Инициализирует новый экземпляр класса AppConfig
         /// </summary>
         /// <param name="defaults">
-        /// Экземпляр с настройками по умолчанию;
-        /// используется, если файл конфигурации ещё не создан
+        /// Экземпляр с настройками по умолчанию; используется, если файл конфигурации ещё не создан
         /// </param>
         public AppConfig(ErrlockConfigModel defaults)
         {

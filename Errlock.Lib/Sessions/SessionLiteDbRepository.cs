@@ -26,7 +26,7 @@ namespace Errlock.Lib.Sessions
         {
             this._collection.InsertOrUpdate(item);
         }
-
+        
         public void Delete(Session item)
         {
             this._collection.Delete(item.Id);

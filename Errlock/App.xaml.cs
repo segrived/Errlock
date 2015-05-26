@@ -28,7 +28,6 @@ namespace Errlock
                     MessageBoxImage.Error);
                 Current.Shutdown();
             }
-            Config.Model.LastStartTime = DateTime.Now;
 
             SessionRepository = new SessionLiteDbRepository();
         }

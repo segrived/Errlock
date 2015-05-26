@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using Errlock.Lib.Modules;
 
 namespace Errlock.Lib.Sessions
 {
@@ -20,7 +18,7 @@ namespace Errlock.Lib.Sessions
         Deleted
     }
 
-    public class Session
+    public class Session : IModel
     {
         /// <summary>
         /// Идентификатор сессии
@@ -38,16 +36,12 @@ namespace Errlock.Lib.Sessions
         public SessionScanOptions Options { get; set; }
 
         /// <summary>
-        /// Логи сессии
-        /// </summary>
-        public List<ModuleScanResult> ScanResults { get; set; }
-
-        /// <summary>
         /// Действие, вызываемое при создании, изменении или удалении сессии
         /// </summary>
         public Session()
         {
-            this.Id = Guid.NewGuid();
+            //this.Id = Guid.NewGuid();
+            this.Options = new SessionScanOptions();
         }
 
         /// <summary>
@@ -60,7 +54,6 @@ namespace Errlock.Lib.Sessions
         {
             this.Url = url;
             this.Options = options;
-            this.ScanResults = new List<ModuleScanResult>();
         }
     }
 }

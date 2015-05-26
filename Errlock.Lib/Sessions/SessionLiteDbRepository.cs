@@ -1,21 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using Errlock.Lib.Helpers;
 using LiteDB;
 
 namespace Errlock.Lib.Sessions
 {
     public class SessionLiteDbRepository : IRepository<Session>
     {
-        private const string DbFileName = "Errlock.db";
-        private readonly LiteCollection<Session> _collection = 
-            new LiteDatabase(DbFileName).GetCollection<Session>("sessions");
+        private static readonly string DbDefaultFileName =
+            Path.Combine(AppHelpers.DefaultConfigPath, "Errlock.db");
+
+        private readonly LiteCollection<Session> _collection;
+
+        public SessionLiteDbRepository() : this(DbDefaultFileName)
+        {
+        }
+
+        public SessionLiteDbRepository(string dbFileName)
+        {
+            this._collection = new LiteDatabase(dbFileName).GetCollection<Session>();
+        }
 
         public void InsertOrUpdate(Session item)
         {
-            this._collection.Insert(item);
+            this._collection.InsertOrUpdate(item);
         }
 
         public void Delete(Session item)

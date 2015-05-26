@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using LiteDB;
 
 namespace Errlock.Lib
 {
@@ -278,6 +279,44 @@ namespace Errlock.Lib
             this StringBuilder sb, string format, params object[] args)
         {
             return sb.AppendFormat(format, args).AppendLine();
+        }
+
+        /// <summary>
+        /// Добавляет или обновляется коллекцию в базе данных
+        /// </summary>
+        /// <typeparam name="T">Тип элемента коллекции</typeparam>
+        /// <param name="coll">Экземпляр класса LiteCollection, представляющий коллекцию</param>
+        /// <param name="item">Добавляемый или обновляемый элемент</param>
+        /// <returns>ID добавленного или обновленного элемента</returns>
+        public static Guid InsertOrUpdate<T>(this LiteCollection<T> coll, T item) where T : IModel, new()
+        {
+            var dbItem = coll.FindById(item.Id);
+            Guid result;
+            if (dbItem != null) {
+                coll.Update(item);
+                result = item.Id;
+            } else {
+                var insertResult = coll.Insert(item);
+                result = insertResult;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Возвращает экземпляр класса LiteCollection для переданного типа
+        /// </summary>
+        /// <typeparam name="T">
+        /// Тип параметра, для которого необохдимо вернут
+        /// экземпляр коллекции. Имя коллекции будет сгенерированно автоматически
+        /// из названия типа
+        /// </typeparam>
+        /// <param name="db">Экземпляр подключения базы данных</param>
+        /// <returns>Экземпляр класса LiteCollection</returns>
+        public static LiteCollection<T> GetCollection<T>(this LiteDatabase db) where T : new()
+        {
+            var type = typeof(T);
+            string name = type.Name;
+            return db.GetCollection<T>(name);
         }
     }
 }

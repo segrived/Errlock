@@ -73,19 +73,19 @@ namespace Errlock.Console
         {
             var s = new Session();
             var urlReq = new ConsoleRequester<string>();
-            urlReq.AddPredicate(u => ! WebHelpers.IsValidUrl(u), "Неверный URL: ");
+            urlReq.AddPredicate(u => ! WebHelpers.IsValidUrl(u), "Неверный URL");
             s.Url = urlReq
-                .RequestValue("Введите URL (включая протокол, например http://google.ru): ");
+                .RequestValue("Введите URL включая протокол");
             s.Options.RecursionDepth = ConsoleRequester
-                .RequestInt("Введите макс. глубину рекурсии: ");
+                .RequestInt("Введите макс. глубину рекурсии", 3);
             s.Options.FetchPerPage = ConsoleRequester
-                .RequestInt("Максимальное количество ссылок с одной страницы: ");
+                .RequestInt("Максимальное количество ссылок с одной страницы", 20);
             s.Options.IngoreAnchors = ConsoleRequester
-                .RequestBool("Игнорировать якоря: ");
+                .RequestBool("Игнорировать якоря", true);
             s.Options.UseRandomLinks = ConsoleRequester
-                .RequestBool("Собирать случайные ссылки: ");
+                .RequestBool("Собирать случайные ссылки", true);
             s.Options.MaxLinks = ConsoleRequester
-                .RequestInt("Глобальное ограничение на количество ссылок: ");
+                .RequestInt("Глобальное ограничение на количество ссылок", 100);
             this._repository.InsertOrUpdate(s);
         }
 
@@ -107,11 +107,11 @@ namespace Errlock.Console
         {
             var config = new PublicFinderConfig {
                 DetectSuspicious = ConsoleRequester
-                    .RequestBool("Обнаруживать подозрительные страинцы: "),
+                    .RequestBool("Обнаруживать подозрительные страинцы", true),
                 UseGetRequests = ConsoleRequester
-                    .RequestBool("Использовать GET-запросы вместо HEAD: "),
+                    .RequestBool("Использовать GET-запросы вместо HEAD", false),
                 UsePermutations = ConsoleRequester
-                    .RequestBool("Использовать перестановки: ")
+                    .RequestBool("Использовать перестановки", true)
             };
             return new PublicFinder(config, _connectionConfig);
         }
@@ -120,17 +120,17 @@ namespace Errlock.Console
         {
             var config = new PasswordCrackerConfig {
                 Login = ConsoleRequester
-                    .RequestString("Логин: "),
+                    .RequestString("Логин", "admin"),
                 RequestParameters = ConsoleRequester
-                    .RequestString("Параметры запроса: "),
+                    .RequestString("Параметры запроса", "login={{login}}&password={{password}}"),
                 RequestUrl = ConsoleRequester
-                    .RequestString("URL запроса (без адреса ресурса): "),
+                    .RequestString("URL запроса без адреса ресурса", "login"),
                 PasswordsCount = ConsoleRequester
-                    .RequestInt("Количество паролей: "),
+                    .RequestInt("Количество паролей", 100),
                 UseHeuristic = ConsoleRequester
-                    .RequestBool("Использовать эвристику: "),
+                    .RequestBool("Использовать эвристику", true),
                 StopAfterFirstMatch = ConsoleRequester
-                    .RequestBool("Останавливать после первого совпадения: ")
+                    .RequestBool("Останавливать после первого совпадения", true)
             };
             return new PasswordCracker(config, _connectionConfig);
         }

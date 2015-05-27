@@ -10,20 +10,22 @@ namespace Errlock.Console
         /// Запрашивает целое число с консоли
         /// </summary>
         /// <param name="prompt">Строка запроса</param>
+        /// <param name="def"></param>
         /// <returns></returns>
-        public static int RequestInt(string prompt)
+        public static int RequestInt(string prompt, int def)
         {
-            return new ConsoleRequester<int>(Int32.Parse).RequestValue(prompt);
+            return new ConsoleRequester<int>(Int32.Parse).RequestValue(prompt, defaultValue: def);
         }
 
         /// <summary>
         /// Запрашивает строку с консоли
         /// </summary>
         /// <param name="prompt">Строка запроса</param>
+        /// <param name="def"></param>
         /// <returns></returns>
-        public static string RequestString(string prompt)
+        public static string RequestString(string prompt, string def)
         {
-            return new ConsoleRequester<string>().RequestValue(prompt);
+            return new ConsoleRequester<string>().RequestValue(prompt, defaultValue: def);
         }
 
         /// <summary>
@@ -31,12 +33,13 @@ namespace Errlock.Console
         /// интерпретируются как True, все остальное как False. Регистр при сравнении не учитывается
         /// </summary>
         /// <param name="prompt">Строка запроса</param>
+        /// <param name="def"></param>
         /// <returns></returns>
-        public static bool RequestBool(string prompt)
+        public static bool RequestBool(string prompt, bool def)
         {
             var trueVariations = new List<string> { "true", "1", "yes", "да", "+" };
             return new ConsoleRequester<bool>(s => trueVariations.Contains(s.ToLower()))
-                .RequestValue(prompt);
+                .RequestValue(prompt, defaultValue: def);
         }
 
         /// <summary>
@@ -134,13 +137,30 @@ namespace Errlock.Console
         /// </summary>
         /// <param name="prompt">Строка запроса</param>
         /// <param name="color">Цвет строки запроса</param>
+        /// <param name="defaultValue">
+        /// Значение по умолчанию, будет возвращено, если строка запроса оказалась пустой
+        /// </param>
         /// <returns>Обработанное значение, введенное с консоли</returns>
-        public T RequestValue(string prompt = "", ConsoleColor color = ConsoleColor.Green)
+        public T RequestValue(string prompt = "", ConsoleColor color = ConsoleColor.Green, 
+            T defaultValue = default(T))
         {
             while (true) {
                 try {
-                    ConsoleHelpers.ShowPrompt(prompt, color);
-                    var value = _stringConverter(System.Console.ReadLine());
+                    string fullPrompt = prompt;
+                    if (! String.IsNullOrWhiteSpace(prompt)) {
+                        if (defaultValue != null) {
+                            fullPrompt += String.Format(" (по умолчанию {0})", defaultValue);
+                        }
+                        fullPrompt += ": ";
+                    }
+                    ConsoleHelpers.ShowPrompt(fullPrompt, color);
+                    string requestString = System.Console.ReadLine();
+                    var value = String.IsNullOrWhiteSpace(requestString) 
+                        ? defaultValue 
+                        : _stringConverter(requestString);
+#if DEBUG
+                    ConsoleHelpers.WriteColorLine("Выбрано значение " + value, ConsoleColor.DarkGray);
+#endif
                     var pred = this._predicatesList.FirstOrDefault(p => p.Item1.Invoke(value));
                     if (pred == null) {
                         return value;

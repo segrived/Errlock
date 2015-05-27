@@ -81,6 +81,7 @@
     <Compile Include="ViewModels\CloseableViewModel.cs" />
     <Compile Include="ViewModels\PasswordCrackerPageViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
+    <Compile Include="ViewModels\ConfigurationTestViewModel.cs" />
     <Compile Include="ViewModels\XssScannerViewModel.cs" />
     <Compile Include="Views\AboutPageView.xaml.cs">
       <DependentUpon>AboutPageView.xaml</DependentUpon>
@@ -110,6 +111,9 @@
     </Compile>
     <Compile Include="Views\ScanResultWindowView.xaml.cs">
       <DependentUpon>ScanResultWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConfigurationTestView.xaml.cs">
+      <DependentUpon>ConfigurationTestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\XssScannerView.xaml.cs">
       <DependentUpon>XssScannerView.xaml</DependentUpon>
@@ -155,6 +159,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ScanResultWindowView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfigurationTestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -218,9 +226,6 @@
     <Resource Include="Media\Images\log_16.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Media\Images\sql_16.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Media\Images\log_32.png" />
   </ItemGroup>
   <ItemGroup>
@@ -240,6 +245,9 @@
       <Project>{18592f34-be07-4baf-a643-ef45f0433313}</Project>
       <Name>Errlock.Lib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\Images\config_16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

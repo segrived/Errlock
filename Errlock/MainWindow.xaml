@@ -139,17 +139,17 @@
                                     <Frame Source="Views/XssScannerView.xaml" />
                                 </Grid>
                             </TabItem>
-                            <TabItem x:Name="SQLInjectionTab">
+                            <TabItem x:Name="TestConfigurationTab">
                                 <TabItem.Header>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Width="16"
                                                Margin="0, 5, 10, 5"
-                                               Source="Media/Images/sql_16.png" />
-                                        <TextBlock VerticalAlignment="Center" Text="SQL-инъекции" />
+                                               Source="Media/Images/config_16.png" />
+                                        <TextBlock VerticalAlignment="Center" Text="Конфигурация" />
                                     </StackPanel>
                                 </TabItem.Header>
                                 <Grid Background="#FFFFFF">
-                                    <Frame Source="Views/XssScannerView.xaml" />
+                                    <Frame Source="Views/ConfigurationTestView.xaml" />
                                 </Grid>
                             </TabItem>
                         </TabControl>

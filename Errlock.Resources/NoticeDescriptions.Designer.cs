@@ -8,15 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.CodeDom.Compiler;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using System.Resources;
-using System.Runtime.CompilerServices;
-
 namespace Errlock.Resources {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -24,27 +19,27 @@ namespace Errlock.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [GeneratedCode("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
-    [DebuggerNonUserCode()]
-    [CompilerGenerated()]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class NoticeDescriptions {
         
-        private static ResourceManager resourceMan;
+        private static global::System.Resources.ResourceManager resourceMan;
         
-        private static CultureInfo resourceCulture;
+        private static global::System.Globalization.CultureInfo resourceCulture;
         
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal NoticeDescriptions() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public static ResourceManager ResourceManager {
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
-                if (ReferenceEquals(resourceMan, null)) {
-                    ResourceManager temp = new ResourceManager("Errlock.Resources.NoticeDescriptions", typeof(NoticeDescriptions).Assembly);
+                if (object.ReferenceEquals(resourceMan, null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Errlock.Resources.NoticeDescriptions", typeof(NoticeDescriptions).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -55,8 +50,8 @@ namespace Errlock.Resources {
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public static CultureInfo Culture {
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -68,9 +63,9 @@ namespace Errlock.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Использутеся веб-сервер, который не предназначен для работы в продакшене. Использование таких серверов может очень сильно замедлять работу приложения, не иметь средств для тонкой настройки своей работы и иметь проблемы безопасности. Рекомендуется использовать известные веб-сервера, если данный сайт работает в продкшене..
         /// </summary>
-        public static string NonProductionServerNotice {
+        public static string NonProductionServer {
             get {
-                return ResourceManager.GetString("NonProductionServerNotice", resourceCulture);
+                return ResourceManager.GetString("NonProductionServer", resourceCulture);
             }
         }
         
@@ -84,11 +79,29 @@ namespace Errlock.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Информация о сервера может быть полезна в случаях, когда используемая версия веб-сервера может быть уязивима..
+        ///   Looks up a localized string similar to Ни один из триггеров не сработал,а это значит, что, возможно, пароль подошел к аккаунту. Если это действительно так, значит пароль попадает в категорию &quot;небезопасных&quot; и его рекомендуется сменить как можно быстрее..
+        /// </summary>
+        public static string PasswordMatch {
+            get {
+                return ResourceManager.GetString("PasswordMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Информация о используемом веб-сервере может быть полезна в случаях, когда используемая версия веб-сервера может быть уязивима..
         /// </summary>
         public static string ServerInfo {
             get {
                 return ResourceManager.GetString("ServerInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to В ответе сервера включены нестандартные поля (поля, названия которых начинаются с &quot;X-&quot;). Это нормальное поведение,но информация о наличие таких полей может быть полезной, т.к. некоторые из них (например X-XSS-Protection) влияют на безопасность веб-приложения. Дополнительная информация здесь: http://en.wikipedia.org/wiki/List_of_HTTP_header_fields#Common_non-standard_response_fields.
+        /// </summary>
+        public static string SpecialHeaders {
+            get {
+                return ResourceManager.GetString("SpecialHeaders", resourceCulture);
             }
         }
         
@@ -111,11 +124,29 @@ namespace Errlock.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to На странице подключено слишком много внешних скритов. Это можно сильно уменьшить скорость закгрузки страницы. Рекодендуется, при возможности, минифицировать файлы скритов в один скрипт для более быстрой загрузки..
+        ///   Looks up a localized string similar to На странице подключено слишком много внешних скритов. Это можно достаточно сильно уменьшить скорость закгрузки страницы. Рекодендуется, при возможности, минифицировать файлы скритов в один скрипт для более быстрой загрузки..
         /// </summary>
         public static string TooManyScripts {
             get {
                 return ResourceManager.GetString("TooManyScripts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string XssInjection {
+            get {
+                return ResourceManager.GetString("XssInjection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Если веб-сервер отправляет заголовок X-XSS-Protection со значением 0, то веб-браузер не будет выполнять проверки на Reflected-XSS инъекции, что может очень сильно снизить защиту веб-приложения..
+        /// </summary>
+        public static string XssProtectionDisabled {
+            get {
+                return ResourceManager.GetString("XssProtectionDisabled", resourceCulture);
             }
         }
     }

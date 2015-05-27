@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using Errlock.Lib.Repository;
 using LiteDB;
 
 namespace Errlock.Lib
@@ -291,7 +292,7 @@ namespace Errlock.Lib
         /// <param name="coll">Экземпляр класса LiteCollection, представляющий коллекцию</param>
         /// <param name="item">Добавляемый или обновляемый элемент</param>
         /// <returns>ID добавленного или обновленного элемента</returns>
-        public static Guid InsertOrUpdate<T>(this LiteCollection<T> coll, T item) where T : IModel, new()
+        public static Guid InsertOrUpdate<T>(this LiteCollection<T> coll, T item) where T : IRepositoryModel, new()
         {
             var dbItem = coll.FindById(item.Id);
             Guid result;

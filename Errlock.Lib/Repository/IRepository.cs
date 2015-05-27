@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Errlock.Lib
+namespace Errlock.Lib.Repository
 {
-    public interface IRepository<T>
+    public interface IRepository<T> where T : IRepositoryModel
     {
         /// <summary>
         /// Добавляет элемент, если элемента с таким ID ещё не существует, иначе обновляет его

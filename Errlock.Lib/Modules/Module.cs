@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
-using Errlock.Lib.Helpers;
 using Errlock.Lib.Logger;
+using Errlock.Lib.Helpers;
 using Errlock.Lib.RequestWrapper;
 using Errlock.Lib.Sessions;
 

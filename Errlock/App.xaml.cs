@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows;
 using Errlock.Lib;
 using Errlock.Lib.AppConfig;
+using Errlock.Lib.Repository;
 using Errlock.Lib.Logger;
 using Errlock.Lib.Sessions;
 

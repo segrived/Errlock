@@ -7,6 +7,7 @@ using System.Text;
 using Errlock.Lib;
 using Errlock.Lib.AppConfig;
 using Errlock.Lib.Helpers;
+using Errlock.Lib.Repository;
 using Errlock.Lib.Logger;
 using Errlock.Lib.Modules;
 using Errlock.Lib.Modules.ConfigurationTestModule;

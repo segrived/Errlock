@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shell;
-using Errlock.Lib;
 using Errlock.Lib.Logger;
 using Errlock.Lib.Modules;
+using Errlock.Lib.Repository;
 using Errlock.Lib.Sessions;
 using Errlock.Locators;
 using Errlock.Views;
@@ -23,16 +23,16 @@ namespace Errlock
 
             _locator.MainWindowViewModel.Sessions = App.SessionRepository.EnumerateAll();
 
-            var events = App.SessionRepository as ICollectionChanged<Session>;
+            var events = App.SessionRepository as IRepositoryCollectionChanged<Session>;
             if (events != null) {
                 var ri = events;
                 ri.CollectionChanged += (sender, args) => {
                     string message = String.Empty;
-                    switch (args.ChangeType) {
-                        case CollectionChangeType.Updated:
+                    switch (args.EventType) {
+                        case CollectionEventType.Updated:
                             message = "Была добавлена или обновлена сессия: " + args.CollectionItem;
                             break;
-                        case CollectionChangeType.Deleted:
+                        case CollectionEventType.Deleted:
                             message = "Сессия `" + args.CollectionItem + "` была удалена";
                             break;
                     }

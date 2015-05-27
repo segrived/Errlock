@@ -1,8 +1,9 @@
 ﻿using System;
+using Errlock.Lib.Repository;
 
 namespace Errlock.Lib.Sessions
 {
-    public class Session : IModel
+    public class Session : IRepositoryModel
     {
         /// <summary>
         /// Идентификатор сессии

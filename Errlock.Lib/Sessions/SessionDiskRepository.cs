@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Errlock.Lib.Helpers;
+using Errlock.Lib.Repository;
 
 namespace Errlock.Lib.Sessions
 {
-    public class SessionDiskRepository : IRepository<Session>, ICollectionChanged<Session>
+    public class SessionDiskRepository : IRepository<Session>, IRepositoryCollectionChanged<Session>
     {
         /// <summary>
         /// Файл с информацией о сессии
@@ -38,7 +39,7 @@ namespace Errlock.Lib.Sessions
             Directory.CreateDirectory(Path.Combine(sessionDir, LogsDirectory));
             string sessionInfoFile = Path.Combine(sessionDir, InfoFileName);
             SerializationHelpers.Serialize(sessionInfoFile, session);
-            OnCollectionChanged(CollectionChangeType.Updated, session);
+            OnCollectionChanged(CollectionEventType.Updated, session);
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace Errlock.Lib.Sessions
                 return;
             }
             Directory.Delete(path, true);
-            OnCollectionChanged(CollectionChangeType.Deleted, session);
+            OnCollectionChanged(CollectionEventType.Deleted, session);
         }
 
         /// <summary>
@@ -108,12 +109,12 @@ namespace Errlock.Lib.Sessions
             return GetItemById(sessionId.ToString());
         }
 
-        public event EventHandler<ItemChangedEventArgs<Session>> CollectionChanged;
+        public event EventHandler<RepositoryCollectionChangedEventArgs<Session>> CollectionChanged;
 
-        protected virtual void OnCollectionChanged(CollectionChangeType changeType, Session item)
+        protected virtual void OnCollectionChanged(CollectionEventType eventType, Session item)
         {
             var handler = CollectionChanged;
-            handler.Raise(this, new ItemChangedEventArgs<Session>(changeType, item));
+            handler.Raise(this, new RepositoryCollectionChangedEventArgs<Session>(eventType, item));
         }
     }
 }

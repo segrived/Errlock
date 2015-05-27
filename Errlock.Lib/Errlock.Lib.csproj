@@ -61,10 +61,6 @@
     <Compile Include="Helpers\EnumerableHelpers.cs" />
     <Compile Include="Helpers\SerializationHelpers.cs" />
     <Compile Include="Helpers\WebHelpers.cs" />
-    <Compile Include="IModel.cs" />
-    <Compile Include="IRepository.cs" />
-    <Compile Include="ICollectionChanged.cs" />
-    <Compile Include="ItemChangedEventArgs.cs" />
     <Compile Include="Modules\ConfigurationTestModule\ConfigurationTest.cs" />
     <Compile Include="Modules\ConfigurationTestModule\ConfigurationTestConfig.cs" />
     <Compile Include="Modules\ConfigurationTestModule\Notices\NonProductionServerNotice.cs" />
@@ -95,6 +91,10 @@
     <Compile Include="Modules\XssScannerModule\XssScanner.cs" />
     <Compile Include="Modules\XssScannerModule\XssScannerConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\IRepositoryCollectionChanged.cs" />
+    <Compile Include="Repository\IRepositoryModel.cs" />
+    <Compile Include="Repository\RepositoryCollectionChangedEventArgs.cs" />
     <Compile Include="Sessions\Session.cs" />
     <Compile Include="Sessions\SessionDiskRepository.cs" />
     <Compile Include="Sessions\SessionLiteDbRepository.cs" />
@@ -114,7 +114,9 @@
       <Name>Errlock.Resources</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

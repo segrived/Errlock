@@ -25,7 +25,8 @@ namespace Errlock
             bool aIsNewInstance;
             new Mutex(true, "ErrlockApp", out aIsNewInstance);
             if (! aIsNewInstance) {
-                MessageBox.Show("Приложение уже запущено", "Ошибка", MessageBoxButton.OK, 
+                MessageBox.Show("Приложение уже запущено", "Ошибка", 
+                    MessageBoxButton.OK, 
                     MessageBoxImage.Error);
                 Current.Shutdown();
             }

@@ -122,10 +122,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Assets\Resources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -223,10 +219,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Media\Images\alert_16.png" />
-    <Resource Include="Media\Images\log_16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Media\Images\log_32.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Media\Images\about_16.png" />

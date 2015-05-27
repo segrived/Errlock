@@ -7,7 +7,7 @@ namespace Errlock.Views
 {
     public partial class PublicFinderView
     {
-        private PublicFinderViewModel _viewModel;
+        private readonly PublicFinderViewModel _viewModel;
 
         private readonly ViewModelLocator _locator = new ViewModelLocator();
 
@@ -20,7 +20,7 @@ namespace Errlock.Views
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            _locator.MainWindowViewModel.SelectedModule =
+            _locator.MainWindowVM.SelectedModule =
                 () => new PublicFinder(_viewModel.Config, App.Config.Model.ConnectionConfiguration);
         }
     }

@@ -6,7 +6,7 @@ namespace Errlock.Locators
 {
     public class ViewModelLocator
     {
-        public MainWindowViewModel MainWindowViewModel
+        public MainWindowViewModel MainWindowVM
         {
             get { return ServiceLocator.Current.GetInstance<MainWindowViewModel>(); }
         }

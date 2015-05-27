@@ -21,7 +21,7 @@ namespace Errlock
         {
             InitializeComponent();
 
-            _locator.MainWindowViewModel.Sessions = App.SessionRepository.EnumerateAll();
+            _locator.MainWindowVM.Sessions = App.SessionRepository.EnumerateAll();
 
             var events = App.SessionRepository as IRepositoryCollectionChanged<Session>;
             if (events != null) {
@@ -37,7 +37,7 @@ namespace Errlock
                             break;
                     }
                     App.Logger.Log(message, LoggerMessageType.Info);
-                    _locator.MainWindowViewModel.Sessions = App.SessionRepository.EnumerateAll();
+                    _locator.MainWindowVM.Sessions = App.SessionRepository.EnumerateAll();
                 };
             }
 
@@ -50,7 +50,7 @@ namespace Errlock
         private void SessionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var session = SessionList.SelectedItem as Session;
-            _locator.MainWindowViewModel.SelectedSession = session;
+            _locator.MainWindowVM.SelectedSession = session;
         }
 
         private void SessionRemoveMenuItem_Click(object sender, RoutedEventArgs e)
@@ -77,10 +77,10 @@ namespace Errlock
 
         private async void StartStopModule_Click(object sender, RoutedEventArgs e)
         {
-            var module = _locator.MainWindowViewModel.SelectedModule.Invoke();
+            var module = _locator.MainWindowVM.SelectedModule.Invoke();
             
             module.SetLogger(App.Logger);
-            var session = this._locator.MainWindowViewModel.SelectedSession;
+            var session = this._locator.MainWindowVM.SelectedSession;
 
             // При поступлении нового предупреждения от модуля
             module.NewNotice +=

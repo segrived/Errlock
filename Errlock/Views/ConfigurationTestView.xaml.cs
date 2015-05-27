@@ -21,7 +21,7 @@ namespace Errlock.Views
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            _locator.MainWindowViewModel.SelectedModule =
+            _locator.MainWindowVM.SelectedModule =
                 () => new ConfigurationTest(_viewModel.Config, App.Config.Model.ConnectionConfiguration);
         }
     }

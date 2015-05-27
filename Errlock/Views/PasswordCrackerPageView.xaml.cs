@@ -12,7 +12,7 @@ namespace Errlock.Views
     {
         private readonly ViewModelLocator _locator = new ViewModelLocator();
 
-        private PasswordCrackerPageViewModel _viewModel;
+        private readonly PasswordCrackerPageViewModel _viewModel;
 
         public PasswordCrackerPageView()
         {
@@ -27,7 +27,7 @@ namespace Errlock.Views
             this.InvalidPasswordBehaviorComboBox.ItemsSource =
                 EnumHelpers.EnumToDictionary<InvalidPasswordAction>();
 
-            _locator.MainWindowViewModel.SelectedModule =
+            _locator.MainWindowVM.SelectedModule =
                 () => new PasswordCracker(_viewModel.Config, App.Config.Model.ConnectionConfiguration);
         }
     }

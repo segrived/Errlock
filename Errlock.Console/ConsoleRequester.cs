@@ -81,8 +81,8 @@ namespace Errlock.Console
             requester.AddPredicate(x => x < 1 || x > indexesList.Count, "Неверный номер");
             int selectedNumber = requester.RequestValue("Введите номер необходимого варианта: ");
             var selectedItem = zipped[selectedNumber];
-            string selectedValueStr = itemToStringFunc.Invoke(selectedItem);
 #if DEBUG
+            string selectedValueStr = itemToStringFunc.Invoke(selectedItem);
             string message = String.Format("Было выбрано значение `{0}`", selectedValueStr);
             ConsoleHelpers.WriteColorLine(message, ConsoleColor.DarkGray);
 #endif

@@ -6,7 +6,7 @@ using Errlock.Lib.Helpers;
 
 namespace Errlock.Lib.Sessions
 {
-    public class SessionDiskRepository : IRepository<Session>
+    public class SessionDiskRepository : IRepository<Session>, ICollectionChanged<Session>
     {
         /// <summary>
         /// Файл с информацией о сессии
@@ -38,6 +38,7 @@ namespace Errlock.Lib.Sessions
             Directory.CreateDirectory(Path.Combine(sessionDir, LogsDirectory));
             string sessionInfoFile = Path.Combine(sessionDir, InfoFileName);
             SerializationHelpers.Serialize(sessionInfoFile, session);
+            OnCollectionChanged(CollectionChangeType.Updated, session);
         }
 
         /// <summary>
@@ -50,6 +51,7 @@ namespace Errlock.Lib.Sessions
                 return;
             }
             Directory.Delete(path, true);
+            OnCollectionChanged(CollectionChangeType.Deleted, session);
         }
 
         /// <summary>
@@ -104,6 +106,14 @@ namespace Errlock.Lib.Sessions
         public Session GetItemById(Guid sessionId)
         {
             return GetItemById(sessionId.ToString());
+        }
+
+        public event EventHandler<ItemChangedEventArgs<Session>> CollectionChanged;
+
+        protected virtual void OnCollectionChanged(CollectionChangeType changeType, Session item)
+        {
+            var handler = CollectionChanged;
+            handler.Raise(this, new ItemChangedEventArgs<Session>(changeType, item));
         }
     }
 }

@@ -55,5 +55,10 @@ namespace Errlock.Lib.Sessions
             this.Url = url;
             this.Options = options;
         }
+
+        public override string ToString()
+        {
+            return this.Url;
+        }
     }
 }

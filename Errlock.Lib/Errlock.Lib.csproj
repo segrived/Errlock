@@ -63,6 +63,7 @@
     <Compile Include="Helpers\WebHelpers.cs" />
     <Compile Include="IModel.cs" />
     <Compile Include="IRepository.cs" />
+    <Compile Include="ICollectionChanged.cs" />
     <Compile Include="Modules\ConfigurationTestModule\ConfigurationTest.cs" />
     <Compile Include="Modules\ConfigurationTestModule\ConfigurationTestConfig.cs" />
     <Compile Include="Modules\ConfigurationTestModule\Notices\NonProductionServerNotice.cs" />

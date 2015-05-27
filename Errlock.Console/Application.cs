@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using Errlock.Lib;
@@ -165,6 +166,25 @@ namespace Errlock.Console
             return item.Value.Invoke();
         }
 
+        private void DisplaySessionInformation(Session session)
+        {
+            var sb = new StringBuilder();
+            sb.AppendFormatLine("Адрес ресурса: {0}", session.Url);
+            sb.AppendFormatLine("--- Конфигурация ---");
+            sb.AppendFormatLine("Количество ссылок, собираемых со страницы: {0}", 
+                session.Options.FetchPerPage);
+            sb.AppendFormatLine("Глобальное ограничение на количество ссылок: {0}",
+                session.Options.MaxLinks);
+            sb.AppendFormatLine("Максимальная глубина рекурсии: {0}",
+                session.Options.RecursionDepth);
+            sb.AppendFormatLine("Игнорировать якори в адресах: {0}",
+                session.Options.IngoreAnchors);
+            sb.AppendFormatLine("Использовать случайные ссылки: {0}",
+                session.Options.UseRandomLinks);
+            string message = sb.ToString();
+            ConsoleHelpers.WriteColor(message, ConsoleColor.DarkGray);
+        }
+
         /// <summary>
         /// Подготавливает сообщение у уязвимости для вывода на экран
         /// </summary>
@@ -184,8 +204,7 @@ namespace Errlock.Console
             module.SetLogger(this._consoleLogger);
             module.Completed += (sender, args) => {
                 var result = args.ScanResult;
-                foreach (var notice in result.Notices) {
-                    string message = PrepareNoticeMessage(notice);
+                foreach (string message in result.Notices.Select(PrepareNoticeMessage)) {
                     ConsoleHelpers.WriteColorLine(message, ConsoleColor.DarkRed);
                 }
             };
@@ -214,6 +233,9 @@ namespace Errlock.Console
                     var module = this.GetModule();
                     var session = this.GetSession();
                     this.StartModule(module, session);
+                    break;
+                case "info":
+                    this.DisplaySessionInformation(this.GetSession());
                     break;
                 // Информацию о программе
                 case "about":
@@ -252,6 +274,10 @@ namespace Errlock.Console
             const string goHelp = " - отображает диалоги выбора модуля и сессии " +
                                   "после чего запускает тестирование";
             System.Console.WriteLine(goHelp);
+
+            ConsoleHelpers.WriteColor("info", ConsoleColor.Magenta);
+            const string infoHelp = " - отображает информацию по существующей сессии";
+            System.Console.WriteLine(infoHelp);
 
             ConsoleHelpers.WriteColor("about", ConsoleColor.Magenta);
             const string aboutHelp = " - отображает информацию о программе";

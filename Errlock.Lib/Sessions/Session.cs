@@ -1,23 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
 
 namespace Errlock.Lib.Sessions
 {
-    /// <summary>
-    /// Тип действия над сессией
-    /// </summary>
-    public enum SessionEventType
-    {
-        [Description("Создана")]
-        Created,
-
-        [Description("Изменена")]
-        Modified,
-
-        [Description("Удалена")]
-        Deleted
-    }
-
     public class Session : IModel
     {
         /// <summary>

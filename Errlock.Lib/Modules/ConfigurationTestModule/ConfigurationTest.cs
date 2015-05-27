@@ -12,7 +12,12 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule
     public class ConfigurationTest : Module<ConfigurationTestConfig>
     {
         private static readonly ConfigurationTestConfig DefaultConfig 
-            = new ConfigurationTestConfig();
+            = new ConfigurationTestConfig {
+                CheckNonProductionServer = true,
+                CheckSpecialHeaders = true,
+                CheckTooManyScripts = true,
+                CheckXXSSProtection = true
+            };
 
         public override bool IsSupportProgressReporting
         {
@@ -32,34 +37,42 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule
             using (var res = req.GetRequest()) {
 
                 // Информацию о используемых специальных заголовках
-                var specialHeaders = res.Headers.AllKeys.Where(k => k.StartsWith("X-")).ToList();
-                if (specialHeaders.Any()) {
-                    var specHeadersNotice = new SpecialHeadersNotice(url, specialHeaders);
-                    this.AddNotice(specHeadersNotice);
+                if (this.Config.CheckSpecialHeaders) {
+                    var specialHeaders = res.Headers.AllKeys.Where(k => k.StartsWith("X-")).ToList();
+                    if (specialHeaders.Any()) {
+                        var specHeadersNotice = new SpecialHeadersNotice(url, specialHeaders);
+                        this.AddNotice(specHeadersNotice);
+                    }
                 }
 
                 // Проверка на заголовок X-Xss-Protection 
-                if (res.Headers["X-Xss-Protection"] == "0") {
-                    var disabledXssNotice = new XssProtectionDisabled(url);
-                    this.AddNotice(disabledXssNotice);
+                if (this.Config.CheckXXSSProtection) {
+                    if (res.Headers["X-Xss-Protection"] == "0") {
+                        var disabledXssNotice = new XssProtectionDisabled(url);
+                        this.AddNotice(disabledXssNotice);
+                    }
                 }
 
                 // Проверка на использовать сервера, не предназначенного для продакшена
-                string server = res.Server;
-                bool isNonProd = nonProductionServerPatterns.Any(r => Regex.IsMatch(server, r));
-                if (isNonProd) {
-                    var notice = new NonProductionServerNotice(url, server);
-                    this.AddNotice(notice);
+                if (this.Config.CheckNonProductionServer) {
+                    string server = res.Server;
+                    bool isNonProd = nonProductionServerPatterns.Any(r => Regex.IsMatch(server, r));
+                    if (isNonProd) {
+                        var notice = new NonProductionServerNotice(url, server);
+                        this.AddNotice(notice);
+                    }
                 }
 
                 // Проверка на количетсво подключенных скриптов на странице
-                var responseHtml = res.Download();
-                var dom = new CQ(responseHtml);
-                var externalScriptsCount = dom["script"]
-                    .Count(e => e.GetAttribute("src") != null);
-                if (externalScriptsCount >= 5) {
-                    var scriptNotice = new TooManyScriptsNotice(url, externalScriptsCount);
-                    this.AddNotice(scriptNotice);
+                if (this.Config.CheckTooManyScripts) {
+                    var responseHtml = res.Download();
+                    var dom = new CQ(responseHtml);
+                    var externalScriptsCount = dom["script"]
+                        .Count(e => e.GetAttribute("src") != null);
+                    if (externalScriptsCount >= 5) {
+                        var scriptNotice = new TooManyScriptsNotice(url, externalScriptsCount);
+                        this.AddNotice(scriptNotice);
+                    }
                 }
             }
             return ModuleScanStatus.Completed;

@@ -9,7 +9,7 @@ using Errlock.Lib.Helpers;
 using Errlock.Lib.RequestWrapper;
 using Errlock.Lib.Sessions;
 
-namespace Errlock.Lib.Modules.XssScanner
+namespace Errlock.Lib.Modules.XssScannerModule
 {
     public class WebForm : IEquatable<WebForm>
     {

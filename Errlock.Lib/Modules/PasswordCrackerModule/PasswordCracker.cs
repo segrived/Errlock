@@ -61,15 +61,7 @@ namespace Errlock.Lib.Modules.PasswordCrackerModule
         private int _processedCount;
         private int _totalCount;
 
-        private string LatinToCyrillic(string input)
-        {
-            string latin = @"qwertyuiop[]\asdfghjkl;'zxcvbnm,./";
-            string cyrillic = @"йцукенгшщзхъ\фывапролджэячсмитьбю.";
-            var mapping = latin.ZipWith(cyrillic);
-            return input.Translate(mapping);
-        }
-
-        private List<string> GetHeuristicVariations(string login)
+        private static List<string> GetHeuristicVariations(string login)
         {
             var def = new List<string> {
                 login,
@@ -77,21 +69,26 @@ namespace Errlock.Lib.Modules.PasswordCrackerModule
                 login.ToLower().ReverseStr(), login.ToUpper().ReverseStr(),
                 login.ToUpperFirstChar(),
             };
-            return def.Concat(def.Select(LatinToCyrillic)).ToList();
+            for (int i = 2; i < 5; i++) {
+                string loginRepeated = String.Concat(Enumerable.Repeat(login, i));
+                def.Add(loginRepeated);
+            }
+            return def.Concat(def.Select(Extensions.LatinToCyrillic)).ToList();
         }
 
         protected override ModuleScanStatus Process(Session session, IProgress<int> progress)
         {
-            int currentProgress = 0;
+            float currentProgress = 0;
 
             var sessionUri = new Uri(session.Url);  
 
             this._totalCount = this.Config.PasswordsCount;
-            IEnumerable<string> passwordsSource = PasswordListCache.Value
+            IEnumerable<string> passwordsSource = PasswordListCache
+                .Value
                 .Take(this.Config.PasswordsCount);
 
             if (this.Config.UseHeuristic) {
-                var variations = this.GetHeuristicVariations(this.Config.Login);
+                var variations = GetHeuristicVariations(this.Config.Login);
                 this._totalCount += variations.Count;
                 passwordsSource = variations.Concat(passwordsSource);
             }
@@ -112,13 +109,12 @@ namespace Errlock.Lib.Modules.PasswordCrackerModule
                 } else {
                     requestAction = p => p.PostRequest(parameters);
                 }
-                var parser = new WebRequestWrapper(this.ConnectionConfiguration,
-                    uri.AbsoluteUri);
+                var parser = new WebRequestWrapper(this.ConnectionConfiguration, uri.AbsoluteUri);
                 using (var response = requestAction.Invoke(parser)) {
                     string message = String.Format("Тест пароля `{0}`", password);
                     AddMessage(message, LoggerMessageType.Info);
 
-                    int percentProgress = (int)((double)_processedCount / _totalCount * 100);
+                    int percentProgress = (int)((float)_processedCount / _totalCount * 100.0);
                     if (percentProgress > currentProgress) {
                         progress.Report(percentProgress);
                         currentProgress = percentProgress;
@@ -136,11 +132,12 @@ namespace Errlock.Lib.Modules.PasswordCrackerModule
                     var notice = new PasswordMatchNotice(uri.AbsoluteUri, this.Config.Login,
                         password);
                     AddNotice(notice);
-                    string successMessage =
-                        String.Format(
-                            "Ни один из триггеров не сработал, возможно найден пароль. Пароль: `{0}` подошел",
-                            password);
+
+                    const string msg = "Ни один из триггеров не сработал, возможно найден пароль. " +
+                                       "Пароль: `{0}` подошел";
+                    string successMessage = String.Format(msg, password);
                     AddMessage(successMessage, LoggerMessageType.Info);
+
                     if (this.Config.StopAfterFirstMatch) {
                         return ModuleScanStatus.Completed;
                     }

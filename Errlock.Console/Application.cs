@@ -231,6 +231,10 @@ namespace Errlock.Console
                     break;
                 // Выбор сессии и запуск модуля
                 case "go":
+                    if(! _repository.EnumerateAll().Any()) {
+                        ConsoleHelpers.ShowError("Сначала добавьте хотя бы одну сессию");
+                        return;
+                    }
                     var module = this.GetModule();
                     var session = this.GetSession();
                     this.StartModule(module, session);

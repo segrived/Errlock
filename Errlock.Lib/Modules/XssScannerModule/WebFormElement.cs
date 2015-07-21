@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Errlock.Lib.Modules.XssScanner
+namespace Errlock.Lib.Modules.XssScannerModule
 {
     public enum ElementType { Input, Select, TextArea, Button }
 

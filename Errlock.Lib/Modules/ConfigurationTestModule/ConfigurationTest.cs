@@ -44,13 +44,11 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule
                         this.AddNotice(specHeadersNotice);
                     }
                 }
-
+             
                 // Проверка на заголовок X-Xss-Protection 
-                if (this.Config.CheckXXSSProtection) {
-                    if (res.Headers["X-Xss-Protection"] == "0") {
-                        var disabledXssNotice = new XssProtectionDisabled(url);
-                        this.AddNotice(disabledXssNotice);
-                    }
+                if (this.Config.CheckXXSSProtection && res.Headers["X-Xss-Protection"] == "0") {
+                    var disabledXssNotice = new XssProtectionDisabled(url);
+                    this.AddNotice(disabledXssNotice);
                 }
 
                 // Проверка на использовать сервера, не предназначенного для продакшена

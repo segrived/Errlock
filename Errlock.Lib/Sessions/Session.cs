@@ -25,7 +25,7 @@ namespace Errlock.Lib.Sessions
         /// </summary>
         public Session()
         {
-            //this.Id = Guid.NewGuid();
+            this.Id = Guid.NewGuid();
             this.Options = new SessionScanOptions();
         }
 

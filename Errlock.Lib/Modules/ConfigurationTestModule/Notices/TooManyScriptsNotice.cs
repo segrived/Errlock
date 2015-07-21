@@ -24,11 +24,7 @@ namespace Errlock.Lib.Modules.ConfigurationTestModule.Notices
         {
             get
             {
-                if (ScriptsCount <= 10) {
-                    return NoticePriority.Low;
-                } else {
-                    return NoticePriority.Medium;
-                }
+                return (ScriptsCount <= 10) ? NoticePriority.Low : NoticePriority.Medium;
             }
         }
     }

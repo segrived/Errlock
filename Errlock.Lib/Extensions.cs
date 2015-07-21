@@ -336,15 +336,18 @@ namespace Errlock.Lib
         /// <summary>
         /// http://stackoverflow.com/questions/6171401/
         /// </summary>
-        /// <param name="s"></param>
-        /// <param name="mappings"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
-        static public string Translate(this string s, Dictionary<char, char> mappings)
+        public static string LatinToCyrillic(this string input)
         {
-            var sb = new StringBuilder(s.Length);
-            foreach (char c in s) {
+            const string latin = @"qwertyuiop[]\asdfghjkl;'zxcvbnm,./";
+            const string cyrillic = @"йцукенгшщзхъ\фывапролджэячсмитьбю.";
+            var mapping = latin.ZipWith(cyrillic);
+
+            var sb = new StringBuilder(input.Length);
+            foreach (char c in input) {
                 char to;
-                sb.Append(mappings.TryGetValue(c, out to) ? to : c);
+                sb.Append(mapping.TryGetValue(c, out to) ? to : c);
             }
             return sb.ToString();
         }

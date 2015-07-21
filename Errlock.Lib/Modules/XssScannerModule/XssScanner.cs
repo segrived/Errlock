@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using CsQuery;
 using Errlock.Lib.Logger;
-using Errlock.Lib.Modules.XssScanner;
 using Errlock.Lib.Modules.XssScannerModule.Notices;
 using Errlock.Lib.RequestWrapper;
 using Errlock.Lib.Sessions;
@@ -31,7 +30,7 @@ namespace Errlock.Lib.Modules.XssScannerModule
         protected override ModuleScanStatus Process(Session session, IProgress<int> progress)
         {
             var crawler = new WebCrawler.WebCrawler(session, this.ConnectionConfiguration);
-            foreach (var link in crawler.EnumerateLinks()) {
+            foreach (string link in crawler.EnumerateLinks()) {
                 if (Token.IsCancellationRequested) {
                     return ModuleScanStatus.Canceled;
                 }
